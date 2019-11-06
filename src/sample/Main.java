@@ -49,11 +49,8 @@ public class Main extends Application {
             info = null;
         }
         c.setRunning(false);
-        System.out.println("step1");
         c.setSocket(null);
-        System.out.println("step2");
         connect = null;
-        System.out.println("step3");
         c = null;
         System.out.println("successfully stopped connection");
     }

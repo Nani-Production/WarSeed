@@ -30,6 +30,7 @@ public class Data_Transfer implements Runnable {
             writer = new BufferedWriter(output);
 
             while (running){
+                //send and receive game data
             }
         } catch (IOException e) {
             e.printStackTrace();

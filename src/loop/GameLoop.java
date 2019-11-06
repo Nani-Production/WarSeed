@@ -1,9 +1,10 @@
 package loop;
 
+import gamestate.Gamestate;
+import gamestate.Gamestate_e;
 import gui.Gui;
 
 public class GameLoop implements Runnable{
-    private static long systemtime = 0;
 
     @Override
     public void run() {
@@ -32,23 +33,21 @@ public class GameLoop implements Runnable{
     }
 
     private void update(){
+        //receive game data
 
+        //Update game content
+        if (Gamestate.state == Gamestate_e.menu){
 
-        //Systemtime
-        if (systemtime >= 9000000000000000000L) {
-            systemtime = 0;
+        } else if (Gamestate.state == Gamestate_e.ingame){
+
+        } else if (Gamestate.state == Gamestate_e.pause){
+
         }
+
+        //send new game data
     }
     private void render(){
         Gui.gc_main.clearRect(0, 0, Gui.width, Gui.height);
         Gui.dm.draw(Gui.gc_main);
     }
-    public static long getSystemtime() {
-        return systemtime;
-    }
-
-    public static void setSystemtime(long systemtime) {
-        GameLoop.systemtime = systemtime;
-    }
-
 }

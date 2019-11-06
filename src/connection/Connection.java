@@ -7,7 +7,6 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.ConnectException;
-import java.net.InetAddress;
 import java.net.Socket;
 
 public class Connection implements Runnable {

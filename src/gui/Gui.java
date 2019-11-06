@@ -1,6 +1,7 @@
 package gui;
 
 import connection.Connection;
+import controls.*;
 import draw.Draw_Main;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -74,13 +75,17 @@ public class Gui {
         root.getChildren().addAll(bConnect, bStopSearch);
         scene = new Scene(root, width, height);
 
+        scene.setOnKeyPressed(new KeyPressed());
+        scene.setOnKeyReleased(new KeyReleased());
+        scene.setOnMouseMoved(new MouseMoved());
+        scene.setOnMousePressed(new MousePressed());
+        scene.setOnMouseReleased(new MouseReleased());
+
         stage.setTitle("WarSeed");
         stage.setScene(scene);
         stage.setResizable(false);
         stage.centerOnScreen();
         stage.show();
-
-        //GameLoop.start = System.currentTimeMillis();
 
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
