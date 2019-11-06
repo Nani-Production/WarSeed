@@ -107,6 +107,9 @@ public class Gui {
         username = nameDialogue();
 
         Main.startConnection(ip, username);
+
+        ip = null;
+        username = null;
     }
 
     private String ipDialogue (){

@@ -7,6 +7,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.ConnectException;
+import java.net.InetAddress;
 import java.net.Socket;
 
 public class Connection implements Runnable {
@@ -20,6 +21,7 @@ public class Connection implements Runnable {
 
     public Connection (String ip, String name){
         this.ip = ip;
+        this.name = name;
     }
     @Override
     public void run() {
@@ -30,13 +32,12 @@ public class Connection implements Runnable {
                     System.out.println("Searching for Connection...");
                     try {
                         socket = new Socket(ip, port);
-                        System.out.println("lol");
                     } catch (ConnectException e){
                         e.printStackTrace();
                     }
                     if (socket != null){
                         System.out.println("connected");
-                        connectedDialogue();
+                        //connectedDialogue();
                         connected = true;
                         output = new OutputStreamWriter(socket.getOutputStream());
                         writer = new BufferedWriter(output);
@@ -49,14 +50,7 @@ public class Connection implements Runnable {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                socket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
-
     }
 
     private void connectedDialogue(){
