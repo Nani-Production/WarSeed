@@ -2,37 +2,61 @@ package gui;
 
 import connection.Connection;
 import controls.*;
+import draw.Draw_Launcher;
 import draw.Draw_Main;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Orientation;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextInputDialog;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import sample.Main;
 
 import java.util.Optional;
 
-public class Gui {
-    public final static double width = 1280, height = 720;
-    public static Draw_Main dm;
+public class Launcher_Gui {
+    public final static double width = 700, height = 400;
+    public static Draw_Launcher dm;
     public static GraphicsContext gc_main;
     private Canvas canvas_main;
     private Scene scene;
     private StackPane root;
+    private TextField ipTF, usernameTF;
+    private Text text1, text2;
     //public Font myFont = Font.loadFont(getClass().getResourceAsStream("/resources/Guardians.ttf"), 24);
 
     public void init () {
-        dm = new Draw_Main();
+        dm = new Draw_Launcher();
     }
 
     public void create (Stage stage) {
+
+        ipTF = new TextField("IP");
+        ipTF.setMinSize(100, 50);
+        ipTF.setMaxSize(150, 50);
+        ipTF.setVisible(true);
+
+        usernameTF = new TextField("UN");
+        usernameTF.setMinSize(100, 50);
+        usernameTF.setMaxSize(150, 50);
+        System.out.println(usernameTF.getWidth());
+        usernameTF.setVisible(true);
+
+        text1 = new Text("Server-IP");
+        text1.setVisible(true);
+
+        text2 = new Text("Username");
+        text2.setVisible(true);
 
         Button bConnect = new Button("connect to Server");
         bConnect.setMinSize(100, 50);
@@ -40,11 +64,12 @@ public class Gui {
 
         bConnect.setVisible(true);
 
-        Button bStopSearch = new Button("stop Search for Server");
+        Button bStopSearch = new Button("stop Search/Connection");
         bStopSearch.setMinSize(100, 50);
         bStopSearch.setMaxSize(150, 50);
-        bStopSearch.setTranslateY(50);
         bStopSearch.setVisible(true);
+        bStopSearch.setTranslateX(-100);
+        bStopSearch.setTranslateY(50);
         bStopSearch.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -65,6 +90,19 @@ public class Gui {
                 bStopSearch.setDisable(false);
             }});
 
+        //SplitPane
+        FlowPane up_fp, down_fp, ipLog, unLog, buttons;
+        ipLog = new FlowPane(text1, ipTF);
+        ipLog.setTranslateX((width/2)-ipLog.getWidth()*2);
+        unLog = new FlowPane(text2, usernameTF);
+        unLog.setTranslateX((width/2)-unLog.getWidth()/2);
+        unLog.setTranslateY(50);
+        buttons = new FlowPane(bConnect, bStopSearch);
+        buttons.setTranslateX((width/2)-buttons.getWidth());
+        up_fp = new FlowPane(ipLog, unLog);
+        down_fp = new FlowPane(buttons);
+        SplitPane splitPane = new SplitPane(up_fp, down_fp);
+        splitPane.setOrientation(Orientation.VERTICAL);
 
         canvas_main = new Canvas(width, height);
         root = new StackPane();
@@ -72,16 +110,10 @@ public class Gui {
         dm.draw(gc_main);
 
         root.getChildren().add(canvas_main);
-        root.getChildren().addAll(bConnect, bStopSearch);
+        root.getChildren().addAll(splitPane);
         scene = new Scene(root, width, height);
 
-        scene.setOnKeyPressed(new KeyPressed());
-        scene.setOnKeyReleased(new KeyReleased());
-        scene.setOnMouseMoved(new MouseMoved());
-        scene.setOnMousePressed(new MousePressed());
-        scene.setOnMouseReleased(new MouseReleased());
-
-        stage.setTitle("WarSeed");
+        stage.setTitle("WarSeed Launcher");
         stage.setScene(scene);
         stage.setResizable(false);
         stage.centerOnScreen();
@@ -103,14 +135,21 @@ public class Gui {
         //Die Popups sollen dann nur kommen, wenn die Felder leer sind
 
         //ip
-        ip = ipDialogue();
+        ip = ipTF.getText();
+        while (ip.equals("") || ip == null){
+            ip = ipDialogue();
+        }
         while (!checkIPSyntax(ip)){
             ip = ipDialogue();
         }
 
         //username
-        username = nameDialogue();
+        username = usernameTF.getText();
+        while (username.equals("") || username == null){
+            username = nameDialogue();
+        }
 
+        System.out.println(ip+"+"+username);
         Main.startConnection(ip, username);
 
         ip = null;
@@ -145,10 +184,12 @@ public class Gui {
         }
     }
 
+    public void close(){
+        Platform.exit();
+    }
+
     private boolean checkIPSyntax(String ip){
         //Check if the String is a valid IP address
         return true;
     }
-
-
 }

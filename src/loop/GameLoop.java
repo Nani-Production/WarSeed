@@ -2,7 +2,7 @@ package loop;
 
 import gamestate.Gamestate;
 import gamestate.Gamestate_e;
-import gui.Gui;
+import gui.Launcher_Gui;
 
 public class GameLoop implements Runnable{
 
@@ -47,7 +47,7 @@ public class GameLoop implements Runnable{
         //send new game data
     }
     private void render(){
-        Gui.gc_main.clearRect(0, 0, Gui.width, Gui.height);
-        Gui.dm.draw(Gui.gc_main);
+        Launcher_Gui.gc_main.clearRect(0, 0, Launcher_Gui.width, Launcher_Gui.height);
+        Launcher_Gui.dm.draw(Launcher_Gui.gc_main);
     }
 }

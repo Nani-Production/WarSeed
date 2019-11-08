@@ -9,7 +9,7 @@ import java.io.OutputStreamWriter;
 import java.net.ConnectException;
 import java.net.Socket;
 
-public class Connection implements Runnable {
+public class Connection implements Runnable { //Baut die Verbindung zwischen Client und Server auf und übergibt den Username (Danach übernimmt Data_Transfer den Datenustausch)
     private Socket socket;
     private final int port = 7777;
     private String ip;
@@ -25,6 +25,7 @@ public class Connection implements Runnable {
     @Override
     public void run() {
         try {
+            running = true;
             while (running) {
                 while (socket == null || !socket.isConnected()) {
                     connected = false;
@@ -36,14 +37,16 @@ public class Connection implements Runnable {
                     }
                     if (socket != null){
                         System.out.println("connected");
-                        //connectedDialogue();
                         connected = true;
                         output = new OutputStreamWriter(socket.getOutputStream());
                         writer = new BufferedWriter(output);
                         writer.write(name);
                         writer.flush();
                         writer.close();
+                        connectedDialogue();
+                        Main.startGame();
                         Main.startDataTransfer();
+                        //running = false;
                     }
                 }
             }

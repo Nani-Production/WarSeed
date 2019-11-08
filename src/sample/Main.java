@@ -3,28 +3,37 @@ package sample;
 import connection.Connection;
 import connection.Data_Transfer;
 import data.Data;
-import gui.Gui;
+import gui.Game_Gui;
+import gui.Launcher_Gui;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import loop.GameLoop;
+import player.Player;
 
 public class Main extends Application {
 
-    Gui g = new Gui();
-    private static Thread connect, info;
+    private static Launcher_Gui launcher = new Launcher_Gui();
+    private static Game_Gui g = new Game_Gui();
+    private static Thread connect, info, loop = new Thread(new GameLoop());
     private static Data data = new Data();
     private static Connection c;
     private static Data_Transfer dt;
+    private static Player player;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        g.init();
-        g.create(primaryStage);
+        player = new Player();
 
-        Thread loop = new Thread(new GameLoop());
-        loop.start();
+        launcher.init();
+        g.init(primaryStage);
+        launcher.create(primaryStage);
     }
 
+    public static void startGame(){
+        g.create();
+        launcher.close();
+        loop.start();
+    }
 
     public static void main(String[] args) {
         launch(args);
@@ -37,7 +46,7 @@ public class Main extends Application {
     }
 
     public static void startDataTransfer(){
-        dt = new Data_Transfer(c, data);
+        dt = new Data_Transfer(c, data, player);
         info = new Thread(dt);
         info.start();
     }

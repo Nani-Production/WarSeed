@@ -1,6 +1,6 @@
 package controls;
 
-import gui.Gui;
+import gui.Launcher_Gui;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 
@@ -9,11 +9,11 @@ public class MouseMoved implements EventHandler<MouseEvent> {
     private double frameSpeed; //?
     @Override
     public void handle(MouseEvent mouseEvent) {
-        if (mouseEvent.getX() < Gui.width*frame1 && mouseEvent.getX() >= Gui.width-(Gui.width*frame1) && mouseEvent.getY() < Gui.height*frame1 && mouseEvent.getY() >= Gui.height-(Gui.height*frame1)){
+        if (mouseEvent.getX() < Launcher_Gui.width*frame1 && mouseEvent.getX() >= Launcher_Gui.width-(Launcher_Gui.width*frame1) && mouseEvent.getY() < Launcher_Gui.height*frame1 && mouseEvent.getY() >= Launcher_Gui.height-(Launcher_Gui.height*frame1)){
             frameSpeed = 1; //langsam
-            if (mouseEvent.getX() < Gui.width*frame2 && mouseEvent.getX() >= Gui.width-(Gui.width*frame2) && mouseEvent.getY() < Gui.height*frame2 && mouseEvent.getY() >= Gui.height-(Gui.height*frame2)){
+            if (mouseEvent.getX() < Launcher_Gui.width*frame2 && mouseEvent.getX() >= Launcher_Gui.width-(Launcher_Gui.width*frame2) && mouseEvent.getY() < Launcher_Gui.height*frame2 && mouseEvent.getY() >= Launcher_Gui.height-(Launcher_Gui.height*frame2)){
                 frameSpeed = 2; //schneller
-                if (mouseEvent.getX() < Gui.width*frame3 && mouseEvent.getX() >= Gui.width-(Gui.width*frame3) && mouseEvent.getY() < Gui.height*frame3 && mouseEvent.getY() >= Gui.height-(Gui.height*frame3)){
+                if (mouseEvent.getX() < Launcher_Gui.width*frame3 && mouseEvent.getX() >= Launcher_Gui.width-(Launcher_Gui.width*frame3) && mouseEvent.getY() < Launcher_Gui.height*frame3 && mouseEvent.getY() >= Launcher_Gui.height-(Launcher_Gui.height*frame3)){
                     frameSpeed = 3; //am schnellsten
                 }
             }
