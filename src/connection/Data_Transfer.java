@@ -8,7 +8,6 @@ import java.io.*;
 public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den Server und empfängt Daten vom Server
     private Connection con;
     private Data data;
-    private Player player;
     private InputStreamReader input;
     private OutputStreamWriter output;
     private BufferedReader reader;
@@ -16,10 +15,9 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
     private boolean running = true;
     private final int timeout = 20; //in ms
 
-    public Data_Transfer(Connection connect, Data data, Player player) {
+    public Data_Transfer(Connection connect, Data data) {
         this.con = connect;
         this.data = data;
-        this.player = player;
     }
 
     @Override
@@ -50,28 +48,37 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
 
     private void sendData(){
         //send Data of own Position
-        for (int i = 0; i < player.getBuildings().size(); i++){
+
+        try {
+            writer.write("//buildings");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        for (int i = 0; i < Player.getBuildings().size(); i++){
             try {
-                writer.write("//buildings");
-                writer.write("+++"+player.getBuildings().get(i).getOwner()+
-                                "+++"+player.getBuildings().get(i).getType()+
-                                "+++"+player.getBuildings().get(i).getHp()+
-                                "+++"+player.getBuildings().get(i).getX()+
-                                "+++"+player.getBuildings().get(i).getY());
+                writer.write("+++"+Player.getBuildings().get(i).getOwner()+
+                                "+++"+Player.getBuildings().get(i).getType()+
+                                "+++"+Player.getBuildings().get(i).getHp()+
+                                "+++"+Player.getBuildings().get(i).getX()+
+                                "+++"+Player.getBuildings().get(i).getY());
                 writer.write("\n");
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        for (int i = 0; i < player.getCharacters().size(); i++){
+        try {
+            writer.write("//characters");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        for (int i = 0; i < Player.getCharacters().size(); i++){
             try {
-                writer.write("//characters");
-                writer.write("+++"+player.getCharacters().get(i).getOwner()+
-                                "+++"+player.getCharacters().get(i).getType()+
-                                "+++"+player.getCharacters().get(i).getHp()+
-                                "+++"+player.getCharacters().get(i).getName()+
-                                "+++"+player.getCharacters().get(i).getX()+
-                                "+++"+player.getCharacters().get(i).getY());
+                writer.write("+++"+Player.getCharacters().get(i).getOwner()+
+                                "+++"+Player.getCharacters().get(i).getType()+
+                                "+++"+Player.getCharacters().get(i).getHp()+
+                                "+++"+Player.getCharacters().get(i).getName()+
+                                "+++"+Player.getCharacters().get(i).getX()+
+                                "+++"+Player.getCharacters().get(i).getY());
                 writer.write("\n");
             } catch (IOException e) {
                 e.printStackTrace();

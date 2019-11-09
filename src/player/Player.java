@@ -6,46 +6,46 @@ import units.Character;
 import java.util.ArrayList;
 
 public class Player {
-    private ArrayList <Building> buildings = new ArrayList<Building>();
-    private ArrayList <Character> characters = new ArrayList<Character>();
+    private static ArrayList <Building> buildings = new ArrayList<Building>();
+    private static ArrayList <Character> characters = new ArrayList<Character>();
 
-    public void addBuilding(Building b){
+    public static void addBuilding(Building b){
         buildings.add(b);
     }
 
-    public void addCharacter(Character c){
+    public static void addCharacter(Character c){
         characters.add(c);
     }
 
-    public void removeBuilding(int i){
+    public static void removeBuilding(int i){
         buildings.remove(i);
     }
 
-    public void removeCharacter(int i){
+    public static void removeCharacter(int i){
         characters.remove(i);
     }
 
-    public void removeBuilding(Building b){
+    public static void removeBuilding(Building b){
         buildings.remove(b);
     }
 
-    public void removeCharacter(Character c){
+    public static void removeCharacter(Character c){
         characters.remove(c);
     }
 
-    public ArrayList<Building> getBuildings() {
+    public static ArrayList<Building> getBuildings() {
         return buildings;
     }
 
-    public void setBuildings(ArrayList<Building> buildings) {
-        this.buildings = buildings;
+    public static void setBuildings(ArrayList<Building> buildings) {
+        Player.buildings = buildings;
     }
 
-    public ArrayList<Character> getCharacters() {
+    public static ArrayList<Character> getCharacters() {
         return characters;
     }
 
-    public void setCharacters(ArrayList<Character> characters) {
-        this.characters = characters;
+    public static void setCharacters(ArrayList<Character> characters) {
+        Player.characters = characters;
     }
 }

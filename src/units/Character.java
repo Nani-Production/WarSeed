@@ -3,6 +3,7 @@ package units;
 public class Character extends MapObject{
     private String name;            //vllcht individueller Name
     private double attack, defence, cooldown, speed;
+    private double moveX = 0, moveY = 0;
 
     public Character(double x, double y, double hp, String type, String owner, String name, double attack, double defence, double cooldown, double speed) {
         super(x, y, hp, type, owner);
@@ -20,6 +21,26 @@ public class Character extends MapObject{
         this.defence = defence;
         this.cooldown = cooldown;
         this.speed = speed;
+    }
+
+    public void move(double targetX, double targetY){
+        /*
+        double playerX = this.getX(), playerY = this.getY();
+        double someX = targetX -playerX;
+        double someY = targetY -playerY;
+
+        moveX = speed/Math.sqrt(Math.pow(someX, 2)+Math.pow(someY, 2)) * someX;
+        moveY = speed/Math.sqrt(Math.pow(someX, 2)+Math.pow(someY, 2)) * someY;
+        */
+        //lieber die Bewegungsrichtung an den Server schicken, damit dieser die Bewegungsveränderung ausrechnet und so alle Bewegungen gleich sind?
+    }
+
+    public void attack (Building b){
+
+    }
+
+    public void attack (Character c){
+
     }
 
     public String getName() {
@@ -60,5 +81,21 @@ public class Character extends MapObject{
 
     public void setSpeed(double speed) {
         this.speed = speed;
+    }
+
+    public double getMoveX() {
+        return moveX;
+    }
+
+    public void setMoveX(double moveX) {
+        this.moveX = moveX;
+    }
+
+    public double getMoveY() {
+        return moveY;
+    }
+
+    public void setMoveY(double moveY) {
+        this.moveY = moveY;
     }
 }
