@@ -20,6 +20,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import player.Player;
 import sample.Main;
 
 import java.util.Optional;
@@ -151,6 +152,7 @@ public class Launcher_Gui {
 
         System.out.println(ip+"+"+username);
         Main.startConnection(ip, username);
+        Player.setUsername(username);
 
         ip = null;
         username = null;

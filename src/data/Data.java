@@ -6,14 +6,14 @@ import units.Character;
 import java.util.ArrayList;
 
 public class Data { //Enthält alle Daten vom Spielgeschehen
-    private ArrayList <ArrayList<String>> listofLists = new ArrayList <ArrayList<String>>(); //x, y, name ??;
+    private static ArrayList <ArrayList<String>> listofLists = new ArrayList <ArrayList<String>>(); //x, y, name ??;
 
-    public ArrayList<ArrayList<String>> getListofLists() {
+    public static ArrayList<ArrayList<String>> getListofLists() {
         return listofLists;
     }
 
-    public void setListofLists(ArrayList<ArrayList<String>> listofLists) {
-        this.listofLists = listofLists;
+    public static void setListofLists(ArrayList<ArrayList<String>> listofLists) {
+        Data.listofLists = listofLists;
     }
 
     public void addData(Building b){

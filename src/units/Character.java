@@ -1,7 +1,7 @@
 package units;
 
 public class Character extends MapObject{
-    private String name;            //vllcht individueller Name
+    private String name;
     private double attack, defence, cooldown, speed;
     private double moveX = 0, moveY = 0;
 
@@ -23,7 +23,8 @@ public class Character extends MapObject{
         this.speed = speed;
     }
 
-    public void move(double targetX, double targetY){
+    public void move(double moveX, double moveY){
+        //TODO Übersetzung von Mauskoordinaten zu Kartenkoordinaten
         /*
         double playerX = this.getX(), playerY = this.getY();
         double someX = targetX -playerX;

@@ -6,6 +6,7 @@ import units.Character;
 import java.util.ArrayList;
 
 public class Player {
+    private static String username;
     private static ArrayList <Building> buildings = new ArrayList<Building>();
     private static ArrayList <Character> characters = new ArrayList<Character>();
 
@@ -47,5 +48,13 @@ public class Player {
 
     public static void setCharacters(ArrayList<Character> characters) {
         Player.characters = characters;
+    }
+
+    public static String getUsername() {
+        return username;
+    }
+
+    public static void setUsername(String username) {
+        Player.username = username;
     }
 }

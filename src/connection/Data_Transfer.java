@@ -4,6 +4,7 @@ import data.Data;
 import player.Player;
 
 import java.io.*;
+import java.util.ArrayList;
 
 public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den Server und empfängt Daten vom Server
     private Connection con;
@@ -15,9 +16,8 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
     private boolean running = true;
     private final int timeout = 20; //in ms
 
-    public Data_Transfer(Connection connect, Data data) {
+    public Data_Transfer(Connection connect) {
         this.con = connect;
-        this.data = data;
     }
 
     @Override
@@ -95,10 +95,11 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
             e.printStackTrace();
         }
         System.out.println(message);
-        //Baut die Nachricht ausseinander und macht Objekte daraus
+        //TODO Baut die Nachricht ausseinander und macht Objekte daraus
         //Danach werden die Objekte per Data.addBuilding und Data.addCharacter in die Daten eingegliedert
-
+        //ArrayList <ArrayList<String>> datalist = new ArrayList <ArrayList<String>>();
         //message an Data weitergeben
+        //Data.setListofLists(datalist);
     }
 
     public boolean isRunning() {

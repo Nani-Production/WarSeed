@@ -1,9 +1,8 @@
 package loop;
 
+import controls.Camera;
 import gamestate.Gamestate;
 import gamestate.Gamestate_e;
-import gui.Launcher_Gui;
-import player.Player;
 
 public class GameLoop implements Runnable{
 
@@ -39,12 +38,10 @@ public class GameLoop implements Runnable{
         if (Gamestate.state == Gamestate_e.menu){
 
         } else if (Gamestate.state == Gamestate_e.ingame){
+            //Moving the Camera
+            Camera.moveCam();
 
-            //Moving
-            for (int i = 0; i < Player.getCharacters().size(); i++){
-                Player.getCharacters().get(i).setX(Player.getCharacters().get(i).getX()+Player.getCharacters().get(i).getMoveX());
-                Player.getCharacters().get(i).setY(Player.getCharacters().get(i).getY()+Player.getCharacters().get(i).getMoveY());
-            }
+
         } else if (Gamestate.state == Gamestate_e.pause){
 
         }

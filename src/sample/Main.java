@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import loop.GameLoop;
 import loop.RenderLoop;
 import player.Player;
+import units.Character;
 
 public class Main extends Application {
 
@@ -36,6 +37,7 @@ public class Main extends Application {
         launcher.close();
         loop.start();
         render.start();
+        Player.getCharacters().add(new Character(0, 0, 30, "tank", Player.getUsername(), "peter", 13, 10, 5, 7));
     }
 
     public static void closeGame(){
@@ -49,7 +51,7 @@ public class Main extends Application {
     }
 
     public static void startDataTransfer(){
-        dt = new Data_Transfer(c, data);
+        dt = new Data_Transfer(c);
         info = new Thread(dt);
         info.start();
     }
