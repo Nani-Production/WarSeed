@@ -53,6 +53,7 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
 
         try {
             writer.write("//buildings");
+            writer.newLine();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -63,13 +64,15 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
                                 "+++"+Player.getBuildings().get(i).getHp()+
                                 "+++"+Player.getBuildings().get(i).getX()+
                                 "+++"+Player.getBuildings().get(i).getY());
-                writer.write("\n");
+                writer.newLine();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
         try {
+            //TODO Warum schmiert mir der Writer, bzw die Verbindung hier ab?
             writer.write("//characters");
+            writer.newLine();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -81,10 +84,15 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
                                 "+++"+Player.getCharacters().get(i).getName()+
                                 "+++"+Player.getCharacters().get(i).getX()+
                                 "+++"+Player.getCharacters().get(i).getY());
-                writer.write("\n");
+                writer.newLine();
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+        try {
+            writer.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

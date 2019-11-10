@@ -44,6 +44,7 @@ public class Connection implements Runnable { //Baut die Verbindung zwischen Cli
                         output = new OutputStreamWriter(socket.getOutputStream());
                         writer = new BufferedWriter(output);
                         writer.write(name);
+                        writer.newLine();
                         writer.flush();
                         launcher.connectedDialogue();
                         launcher.getButton().setDisable(false);
