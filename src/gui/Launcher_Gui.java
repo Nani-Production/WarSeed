@@ -34,13 +34,31 @@ public class Launcher_Gui {
     private StackPane root;
     private TextField ipTF, usernameTF;
     private Text text1, text2;
+    private Stage stage;
+    private Button button;
     //public Font myFont = Font.loadFont(getClass().getResourceAsStream("/resources/Guardians.ttf"), 24);
 
-    public void init () {
+    public void init (Stage stage) {
         dm = new Draw_Launcher();
+        this.stage = stage;
     }
 
-    public void create (Stage stage) {
+    public void create () {
+
+        button = new Button("start");
+        button.setPrefSize(50,50);
+        button.setVisible(true);
+        button.setDisable(true);
+        button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Stage newWindow = new Stage();
+                Game_Gui gui = new Game_Gui();
+                gui.init(newWindow);
+                gui.create();
+                Main.startGame();
+            }
+        });
 
         ipTF = new TextField("IP");
         ipTF.setMinSize(100, 50);
@@ -98,7 +116,7 @@ public class Launcher_Gui {
         unLog = new FlowPane(text2, usernameTF);
         unLog.setTranslateX((width/2)-unLog.getWidth()/2);
         unLog.setTranslateY(50);
-        buttons = new FlowPane(bConnect, bStopSearch);
+        buttons = new FlowPane(bConnect, button);
         buttons.setTranslateX((width/2)-buttons.getWidth());
         up_fp = new FlowPane(ipLog, unLog);
         down_fp = new FlowPane(buttons);
@@ -131,9 +149,6 @@ public class Launcher_Gui {
 
     private void bConnectAction(){
         String ip = null, username = null;
-
-        //Es kommen noch TextFelder rein, in die man die String eingibt.
-        //Die Popups sollen dann nur kommen, wenn die Felder leer sind
 
         //ip
         ip = ipTF.getText();
@@ -186,6 +201,20 @@ public class Launcher_Gui {
         }
     }
 
+    public void connectedDialogue(){
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Information Dialog");
+                alert.setHeaderText(null);
+                alert.setContentText("You have a connection to the Server!");
+
+                alert.showAndWait();
+            }
+        });
+    }
+
     public void close(){
         Platform.exit();
     }
@@ -193,5 +222,9 @@ public class Launcher_Gui {
     private boolean checkIPSyntax(String ip){
         //Check if the String is a valid IP address
         return true;
+    }
+
+    public Button getButton() {
+        return button;
     }
 }

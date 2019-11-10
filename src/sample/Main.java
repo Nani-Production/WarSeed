@@ -23,9 +23,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        launcher.init();
-        g.init(primaryStage);
-        launcher.create(primaryStage);
+        launcher.init(primaryStage);
+        launcher.create();
     }
 
     public static void main(String[] args) {
@@ -33,8 +32,7 @@ public class Main extends Application {
     }
 
     public static void startGame(){
-        g.create();
-        launcher.close();
+        //launcher.close();
         loop.start();
         render.start();
         Player.getCharacters().add(new Character(0, 0, 30, "tank", Player.getUsername(), "peter", 13, 10, 5, 7));
@@ -44,8 +42,8 @@ public class Main extends Application {
 
     }
 
-    public static void startConnection(String ip, String name){
-        c = new Connection(ip, name);
+    public static void startConnection(String ip, String name) {
+        c = new Connection(ip, name, launcher);
         connect = new Thread(c);
         connect.start();
     }

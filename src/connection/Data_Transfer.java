@@ -34,11 +34,13 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
             while (running){
                 //send and receive game data
                 sendData();
+                /*
                 try {
-                    super.wait(timeout);
+                    this.wait(timeout);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                */
                 receiveData();
             }
         } catch (IOException e) {

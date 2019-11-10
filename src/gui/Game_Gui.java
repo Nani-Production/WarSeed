@@ -47,13 +47,5 @@ public class Game_Gui {
         stage.setResizable(false);
         stage.centerOnScreen();
         stage.show();
-
-        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent event) {
-                Platform.exit();
-                System.exit(0);
-            }
-        });
     }
 }

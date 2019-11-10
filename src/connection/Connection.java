@@ -1,5 +1,6 @@
 package connection;
 
+import gui.Launcher_Gui;
 import javafx.scene.control.Alert;
 import sample.Main;
 
@@ -17,10 +18,12 @@ public class Connection implements Runnable { //Baut die Verbindung zwischen Cli
     private String name;
     private OutputStreamWriter output;
     private BufferedWriter writer;
+    private Launcher_Gui launcher;
 
-    public Connection (String ip, String name){
+    public Connection (String ip, String name, Launcher_Gui launcher){
         this.ip = ip;
         this.name = name;
+        this.launcher = launcher;
     }
     @Override
     public void run() {
@@ -42,10 +45,13 @@ public class Connection implements Runnable { //Baut die Verbindung zwischen Cli
                         writer = new BufferedWriter(output);
                         writer.write(name);
                         writer.flush();
-                        writer.close();
-                        connectedDialogue();
-                        Main.startGame();
-                        Main.startDataTransfer();
+                        launcher.connectedDialogue();
+                        launcher.getButton().setDisable(false);
+                        try {
+                            Main.startDataTransfer();
+                        } catch (Exception e){
+                            e.printStackTrace();
+                        }
                         //running = false;
                     }
                 }
@@ -53,15 +59,6 @@ public class Connection implements Runnable { //Baut die Verbindung zwischen Cli
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private void connectedDialogue(){
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Information Dialog");
-        alert.setHeaderText(null);
-        alert.setContentText("You have a connection to the Server!");
-
-        alert.showAndWait();
     }
 
     public Socket getSocket() {
