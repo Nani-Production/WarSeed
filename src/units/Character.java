@@ -5,8 +5,8 @@ public class Character extends MapObject{
     private double attack, defence, cooldown, speed;
     private double moveX = 0, moveY = 0;
 
-    public Character(double x, double y, double hp, String type, String owner, String name, double attack, double defence, double cooldown, double speed) {
-        super(x, y, hp, type, owner);
+    public Character(double x, double y, double width, double height, double hp, String type, String owner, String name, double attack, double defence, double cooldown, double speed) {
+        super(x, y, width, height, hp, type, owner);
         this.name = name;
         this.attack = attack;
         this.defence = defence;

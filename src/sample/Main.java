@@ -15,27 +15,35 @@ import units.Character;
 public class Main extends Application {
 
     private static Launcher_Gui launcher = new Launcher_Gui();
-    private static Game_Gui g = new Game_Gui();
-    private static Thread connect, info, loop = new Thread(new GameLoop()), render = new Thread(new RenderLoop());
+    private static Game_Gui gui = new Game_Gui();
+    private static Thread connect, info, loop = new Thread(new GameLoop()), render = new Thread(new RenderLoop(gui));
     private static Data data = new Data();
     private static Connection c;
     private static Data_Transfer dt;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        launcher.init(primaryStage);
-        launcher.create();
+        startGame(primaryStage);
+        //launcher.init(primaryStage);
+        //launcher.create();
     }
 
     public static void main(String[] args) {
         launch(args);
     }
 
-    public static void startGame(){
+    public static void startGame(Stage stage){
         //launcher.close();
+        gui.init(stage);
+        gui.create();
         loop.start();
         render.start();
-        Player.getCharacters().add(new Character(0, 0, 30, "tank", Player.getUsername(), "peter", 13, 10, 5, 7));
+        try {
+            render.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Player.getCharacters().add(new Character(0, 0, 64, 64, 30, "tank", Player.getUsername(), "peter", 13, 10, 5, 7));
     }
 
     public static void closeGame(){
@@ -67,5 +75,3 @@ public class Main extends Application {
         System.out.println("successfully stopped connection");
     }
 }
-
-

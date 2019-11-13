@@ -1,7 +1,7 @@
 package controls;
 
 public class Camera {
-    private static double movementSpeed, camX, camY;
+    private static double movementSpeed = 0, camX = 0, camY = 0; //cam ist mapKoordinate
     private static boolean right = false, left = false, up = false, down = false;
 
     public static void moveCam(){
@@ -18,19 +18,23 @@ public class Camera {
 
     //move
     public static void moveRight(double speed){
+        System.out.println("moveright");
         movementSpeed = speed;
         right = true;
     }
     public static void moveLeft(double speed){
+        System.out.println("moveleft");
         movementSpeed = -speed;
         left = true;
     }
 
     public static void moveUp(double speed){
+        System.out.println("moveup");
         movementSpeed = -speed;
         up = true;
     }
     public static void moveDown(double speed){
+        System.out.println("movedown");
         movementSpeed = speed;
         down = true;
     }

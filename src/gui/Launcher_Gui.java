@@ -53,10 +53,7 @@ public class Launcher_Gui {
             @Override
             public void handle(ActionEvent event) {
                 Stage newWindow = new Stage();
-                Game_Gui gui = new Game_Gui();
-                gui.init(newWindow);
-                gui.create();
-                Main.startGame();
+                Main.startGame(newWindow);
             }
         });
 
