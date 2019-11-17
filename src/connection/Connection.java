@@ -35,9 +35,12 @@ public class Connection implements Runnable { //Baut die Verbindung zwischen Cli
                     System.out.println("Searching for Connection...");
                     try {
                         socket = new Socket(ip, port);
+                        //TODO braucht man socket.setKeepAlive(true);
                     } catch (ConnectException e){
                         e.printStackTrace();
                     }
+
+
                     if (socket != null){
                         System.out.println("connected");
                         connected = true;

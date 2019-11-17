@@ -13,7 +13,8 @@ public class Unitinfo extends Interface {
     }
 
     public void draw (GraphicsContext g){
-        g.setStroke(Color.BROWN);
+        g.setLineWidth(3);
+        g.setStroke(Color.AQUA);
         g.drawImage(unitImg, x, y, width, height/2);
         g.strokeLine(x ,y, x+width, y);
         g.strokeLine(x+width, y, x+width, y+height);

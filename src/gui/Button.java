@@ -1,10 +1,13 @@
 package gui;
 
+import javafx.event.ActionEvent;
 import javafx.scene.text.Font;
 
 public class Button extends Interface{
     private String text;
     private Font font;
+    private boolean isHover;
+    private ActionEvent hover;
 
     public Button(double x, double y, double width, double height) {
         super(x, y, width, height);
@@ -70,5 +73,21 @@ public class Button extends Interface{
 
     public void setHeight(double height) {
         this.height = height;
+    }
+
+    public boolean isHover() {
+        return isHover;
+    }
+
+    public void setHover(boolean hover) {
+        isHover = hover;
+    }
+
+    public ActionEvent getHover() {
+        return hover;
+    }
+
+    public void setHover(ActionEvent hover) {
+        this.hover = hover;
     }
 }

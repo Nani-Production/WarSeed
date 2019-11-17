@@ -2,6 +2,7 @@ package connection;
 
 import data.Data;
 import player.Player;
+import sample.Main;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -12,9 +13,8 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
     private InputStreamReader input;
     private OutputStreamWriter output;
     private BufferedReader reader;
-    private BufferedWriter writer;
+    private PrintWriter writer;
     private boolean running = true;
-    private final int timeout = 20; //in ms
 
     public Data_Transfer(Connection connect) {
         this.con = connect;
@@ -23,25 +23,24 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
     @Override
     public void run() {
         try {
+            final int timeout = 20; //in ms
             while (!con.isConnected()){
                 System.out.println("no Connection found");
             }
             input = new InputStreamReader(con.getSocket().getInputStream());
             output = new OutputStreamWriter(con.getSocket().getOutputStream());
             reader = new BufferedReader(input);
-            writer = new BufferedWriter(output);
+            writer = new PrintWriter(output);
 
             while (running){
                 //send and receive game data
                 sendData();
-                /*
                 try {
-                    this.wait(timeout);
+                    Main.getInfo().sleep(timeout*10);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                */
-                receiveData();
+                //receiveData();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -51,60 +50,52 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
     private void sendData(){
         //send Data of own Position
 
-        try {
-            writer.write("//buildings");
-            writer.newLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        writer.write("//buildings");
         for (int i = 0; i < Player.getBuildings().size(); i++){
-            try {
-                writer.write("+++"+Player.getBuildings().get(i).getOwner()+
-                                "+++"+Player.getBuildings().get(i).getType()+
-                                "+++"+Player.getBuildings().get(i).getHp()+
-                                "+++"+Player.getBuildings().get(i).getX()+
-                                "+++"+Player.getBuildings().get(i).getY());
-                writer.newLine();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            writer.write("+++"+Player.getBuildings().get(i).getOwner()+
+                    "+++"+Player.getBuildings().get(i).getType()+
+                    "+++"+Player.getBuildings().get(i).getHp()+
+                    "+++"+Player.getBuildings().get(i).getX()+
+                    "+++"+Player.getBuildings().get(i).getY());
         }
-        try {
-            //TODO Warum schmiert mir der Writer, bzw die Verbindung hier ab?
-            writer.write("//characters");
-            writer.newLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        writer.write("//characters");
         for (int i = 0; i < Player.getCharacters().size(); i++){
-            try {
-                writer.write("+++"+Player.getCharacters().get(i).getOwner()+
-                                "+++"+Player.getCharacters().get(i).getType()+
-                                "+++"+Player.getCharacters().get(i).getHp()+
-                                "+++"+Player.getCharacters().get(i).getName()+
-                                "+++"+Player.getCharacters().get(i).getX()+
-                                "+++"+Player.getCharacters().get(i).getY());
-                writer.newLine();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            writer.write("+++"+Player.getCharacters().get(i).getOwner()+
+                    "+++"+Player.getCharacters().get(i).getType()+
+                    "+++"+Player.getCharacters().get(i).getHp()+
+                    "+++"+Player.getCharacters().get(i).getName()+
+                    "+++"+Player.getCharacters().get(i).getX()+
+                    "+++"+Player.getCharacters().get(i).getY());
+            System.out.println("+++"+Player.getCharacters().get(i).getOwner()+
+                    "+++"+Player.getCharacters().get(i).getType()+
+                    "+++"+Player.getCharacters().get(i).getHp()+
+                    "+++"+Player.getCharacters().get(i).getName()+
+                    "+++"+Player.getCharacters().get(i).getX()+
+                    "+++"+Player.getCharacters().get(i).getY());
+            System.out.println("sent character");
         }
+        /*
         try {
             writer.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
+         */
     }
 
     private void receiveData(){
         //receive all position Data
         String message = "empty";
         try {
-            message = reader.readLine();
-        } catch (IOException e) {
+            if (reader.lines().count() > 0){
+                message = reader.readLine();
+            }
+        } catch (IOException | UncheckedIOException e) {
             e.printStackTrace();
         }
-        System.out.println(message);
+        if (!message.equals("empty")){
+            System.out.println(message);
+        }
         //TODO Baut die Nachricht ausseinander und macht Objekte daraus
         //Danach werden die Objekte per Data.addBuilding und Data.addCharacter in die Daten eingegliedert
         //ArrayList <ArrayList<String>> datalist = new ArrayList <ArrayList<String>>();

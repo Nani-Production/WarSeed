@@ -7,6 +7,7 @@ public class ImageLoader {
 
     private static Image loadImage(String path){
         try {
+            //TODO Bilder funktionieren nicht als Artifact
             //Image img = new Image(String.valueOf(Toolkit.getDefaultToolkit().getClass().getResource(path)));
             Image img = new Image(String.valueOf(ImageLoader.class.getResource(path)));
             return img;

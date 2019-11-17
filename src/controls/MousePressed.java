@@ -41,11 +41,12 @@ public class MousePressed implements EventHandler<MouseEvent> {
             if (Player.hasSelected()){
                 boolean enemy = false;
                 //TODO Überprüfen, ob da eine gegnerische Einheit steht
-                //Dann angrifffunktion ausführen?
+                //Dann angrifffunktion ausführen? bzw wenn nicht in Range, dann dorthin bewegen
 
                 if (!enemy && Player.getSelectedCharacter() != null){
                     Player.getSelectedCharacter().setMoveX(mouseEvent.getX()+Camera.getCamX());
                     Player.getSelectedCharacter().setMoveY(mouseEvent.getY()+Camera.getCamY());
+                    System.out.println("Cha move x: "+Player.getSelectedCharacter().getMoveX()+"   y: "+Player.getSelectedCharacter().getMoveY());
                 }
             }
         }

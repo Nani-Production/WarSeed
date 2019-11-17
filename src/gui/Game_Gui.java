@@ -31,6 +31,9 @@ public class Game_Gui {
     }
 
     public void create (){
+        minimap = new Minimap(width-300, height-300, 300, 300);
+        unitinfo = new Unitinfo(0, height-350, 250, 350);
+
         canvas_main = new Canvas(width, height);
         root = new StackPane();
         gc_main = canvas_main.getGraphicsContext2D();
@@ -41,7 +44,7 @@ public class Game_Gui {
 
         scene.setOnKeyPressed(new KeyPressed());
         scene.setOnKeyReleased(new KeyReleased());
-        //scene.setOnMouseMoved(new MouseMoved());
+        //scene.setOnMouseMoved(new MouseMoved(this));
         scene.setOnMousePressed(new MousePressed(this));
         scene.setOnMouseReleased(new MouseReleased());
 

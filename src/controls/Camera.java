@@ -6,14 +6,8 @@ public class Camera {
 
     public static void moveCam(){
         //TODO muss für diagonal noch überarbeitet werden
-        if (right || left){
-            camX += movementSpeed;
-            System.out.println("moved x: "+camX);
-        }
-        if (up || down){
-            camY += movementSpeed;
-            System.out.println("moved y: "+camY);
-        }
+        camX += movementSpeed;
+        camY += movementSpeed;
     }
 
     //move

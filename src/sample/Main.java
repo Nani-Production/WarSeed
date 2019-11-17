@@ -2,6 +2,7 @@ package sample;
 
 import connection.Connection;
 import connection.Data_Transfer;
+import controls.Camera;
 import data.Data;
 import gui.Game_Gui;
 import gui.Launcher_Gui;
@@ -23,9 +24,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        startGame(primaryStage);
-        //launcher.init(primaryStage);
-        //launcher.create();
+        //startGame(primaryStage);
+        launcher.init(primaryStage);
+        launcher.create();
     }
 
     public static void main(String[] args) {
@@ -43,7 +44,7 @@ public class Main extends Application {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        Player.getCharacters().add(new Character(0, 0, 64, 64, 30, "tank", Player.getUsername(), "peter", 13, 10, 5, 7));
+        Player.getCharacters().add(new Character(Camera.getCamX()+100, Camera.getCamY()+200, 64, 64, 30, "tank", Player.getUsername(), "peter", 13, 10, 5, 7));
     }
 
     public static void closeGame(){
@@ -73,5 +74,13 @@ public class Main extends Application {
         connect = null;
         c = null;
         System.out.println("successfully stopped connection");
+    }
+
+    public static Thread getInfo() {
+        return info;
+    }
+
+    public static void setInfo(Thread info) {
+        Main.info = info;
     }
 }

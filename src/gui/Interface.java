@@ -8,7 +8,7 @@ public class Interface {
     public double x, y, width, height;
 
     public void draw (GraphicsContext g){
-        g.setStroke(Color.BROWN);
+        g.setStroke(Color.GREEN);
         g.strokeLine(x ,y, x+width, y);
         g.strokeLine(x+width, y, x+width, y+height);
         g.strokeLine(x+width, y+height, x, y+height);
