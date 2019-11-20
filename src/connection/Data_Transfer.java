@@ -13,7 +13,7 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
     private InputStreamReader input;
     private OutputStreamWriter output;
     private BufferedReader reader;
-    private PrintWriter writer;
+    private BufferedWriter writer;
     private boolean running = true;
 
     public Data_Transfer(Connection connect) {
@@ -30,7 +30,7 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
             input = new InputStreamReader(con.getSocket().getInputStream());
             output = new OutputStreamWriter(con.getSocket().getOutputStream());
             reader = new BufferedReader(input);
-            writer = new PrintWriter(output);
+            writer = new BufferedWriter(output);
 
             while (running){
                 //send and receive game data
@@ -41,6 +41,9 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
                     e.printStackTrace();
                 }
                 //receiveData();
+                if (con.getSocket() == null || !con.isConnected()){
+                    running = false;
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -50,52 +53,35 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
     private void sendData(){
         //send Data of own Position
 
-        writer.write("//buildings");
-        for (int i = 0; i < Player.getBuildings().size(); i++){
-            writer.write("+++"+Player.getBuildings().get(i).getOwner()+
-                    "+++"+Player.getBuildings().get(i).getType()+
-                    "+++"+Player.getBuildings().get(i).getHp()+
-                    "+++"+Player.getBuildings().get(i).getX()+
-                    "+++"+Player.getBuildings().get(i).getY());
-        }
-        writer.write("//characters");
-        for (int i = 0; i < Player.getCharacters().size(); i++){
-            writer.write("+++"+Player.getCharacters().get(i).getOwner()+
-                    "+++"+Player.getCharacters().get(i).getType()+
-                    "+++"+Player.getCharacters().get(i).getHp()+
-                    "+++"+Player.getCharacters().get(i).getName()+
-                    "+++"+Player.getCharacters().get(i).getX()+
-                    "+++"+Player.getCharacters().get(i).getY());
-            System.out.println("+++"+Player.getCharacters().get(i).getOwner()+
-                    "+++"+Player.getCharacters().get(i).getType()+
-                    "+++"+Player.getCharacters().get(i).getHp()+
-                    "+++"+Player.getCharacters().get(i).getName()+
-                    "+++"+Player.getCharacters().get(i).getX()+
-                    "+++"+Player.getCharacters().get(i).getY());
-            System.out.println("sent character");
-        }
-        /*
-        try {
+        try{
+            writer.write("//buildings"+Player.getBuildings().size()+"//");
+            for (int i = 0; i < Player.getBuildings().size(); i++){
+                writer.write("+++"+Player.getBuildings().get(i).getOwner()+
+                        "+++"+Player.getBuildings().get(i).getType()+
+                        "+++"+Player.getBuildings().get(i).getHp()+
+                        "+++"+Player.getBuildings().get(i).getX()+
+                        "+++"+Player.getBuildings().get(i).getY()+"***");
+            }
+            writer.write("//characters"+Player.getCharacters().size()+"//");
+            for (int i = 0; i < Player.getCharacters().size(); i++){
+                writer.write("+++"+Player.getCharacters().get(i).getOwner()+
+                        "+++"+Player.getCharacters().get(i).getType()+
+                        "+++"+Player.getCharacters().get(i).getHp()+
+                        "+++"+Player.getCharacters().get(i).getName()+
+                        "+++"+Player.getCharacters().get(i).getX()+
+                        "+++"+Player.getCharacters().get(i).getY()+
+                        "+++"+Player.getCharacters().get(i).getMoveX()+
+                        "+++"+Player.getCharacters().get(i).getMoveY()+"***");
+            }
+            writer.newLine();
             writer.flush();
-        } catch (IOException e) {
+        } catch (IOException e){
             e.printStackTrace();
         }
-         */
     }
 
     private void receiveData(){
         //receive all position Data
-        String message = "empty";
-        try {
-            if (reader.lines().count() > 0){
-                message = reader.readLine();
-            }
-        } catch (IOException | UncheckedIOException e) {
-            e.printStackTrace();
-        }
-        if (!message.equals("empty")){
-            System.out.println(message);
-        }
         //TODO Baut die Nachricht ausseinander und macht Objekte daraus
         //Danach werden die Objekte per Data.addBuilding und Data.addCharacter in die Daten eingegliedert
         //ArrayList <ArrayList<String>> datalist = new ArrayList <ArrayList<String>>();
