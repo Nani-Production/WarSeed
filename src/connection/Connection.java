@@ -4,9 +4,7 @@ import gui.Launcher_Gui;
 import javafx.scene.control.Alert;
 import sample.Main;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.net.ConnectException;
 import java.net.Socket;
 
@@ -18,6 +16,8 @@ public class Connection implements Runnable { //Baut die Verbindung zwischen Cli
     private String name;
     private OutputStreamWriter output;
     private BufferedWriter writer;
+    private InputStreamReader input;
+    private BufferedReader reader;
     private Launcher_Gui launcher;
 
     public Connection (String ip, String name, Launcher_Gui launcher){
@@ -35,15 +35,16 @@ public class Connection implements Runnable { //Baut die Verbindung zwischen Cli
                     System.out.println("Searching for Connection...");
                     try {
                         socket = new Socket(ip, port);
-                        //TODO braucht man socket.setKeepAlive(true);
+                        //TODO braucht man socket.setKeepAlive(true); ???
                     } catch (ConnectException e){
                         e.printStackTrace();
                     }
 
-
                     if (socket != null){
                         System.out.println("connected");
                         connected = true;
+                        input = new InputStreamReader(socket.getInputStream());
+                        reader = new BufferedReader(input);
                         output = new OutputStreamWriter(socket.getOutputStream());
                         writer = new BufferedWriter(output);
                         writer.write(name);
@@ -56,13 +57,16 @@ public class Connection implements Runnable { //Baut die Verbindung zwischen Cli
                         } catch (Exception e){
                             e.printStackTrace();
                         }
-                        //running = false;
                     }
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public BufferedReader getReader() {
+        return reader;
     }
 
     public Socket getSocket() {

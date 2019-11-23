@@ -57,7 +57,7 @@ public class Launcher_Gui {
             }
         });
 
-        ipTF = new TextField("IP");
+        ipTF = new TextField("");
         ipTF.setMinSize(100, 50);
         ipTF.setMaxSize(150, 50);
         ipTF.setVisible(true);

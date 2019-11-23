@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import loop.GameLoop;
 import loop.RenderLoop;
 import player.Player;
+import units.Building;
 import units.Character;
 
 public class Main extends Application {
@@ -27,6 +28,11 @@ public class Main extends Application {
         //startGame(primaryStage);
         launcher.init(primaryStage);
         launcher.create();
+        Player.getBuildings().add(new Building(Camera.getCamX()+200, Camera.getCamY()+150, 64, 64, 50, "nexus1", Player.getUsername()));
+        Player.getBuildings().add(new Building(Camera.getCamX()+200, Camera.getCamY()+250, 64, 64, 50, "nexus2", Player.getUsername()));
+        Player.getCharacters().add(new Character(Camera.getCamX()+100, Camera.getCamY()+200, 64, 64, 30, "tank", Player.getUsername(), "peter", 13, 10, 5, 7));
+        Player.getCharacters().add(new Character(Camera.getCamX()+300, Camera.getCamY()+300, 64, 64, 35, "plane", Player.getUsername(), "hans", 15, 12, 6, 8));
+        System.out.println(Player.getCharacters().size());
     }
 
     public static void main(String[] args) {
@@ -44,7 +50,6 @@ public class Main extends Application {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        Player.getCharacters().add(new Character(Camera.getCamX()+100, Camera.getCamY()+200, 64, 64, 30, "tank", Player.getUsername(), "peter", 13, 10, 5, 7));
     }
 
     public static void closeGame(){
