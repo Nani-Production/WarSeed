@@ -1,9 +1,6 @@
 package gui;
 
-import connection.Connection;
-import controls.*;
 import draw.Draw_Launcher;
-import draw.Draw_Main;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -14,9 +11,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -27,15 +22,16 @@ import java.util.Optional;
 
 public class Launcher_Gui {
     public final static double width = 700, height = 400;
-    public static Draw_Launcher dm;
-    public static GraphicsContext gc_main;
+    private Draw_Launcher dm;
+    private GraphicsContext gc_main;
     private Canvas canvas_main;
     private Scene scene;
     private StackPane root;
     private TextField ipTF, usernameTF;
     private Text text1, text2;
     private Stage stage;
-    private Button button;
+    private Button bStart;
+    private Button bConnect;
     //public Font myFont = Font.loadFont(getClass().getResourceAsStream("/resources/Guardians.ttf"), 24);
 
     public void init (Stage stage) {
@@ -45,11 +41,11 @@ public class Launcher_Gui {
 
     public void create () {
 
-        button = new Button("start");
-        button.setPrefSize(50,50);
-        button.setVisible(true);
-        button.setDisable(true);
-        button.setOnAction(new EventHandler<ActionEvent>() {
+        bStart = new Button("start");
+        bStart.setPrefSize(50,50);
+        bStart.setVisible(true);
+        bStart.setDisable(true);
+        bStart.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 Stage newWindow = new Stage();
@@ -74,7 +70,7 @@ public class Launcher_Gui {
         text2 = new Text("Username");
         text2.setVisible(true);
 
-        Button bConnect = new Button("connect to Server");
+        bConnect = new Button("connect to Server");
         bConnect.setMinSize(100, 50);
         bConnect.setMaxSize(150, 50);
 
@@ -113,7 +109,7 @@ public class Launcher_Gui {
         unLog = new FlowPane(text2, usernameTF);
         unLog.setTranslateX((width/2)-unLog.getWidth()/2);
         unLog.setTranslateY(50);
-        buttons = new FlowPane(bConnect, button);
+        buttons = new FlowPane(bConnect, bStart);
         buttons.setTranslateX((width/2)-buttons.getWidth());
         up_fp = new FlowPane(ipLog, unLog);
         down_fp = new FlowPane(buttons);
@@ -221,7 +217,31 @@ public class Launcher_Gui {
         return true;
     }
 
-    public Button getButton() {
-        return button;
+    public Button getbStart() {
+        return bStart;
+    }
+
+    public Draw_Launcher getDm() {
+        return dm;
+    }
+
+    public void setDm(Draw_Launcher dm) {
+        this.dm = dm;
+    }
+
+    public GraphicsContext getGc_main() {
+        return gc_main;
+    }
+
+    public void setGc_main(GraphicsContext gc_main) {
+        this.gc_main = gc_main;
+    }
+
+    public Button getbConnect() {
+        return bConnect;
+    }
+
+    public void setbConnect(Button bConnect) {
+        this.bConnect = bConnect;
     }
 }

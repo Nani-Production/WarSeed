@@ -46,7 +46,7 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            handleIOException(e);
         }
     }
 
@@ -59,6 +59,7 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
                 writer.write("//"+Player.getBuildings().get(i).getOwner()+
                         "+++"+Player.getBuildings().get(i).getType()+
                         "+++"+Player.getBuildings().get(i).getHp()+
+                        "+++"+Player.getBuildings().get(i).getName()+
                         "+++"+Player.getBuildings().get(i).getX()+
                         "+++"+Player.getBuildings().get(i).getY()+"*");
             }
@@ -78,7 +79,8 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
             writer.newLine();
             writer.flush();
         } catch (IOException e){
-            e.printStackTrace();
+            //System.out.println(e.toString());
+            handleIOException(e);
         }
     }
 
@@ -89,7 +91,7 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
             Data.addData(line);
             System.out.println("Datasize: "+Data.getListofLists().size());
         } catch (IOException e) {
-            e.printStackTrace();
+            handleIOException(e);
         }
         //receive all position Data
         //TODO Baut die Nachricht ausseinander und macht Objekte daraus
@@ -105,5 +107,14 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
 
     public void setRunning(boolean running) {
         this.running = running;
+    }
+
+    private void handleIOException (IOException e){
+        if (e.toString().startsWith("java.net.SocketException: Connection reset by peer")){
+            con.setRunning(true);
+            //con.disconnect();
+        } else {
+            e.printStackTrace();
+        }
     }
 }

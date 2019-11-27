@@ -2,11 +2,14 @@ package gui;
 
 import controls.*;
 import draw.Draw_Main;
+import draw.ImageLoader;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -101,5 +104,9 @@ public class Game_Gui {
 
     public double getHeight() {
         return height;
+    }
+
+    public void close(){
+        Platform.exit();
     }
 }

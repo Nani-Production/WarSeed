@@ -1,8 +1,11 @@
 package connection;
 
+import controls.Camera;
 import gui.Launcher_Gui;
-import javafx.scene.control.Alert;
+import player.Player;
 import sample.Main;
+import units.Building;
+import units.Character;
 
 import java.io.*;
 import java.net.ConnectException;
@@ -29,33 +32,40 @@ public class Connection implements Runnable { //Baut die Verbindung zwischen Cli
     public void run() {
         try {
             running = true;
-            while (running) {
-                while (socket == null || !socket.isConnected()) {
-                    connected = false;
-                    System.out.println("Searching for Connection...");
-                    try {
-                        socket = new Socket(ip, port);
-                        //TODO braucht man socket.setKeepAlive(true); ???
-                    } catch (ConnectException e){
-                        e.printStackTrace();
-                    }
-
-                    if (socket != null){
-                        System.out.println("connected");
-                        connected = true;
-                        input = new InputStreamReader(socket.getInputStream());
-                        reader = new BufferedReader(input);
-                        output = new OutputStreamWriter(socket.getOutputStream());
-                        writer = new BufferedWriter(output);
-                        writer.write(name);
-                        writer.newLine();
-                        writer.flush();
-                        launcher.connectedDialogue();
-                        launcher.getButton().setDisable(false);
+            while (true){
+                while (running) {
+                    while (socket == null || !socket.isConnected()) {
+                        connected = false;
+                        System.out.println("Searching for Connection...");
                         try {
-                            Main.startDataTransfer();
-                        } catch (Exception e){
+                            socket = new Socket(ip, port);
+                            //TODO braucht man socket.setKeepAlive(true); ???
+                        } catch (ConnectException e){
                             e.printStackTrace();
+                        }
+
+                        if (socket != null){
+                            System.out.println("connected");
+                            connected = true;
+                            input = new InputStreamReader(socket.getInputStream());
+                            reader = new BufferedReader(input);
+                            output = new OutputStreamWriter(socket.getOutputStream());
+                            writer = new BufferedWriter(output);
+                            writer.write(name);
+                            writer.newLine();
+                            writer.flush();
+                            launcher.connectedDialogue();
+                            Player.getBuildings().add(new Building(Camera.getCamX()+200, Camera.getCamY()+150, 64, 64, 50, "nexus1", Player.getUsername()));
+                            Player.getBuildings().add(new Building(Camera.getCamX()+200, Camera.getCamY()+250, 64, 64, 50, "nexus2", Player.getUsername()));
+                            Player.getCharacters().add(new Character(Camera.getCamX()+100, Camera.getCamY()+200, 64, 64, 30, "tank", Player.getUsername(), 13, 10, 5, 7));
+                            Player.getCharacters().add(new Character(Camera.getCamX()+300, Camera.getCamY()+300, 64, 64, 35, "plane", Player.getUsername(), 15, 12, 6, 8));
+                            launcher.getbStart().setDisable(false);
+                            try {
+                                Main.startDataTransfer();
+                            } catch (Exception e){
+                                e.printStackTrace();
+                            }
+                            running = false;
                         }
                     }
                 }
@@ -91,5 +101,11 @@ public class Connection implements Runnable { //Baut die Verbindung zwischen Cli
 
     public void setRunning(boolean running) {
         this.running = running;
+    }
+
+    public void disconnect(){
+        launcher.getbStart().setDisable(true);
+        launcher.getbConnect().setDisable(false);
+        Main.closeGame();
     }
 }

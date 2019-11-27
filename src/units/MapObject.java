@@ -2,8 +2,8 @@ package units;
 
 public class MapObject {
     private double x, y, width, height, hp;
-    private String type, id;     //Info welches Gebäude oder welche Einheit das ist oder so
-    public String owner;   //dann muss man sichergehen, dass keine 2 Spieler gleich heißen
+    private String type, id, name;     //Info welches Gebäude oder welche Einheit das ist oder so
+    private String owner;   //dann muss man sichergehen, dass keine 2 Spieler gleich heißen
 
     public MapObject(double x, double y, double width, double height, double hpNow, String type, String owner) {
         this.x = x;
@@ -11,6 +11,7 @@ public class MapObject {
         this.width = width;
         this.height = height;
         this.hp = hpNow;
+        this.name = null;
         this.type = type;
         this.owner = owner;
     }
@@ -18,8 +19,17 @@ public class MapObject {
     public MapObject(double x, double y, String type, String owner) {
         this.x = x;
         this.y = y;
+        this.name = null;
         this.type = type;
         this.owner = owner;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getId() {
