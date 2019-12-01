@@ -8,8 +8,6 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -40,7 +38,6 @@ public class Game_Gui {
             mapWidth = width*2;
             mapHeight = height*2;
         }
-        System.out.println("lol: "+ImageLoader.map.getWidth()+"    "+ImageLoader.map.getHeight());
 
         Camera.setMapSize(mapWidth, mapHeight);
         Camera.setStartCoordinates(0, 0);

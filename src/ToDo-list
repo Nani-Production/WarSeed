@@ -1,0 +1,17 @@
+Tristan
+-Die Einheiten bewegen
+-Einheiten angreifen machen (erstmal ohne cooldown)
+-
+
+Tobsy
+-die Einheiten Objekte rausmachen
+-launcher rausmachen -> Serverconnection im Menü
+-
+
+Was noch gemacht werden muss:
+-Die Interface elemente machen
+-Die Kamerabewegung flüssiger machen
+-!!!Design für Menü und Interface besprechen!!!
+-Raussuchen, wie man Bilder auf einem GraphicsContext dreht
+-Aussuchen von Einheiten (Vorauswahl)
+-
