@@ -35,8 +35,6 @@ public class MousePressed implements EventHandler<MouseEvent> {
                     }
                 }
             }
-            //TODO Mausauswahl
-            //Überprüfen, ob schon eine Einheit asugewählt ist
         } else if (mouseEvent.isSecondaryButtonDown()){
             if (Player.hasSelected()){
                 boolean enemy = false;
@@ -46,7 +44,6 @@ public class MousePressed implements EventHandler<MouseEvent> {
                 if (!enemy && Player.getSelectedCharacter() != null){
                     Player.getSelectedCharacter().setMoveX(mouseEvent.getX()+Camera.getCamX());
                     Player.getSelectedCharacter().setMoveY(mouseEvent.getY()+Camera.getCamY());
-                    System.out.println("Cha move x: "+Player.getSelectedCharacter().getMoveX()+"   y: "+Player.getSelectedCharacter().getMoveY());
                 }
             }
         }

@@ -17,6 +17,7 @@ import javafx.stage.WindowEvent;
 public class Game_Gui {
 
     private final double width = 1280, height = 720;
+    private final double mapWidth = width*3, mapHeight = height*3;
     private static Draw_Main dm;
     private static GraphicsContext gc_main;
     private Canvas canvas_main;
@@ -31,6 +32,8 @@ public class Game_Gui {
     public void init (Stage stage) {
         dm = new Draw_Main();
         this.stage = stage;
+        Camera.setMapSize(mapWidth, mapHeight);
+        Camera.setStartCoordinates(0, 0);
     }
 
     public void create (){
@@ -47,7 +50,7 @@ public class Game_Gui {
 
         scene.setOnKeyPressed(new KeyPressed());
         scene.setOnKeyReleased(new KeyReleased());
-        //scene.setOnMouseMoved(new MouseMoved(this));
+        scene.setOnMouseMoved(new MouseMoved(this));
         scene.setOnMousePressed(new MousePressed(this));
         scene.setOnMouseReleased(new MouseReleased());
 

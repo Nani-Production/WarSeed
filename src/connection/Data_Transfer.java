@@ -93,12 +93,6 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
         } catch (IOException e) {
             handleIOException(e);
         }
-        //receive all position Data
-        //TODO Baut die Nachricht ausseinander und macht Objekte daraus
-        //Danach werden die Objekte per Data.addBuilding und Data.addCharacter in die Daten eingegliedert
-        //ArrayList <ArrayList<String>> datalist = new ArrayList <ArrayList<String>>();
-        //message an Data weitergeben
-        //Data.setListofLists(datalist);
     }
 
     public boolean isRunning() {

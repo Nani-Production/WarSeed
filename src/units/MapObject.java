@@ -5,6 +5,15 @@ public class MapObject {
     private String type, id, name;     //Info welches Gebäude oder welche Einheit das ist oder so
     private String owner;   //dann muss man sichergehen, dass keine 2 Spieler gleich heißen
 
+    public MapObject(double x, double y, double hp, String type, String name, String owner) {
+        this.x = x;
+        this.y = y;
+        this.hp = hp;
+        this.type = type;
+        this.name = name;
+        this.owner = owner;
+    }
+
     public MapObject(double x, double y, double width, double height, double hpNow, String type, String owner) {
         this.x = x;
         this.y = y;

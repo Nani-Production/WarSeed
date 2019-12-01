@@ -3,7 +3,7 @@ package draw;
 import javafx.scene.image.Image;
 
 public class ImageLoader {
-    public static Image image = loadImage("/rsc/image.jpg"); //= loadImage("/resources/playermodel.png")
+    public static Image image = loadImage("/rsc/image.jpg"), map = loadImage("/rsc/map.png"); //= loadImage("/resources/playermodel.png")
 
     private static Image loadImage(String path){
         try {

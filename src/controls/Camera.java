@@ -1,72 +1,95 @@
 package controls;
 
 public class Camera {
-    private static double movementSpeed = 0, camX = 0, camY = 0; //cam ist mapKoordinate
+    private static double movementSpeedX = 0, movementSpeedY, camX = 0, camY = 0, mapwidth = 0, mapHeight = 0; //cam ist mapKoordinate
     private static boolean right = false, left = false, up = false, down = false;
 
     public static void moveCam(){
-        //TODO muss für diagonal noch überarbeitet werden
-        camX += movementSpeed;
-        camY += movementSpeed;
+        if (up || down) {
+            if (camY+movementSpeedY < 0){
+                camY = 0;
+            } else if (camY+movementSpeedY >= mapHeight){
+                camY = mapHeight;
+            } else {
+                camY += movementSpeedY;
+            }
+        }
+        if (right || left) {
+            if (camX+movementSpeedX < 0) {
+                camX = 0;
+            } else if (camX+movementSpeedX >= mapwidth){
+                camX = mapwidth;
+            } else {
+                camX += movementSpeedX;
+            }
+        }
     }
 
     //move
     public static void moveRight(double speed){
         System.out.println("moveright");
-        movementSpeed = speed;
+        movementSpeedX = speed;
         right = true;
     }
     public static void moveLeft(double speed){
         System.out.println("moveleft");
-        movementSpeed = -speed;
+        movementSpeedX = -speed;
         left = true;
     }
 
     public static void moveUp(double speed){
         System.out.println("moveup");
-        movementSpeed = -speed;
+        movementSpeedY = -speed;
         up = true;
     }
     public static void moveDown(double speed){
         System.out.println("movedown");
-        movementSpeed = speed;
+        movementSpeedY = speed;
         down = true;
     }
 
     //stop
     public static void stopRight(){
         if (!left){
-            movementSpeed = 0;
+            movementSpeedX = 0;
         }
         right = false;
     }
     public static void stopLeft(){
         if (!right){
-            movementSpeed = 0;
+            movementSpeedX = 0;
         }
         left = false;
     }
 
     public static void stopUp(){
         if (!down){
-            movementSpeed = 0;
+            movementSpeedY = 0;
         }
         up = false;
     }
     public static void stopDown(){
         if (!up){
-            movementSpeed = 0;
+            movementSpeedY = 0;
         }
         down = false;
     }
 
     //Getter & Setter
-    public static double getMovementSpeed() {
-        return movementSpeed;
+    public static double getMovementSpeedX() {
+        return movementSpeedX;
     }
 
-    public static void setMovementSpeed(double movementSpeed) {
-        Camera.movementSpeed = movementSpeed;
+    public static void setMovementSpeedX(double movementSpeed) {
+        Camera.movementSpeedX = movementSpeed;
+    }
+
+    public static double getMovementSpeedY() {
+        return movementSpeedY;
+    }
+
+    public static void setMovementSpeedY(double movementSpeedY) {
+        Camera.movementSpeedY = movementSpeedY;
     }
 
     public static double getCamX() {
@@ -83,5 +106,15 @@ public class Camera {
 
     public static void setCamY(double camY) {
         Camera.camY = camY;
+    }
+
+    public static void setMapSize(double mapWidth, double mapHeight){
+        Camera.mapwidth = mapWidth;
+        Camera.mapHeight = mapHeight;
+    }
+
+    public static void setStartCoordinates (double x, double y){
+        Camera.camX = x;
+        Camera.camY = y;
     }
 }

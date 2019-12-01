@@ -22,10 +22,8 @@ public class MouseMoved implements EventHandler<MouseEvent> {
         double x = mouseEvent.getX(), y = mouseEvent.getY();
         if (Gamestate.state == Gamestate_e.ingame){
 
-            //TODO funkt noch nicht -> fixing
             if (!(x > gui.getWidth()*frame1 && x <= gui.getWidth()-(gui.getWidth()*frame1) && y > gui.getHeight()*frame1 && y <= gui.getHeight()-(gui.getHeight()*frame1)) && x > 0 && x <= gui.getWidth() && y > 0 && y <= gui.getHeight()){
                 speed = 1; //langsam
-                System.out.println("triggered1");
                 if (collisionRequest(new Rectangle(0, 0, gui.getWidth(), (gui.getHeight())*frame1), x, y)){
                     if (collisionRequest(new Rectangle(0, 0, gui.getWidth()*frame1, gui.getHeight()*frame1), x, y)){
                         Camera.stopDown();
@@ -77,7 +75,6 @@ public class MouseMoved implements EventHandler<MouseEvent> {
 
                 if (!(x > gui.getWidth()*frame2 && x <= gui.getWidth()-(gui.getWidth()*frame2) && y > gui.getHeight()*frame2 && y <= gui.getHeight()-(gui.getHeight()*frame2)) && x > 0 && x <= gui.getWidth() && y > 0 && y <= gui.getHeight()){
                     speed = 2; //schneller
-                    System.out.println("triggered2");
                     if (collisionRequest(new Rectangle(0, 0, gui.getWidth(), (gui.getHeight())*frame2), x, y)){
                         if (collisionRequest(new Rectangle(0, 0, gui.getWidth()*frame2, gui.getHeight()*frame2), x, y)){
                             //querup left
@@ -130,7 +127,6 @@ public class MouseMoved implements EventHandler<MouseEvent> {
 
                     if (!(x > gui.getWidth()*frame3 && x >= gui.getWidth()-(gui.getWidth()*frame3) && y < gui.getHeight()*frame3 && y >= gui.getHeight()-(gui.getHeight()*frame3)) && x > 0 && x <= gui.getWidth() && y > 0 && y <= gui.getHeight()){
                         speed = 3; //am schnellsten
-                        System.out.println("triggered3");
                         if (collisionRequest(new Rectangle(0, 0, gui.getWidth(), (gui.getHeight())*frame3), x, y)){
                             if (collisionRequest(new Rectangle(0, 0, gui.getWidth()*frame3, gui.getHeight()*frame3), x, y)){
                                 //querup left

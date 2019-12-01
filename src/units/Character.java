@@ -3,6 +3,13 @@ package units;
 public class Character extends MapObject{
     private double attack, defence, cooldown, speed;
     private double moveX = 0, moveY = 0;
+    //TODO die kampfwerte aus der Liste machen und lieber aus einer Datenbank auslesen
+
+    public Character(double x, double y, double hp, String type, String name, String owner, double moveX, double moveY) {
+        super(x, y, hp, type, name, owner);
+        this.moveX = moveX;
+        this.moveY = moveY;
+    }
 
     public Character(double x, double y, double width, double height, double hp, String type, String owner, double attack, double defence, double cooldown, double speed) {
         super(x, y, width, height, hp, type, owner);
