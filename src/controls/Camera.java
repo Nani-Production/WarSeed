@@ -5,6 +5,9 @@ public class Camera {
     private static boolean right = false, left = false, up = false, down = false;
 
     public static void moveCam(){
+        if (movementSpeedX != 0 || movementSpeedY != 0){
+            System.out.println("movement: "+movementSpeedX+"   "+movementSpeedY);
+        }
         if (up || down) {
             if (camY+movementSpeedY < 0){
                 camY = 0;
@@ -23,6 +26,7 @@ public class Camera {
                 camX += movementSpeedX;
             }
         }
+        System.out.println("x: "+camX+"   y: "+camY);
     }
 
     //move

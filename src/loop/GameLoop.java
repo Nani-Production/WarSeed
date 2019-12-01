@@ -24,11 +24,13 @@ public class GameLoop implements Runnable{
             if (deltaTime >= 1) {
                 update();
                 deltaTime = 0;
+                /*
                 try {
                     Thread.sleep(30);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                 */
             }
             if (System.currentTimeMillis() - timer > 1000) {
                 timer += 1000;

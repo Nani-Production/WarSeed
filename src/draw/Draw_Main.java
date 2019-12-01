@@ -18,7 +18,8 @@ public class Draw_Main {
 
             } else {
                 //Content
-                g.drawImage(ImageLoader.image, Camera.getCamX(), Camera.getCamY(), gui.getWidth(), gui.getHeight(), 0, 0, gui.getWidth(), gui.getHeight());
+                g.drawImage(ImageLoader.map, Camera.getCamX(), Camera.getCamY(), gui.getWidth(), gui.getHeight(), 0, 0, gui.getWidth(), gui.getHeight());
+                System.out.println("cam coord: "+Camera.getCamX()+"    "+Camera.getCamY());
                 //g.drawImage(ImageLoader.map, Camera.getCamX(), Camera.getCamY(), gui.getWidth(), gui.getHeight());
                 System.out.println("sizes: "+Player.getCharacters().size()+"    "+Player.getBuildings().size());
                 for (int i = 0; i < Player.getCharacters().size(); i++){

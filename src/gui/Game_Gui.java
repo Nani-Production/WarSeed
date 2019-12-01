@@ -17,7 +17,7 @@ import javafx.stage.WindowEvent;
 public class Game_Gui {
 
     private final double width = 1280, height = 720;
-    private final double mapWidth = width*3, mapHeight = height*3;
+    private double mapWidth = width*3, mapHeight = height*3;
     private static Draw_Main dm;
     private static GraphicsContext gc_main;
     private Canvas canvas_main;
@@ -32,6 +32,16 @@ public class Game_Gui {
     public void init (Stage stage) {
         dm = new Draw_Main();
         this.stage = stage;
+
+        if (ImageLoader.map.getWidth() > width && ImageLoader.map.getHeight() > height){
+            mapWidth = ImageLoader.map.getWidth();
+            mapHeight = ImageLoader.map.getHeight();
+        } else {
+            mapWidth = width*2;
+            mapHeight = height*2;
+        }
+        System.out.println("lol: "+ImageLoader.map.getWidth()+"    "+ImageLoader.map.getHeight());
+
         Camera.setMapSize(mapWidth, mapHeight);
         Camera.setStartCoordinates(0, 0);
     }
@@ -107,6 +117,14 @@ public class Game_Gui {
 
     public double getHeight() {
         return height;
+    }
+
+    public double getMapWidth() {
+        return mapWidth;
+    }
+
+    public double getMapHeight() {
+        return mapHeight;
     }
 
     public void close(){
