@@ -23,7 +23,6 @@ public class Camera {
                 camX += movementSpeedX;
             }
         }
-        System.out.println("x: "+camX+"   y: "+camY);
     }
 
     //move

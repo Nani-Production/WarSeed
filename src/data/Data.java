@@ -1,8 +1,6 @@
 package data;
 
 import player.Player;
-import units.Building;
-import units.Character;
 
 import java.util.ArrayList;
 
@@ -62,21 +60,6 @@ public class Data { //Enthält alle Daten vom Spielgeschehen
             x = substring[k].substring(index1, index2);
             y = substring[k].substring(index2+3);
 
-            if (owner == Player.getUsername()){
-                for (int j = 0; j < Player.getBuildings().size(); j++){
-                    if (Player.getBuildings().get(j).getName() == name && Player.getBuildings().get(j).getName() != null){
-                        //Player.getBuildings().set(j, new Building(Double.parseDouble(x), Double.parseDouble(y), 64, 64, Double.parseDouble(hp), type, owner));
-                        Player.getBuildings().set(j, new Building(Double.parseDouble(x), Double.parseDouble(y), Double.parseDouble(hp), type, name, owner));
-                    } else if (Player.getBuildings().get(j).getName() == null){
-                        //TODO Lösung finden
-                        if (Player.getBuildings().get(j).getType() == type && Player.getBuildings().get(j).getX() == Double.parseDouble(x) && Player.getBuildings().get(j).getY() == Double.parseDouble(y)){
-                            //Player.getBuildings().set(j, new Building(Double.parseDouble(x), Double.parseDouble(y), 64, 64, Double.parseDouble(hp), type, owner));
-                            Player.getBuildings().set(j, new Building(Double.parseDouble(x), Double.parseDouble(y), Double.parseDouble(hp), type, name, owner));
-                        }
-                    }
-                }
-            }
-
             ArrayList<String> list = new ArrayList<>();
             list.add("building");
             list.add(owner);
@@ -85,6 +68,21 @@ public class Data { //Enthält alle Daten vom Spielgeschehen
             list.add(name);
             list.add(x);
             list.add(y);
+
+            if (owner == Player.getUsername()){
+                for (int j = 0; j < Player.getBuildings().size(); j++){
+                    if (Player.getBuildings().get(j).get(4) == name && Player.getBuildings().get(j).get(4) != null){
+                        //Player.getBuildings().set(j, new Building(Double.parseDouble(x), Double.parseDouble(y), 64, 64, Double.parseDouble(hp), type, owner));
+                        Player.getBuildings().set(j, list);
+                    } else if (Player.getBuildings().get(j).get(4) == null){
+                        //TODO Lösung finden
+                        if (Player.getBuildings().get(j).get(2) == type && Player.getBuildings().get(j).get(5) == x && Player.getBuildings().get(j).get(6) == y){
+                            Player.getBuildings().set(j, list);
+                        }
+                    }
+                }
+            }
+
             if (!doubling(list)){
                 if (!actualising(list)){
                     listofLists.add(list);
@@ -138,21 +136,6 @@ public class Data { //Enthält alle Daten vom Spielgeschehen
             moveX = substring[k].substring(index1, index2);
             moveY = substring[k].substring(index2+3);
 
-            if (owner == Player.getUsername()){
-                for (int j = 0; j < Player.getCharacters().size(); j++){
-                    if (Player.getCharacters().get(j).getName() == name && Player.getCharacters().get(j).getName() != null){
-                        //Player.getCharacters().set(j, new Character(Double.parseDouble(x), Double.parseDouble(y), 64, 64, Double.parseDouble(hp), type, owner, 15, 25, 50, 4));
-                        Player.getCharacters().set(j, new Character(Double.parseDouble(x), Double.parseDouble(y), Double.parseDouble(hp), type, name, owner, Double.parseDouble(moveX), Double.parseDouble(moveY)));
-                    } else if (Player.getCharacters().get(j).getName() == null){
-                        //TODO Lösung finden
-                        if (Player.getCharacters().get(j).getType() == type && Player.getCharacters().get(j).getX() == Double.parseDouble(x) && Player.getCharacters().get(j).getY() == Double.parseDouble(y)){
-                            //Player.getBuildings().set(j, new Building(Double.parseDouble(x), Double.parseDouble(y), 64, 64, Double.parseDouble(hp), type, owner));
-                            Player.getCharacters().set(j, new Character(Double.parseDouble(x), Double.parseDouble(y), Double.parseDouble(hp), type, name, owner, Double.parseDouble(moveX), Double.parseDouble(moveY)));
-                        }
-                    }
-                }
-            }
-
             ArrayList<String> list = new ArrayList<>();
             list.add("character");
             list.add(owner);
@@ -164,6 +147,19 @@ public class Data { //Enthält alle Daten vom Spielgeschehen
             list.add(moveX);
             list.add(moveY);
 
+            if (owner == Player.getUsername()){
+                for (int j = 0; j < Player.getCharacters().size(); j++){
+                    if (Player.getCharacters().get(j).get(4) == name && Player.getCharacters().get(j).get(4) != null){
+                        Player.getCharacters().set(j, list);
+                    } else if (Player.getCharacters().get(j).get(4) == null){
+                        //TODO Lösung finden
+                        if (Player.getCharacters().get(j).get(2) == type && Player.getCharacters().get(j).get(5) == x && Player.getCharacters().get(j).get(6) == y){
+                            Player.getCharacters().set(j, list);
+                        }
+                    }
+                }
+            }
+
             if (!doubling(list)){
                 if (!actualising(list)){
                     listofLists.add(list);
@@ -172,12 +168,12 @@ public class Data { //Enthält alle Daten vom Spielgeschehen
         }
 
         for (int j = 0; j < Player.getCharacters().size(); j++){
-            if (Player.getCharacters().get(j).getName() == null){
+            if (Player.getCharacters().get(j).get(4) == null){
                 System.out.println("scheisse der character ist null: "+j);
             }
         }
         for (int j = 0; j < Player.getBuildings().size(); j++){
-            if (Player.getBuildings().get(j).getName() == null){
+            if (Player.getBuildings().get(j).get(4) == null){
                 System.out.println("scheisse dat building ist null: "+j);
             }
         }
@@ -213,32 +209,5 @@ public class Data { //Enthält alle Daten vom Spielgeschehen
             }
         }
         return actualising;
-    }
-    public void addData(Building b){
-        ArrayList <String> newData = new ArrayList<>();
-        newData.add("building");
-        newData.add(b.getOwner());
-        newData.add(b.getType());
-        newData.add(b.getName());
-        newData.add(Double.toString(b.getHp()));
-        newData.add(Double.toString(b.getX()));
-        newData.add(Double.toString(b.getY()));
-        System.out.println("Building Data Add"+newData.size());
-        listofLists.add(newData);
-    }
-
-    public void addData(Character c){
-        ArrayList <String> newData = new ArrayList<>();
-        newData.add("character");
-        newData.add(c.getOwner());
-        newData.add(c.getType());
-        newData.add(Double.toString(c.getHp()));
-        newData.add(c.getName());
-        newData.add(Double.toString(c.getX()));
-        newData.add(Double.toString(c.getY()));
-        newData.add(Double.toString(c.getMoveX()));
-        newData.add(Double.toString(c.getMoveY()));
-        System.out.println("Character Data Add"+newData.size());
-        listofLists.add(newData);
     }
 }

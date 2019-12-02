@@ -53,26 +53,26 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
     private void sendData(){
         //send Data of own Position
 
-        try{
+        try{ //Die eigene Einheiten wird geschickt
             writer.write("//buildings"+Player.getBuildings().size()+"#");
             for (int i = 0; i < Player.getBuildings().size(); i++){
-                writer.write("//"+Player.getBuildings().get(i).getOwner()+
-                        "+++"+Player.getBuildings().get(i).getType()+
-                        "+++"+Player.getBuildings().get(i).getHp()+
-                        "+++"+Player.getBuildings().get(i).getName()+
-                        "+++"+Player.getBuildings().get(i).getX()+
-                        "+++"+Player.getBuildings().get(i).getY()+"*");
+                writer.write("//"+Player.getBuildings().get(i).get(1)+
+                        "+++"+Player.getBuildings().get(i).get(2)+
+                        "+++"+Player.getBuildings().get(i).get(3)+
+                        "+++"+Player.getBuildings().get(i).get(4)+
+                        "+++"+Player.getBuildings().get(i).get(5)+
+                        "+++"+Player.getBuildings().get(i).get(6)+"*");
             }
             writer.write("//characters"+Player.getCharacters().size()+"#");
             for (int i = 0; i < Player.getCharacters().size(); i++){
-                writer.write("+++"+Player.getCharacters().get(i).getOwner()+
-                        "+++"+Player.getCharacters().get(i).getType()+
-                        "+++"+Player.getCharacters().get(i).getHp()+
-                        "+++"+Player.getCharacters().get(i).getName()+
-                        "+++"+Player.getCharacters().get(i).getX()+
-                        "+++"+Player.getCharacters().get(i).getY()+
-                        "+++"+Player.getCharacters().get(i).getMoveX()+
-                        "+++"+Player.getCharacters().get(i).getMoveY()+"*");
+                writer.write("+++"+Player.getCharacters().get(i).get(1)+
+                        "+++"+Player.getCharacters().get(i).get(2)+
+                        "+++"+Player.getCharacters().get(i).get(3)+
+                        "+++"+Player.getCharacters().get(i).get(4)+
+                        "+++"+Player.getCharacters().get(i).get(5)+
+                        "+++"+Player.getCharacters().get(i).get(6)+
+                        "+++"+Player.getCharacters().get(i).get(7)+
+                        "+++"+Player.getCharacters().get(i).get(8)+"*");
             }
             writer.write("//end");
             //System.out.println("sent data");

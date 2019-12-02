@@ -1,6 +1,8 @@
 package gui;
 
 import javafx.event.ActionEvent;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 public class Button extends Interface{
@@ -25,6 +27,26 @@ public class Button extends Interface{
         super(x, y, width, height);
         this.text = text;
         this.font = font;
+    }
+
+    public void draw (GraphicsContext g){
+        g.setStroke(Color.GREEN);
+        if (isHover){
+            g.setStroke(Color.AQUA);
+        }
+        g.strokeLine(x ,y, x+width, y);
+        g.strokeLine(x+width, y, x+width, y+height);
+        g.strokeLine(x+width, y+height, x, y+height);
+        g.strokeLine(x, y+height, x, y);
+        g.strokeText(text, x, y+64, width);
+    }
+
+    public void checkHover (double mx, double my){
+        if (mx > x && mx <= x+width && my > y && my <= y+height){
+            isHover = true;
+        } else {
+            isHover = false;
+        }
     }
 
     public String getText() {

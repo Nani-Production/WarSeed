@@ -26,6 +26,8 @@ public class Game_Gui {
 
     private Minimap minimap;
     private Unitinfo unitinfo;
+    private Button connect, start;
+    private TextField iptf, nametf;
 
     public void init (Stage stage) {
         dm = new Draw_Main();
@@ -46,6 +48,10 @@ public class Game_Gui {
     public void create (){
         minimap = new Minimap(width-300, height-300, 300, 300);
         unitinfo = new Unitinfo(0, height-350, 250, 350);
+        connect = new Button((width/2)-(50./2.), (height/2), 150, 70, "connect");
+        start = new Button((width/2)-(50./2.), (height/2)+ 100, 150, 70, "start");
+        iptf = new TextField(width*(1./12.), (height/2)-150, (width*(1./3.))-20, 70);
+        nametf = new TextField((width*(2./3.)), (height/2)-150, (width*(1./3.))-20, 70, "text");
 
         canvas_main = new Canvas(width, height);
         root = new StackPane();
@@ -55,7 +61,7 @@ public class Game_Gui {
         root.getChildren().add(canvas_main);
         scene = new Scene(root, width, height);
 
-        scene.setOnKeyPressed(new KeyPressed());
+        scene.setOnKeyPressed(new KeyPressed(this));
         scene.setOnKeyReleased(new KeyReleased());
         scene.setOnMouseMoved(new MouseMoved(this));
         scene.setOnMousePressed(new MousePressed(this));
@@ -122,6 +128,38 @@ public class Game_Gui {
 
     public double getMapHeight() {
         return mapHeight;
+    }
+
+    public Button getConnect() {
+        return connect;
+    }
+
+    public void setConnect(Button connect) {
+        this.connect = connect;
+    }
+
+    public Button getStart() {
+        return start;
+    }
+
+    public void setStart(Button start) {
+        this.start = start;
+    }
+
+    public TextField getIptf() {
+        return iptf;
+    }
+
+    public void setIptf(TextField iptf) {
+        this.iptf = iptf;
+    }
+
+    public TextField getNametf() {
+        return nametf;
+    }
+
+    public void setNametf(TextField nametf) {
+        this.nametf = nametf;
     }
 
     public void close(){

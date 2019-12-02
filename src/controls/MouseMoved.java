@@ -20,7 +20,12 @@ public class MouseMoved implements EventHandler<MouseEvent> {
     @Override
     public void handle(MouseEvent mouseEvent) {
         double x = mouseEvent.getX(), y = mouseEvent.getY();
-        if (Gamestate.state == Gamestate_e.ingame){
+        if (Gamestate.state == Gamestate_e.menu){
+            gui.getConnect().checkHover(x, y);
+            gui.getStart().checkHover(x, y);
+            gui.getIptf().checkHover(x, y);
+            gui.getNametf().checkHover(x, y);
+        } else if (Gamestate.state == Gamestate_e.ingame){
 
             if (!(x > gui.getWidth()*frame1 && x <= gui.getWidth()-(gui.getWidth()*frame1) && y > gui.getHeight()*frame1 && y <= gui.getHeight()-(gui.getHeight()*frame1)) && x > 0 && x <= gui.getWidth() && y > 0 && y <= gui.getHeight()){
                 speed = 1; //langsam

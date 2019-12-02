@@ -7,12 +7,15 @@ import data.Data;
 import gui.Game_Gui;
 import gui.Launcher_Gui;
 import javafx.application.Application;
+import javafx.print.PageLayout;
 import javafx.stage.Stage;
 import loop.GameLoop;
 import loop.RenderLoop;
 import player.Player;
 import units.Building;
 import units.Character;
+
+import java.util.ArrayList;
 
 public class Main extends Application {
 
@@ -26,12 +29,76 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         startGame(primaryStage);
-        Player.getBuildings().add(new Building(Camera.getCamX()+200, Camera.getCamY()+150, 64, 64, 50, "nexus1", Player.getUsername()));
-        Player.getBuildings().add(new Building(Camera.getCamX()+200, Camera.getCamY()+250, 64, 64, 50, "nexus2", Player.getUsername()));
-        Player.getCharacters().add(new Character(Camera.getCamX()+100, Camera.getCamY()+200, 64, 64, 30, "tank", Player.getUsername(), 13, 10, 5, 7));
-        Player.getCharacters().add(new Character(Camera.getCamX()+300, Camera.getCamY()+300, 64, 64, 35, "plane", Player.getUsername(), 15, 12, 6, 8));
+        addsomeFigures();
         //launcher.init(primaryStage);
         //launcher.create();
+    }
+
+    public static void addsomeFigures() { //Einheiten werden hinzugefügt
+        Player.setUsername("UN");
+        ArrayList<String> list = new ArrayList<>();
+        list.add("building");
+        list.add("UN");
+        list.add("nexus");
+        list.add("50");
+        list.add("nexus1");
+        list.add(Double.toString(Camera.getCamX()+200));
+        list.add(Double.toString(Camera.getCamY()+150));
+        Player.getBuildings().add(list);
+        list = new ArrayList<>();
+
+        list.add("building");
+        list.add("UN");
+        list.add("nexus");
+        list.add("50");
+        list.add("nexus2");
+        list.add(Double.toString(Camera.getCamX()+200));
+        list.add(Double.toString(Camera.getCamY()+250));
+        Player.getBuildings().add(list);
+        list = new ArrayList<>();
+
+        list.add("character");
+        list.add("UN");
+        list.add("tank");
+        list.add("30");
+        list.add("tank1");
+        list.add(Double.toString(Camera.getCamX()+100));
+        list.add(Double.toString(Camera.getCamY()+200));
+        list.add(null);
+        list.add(null);
+        Player.getCharacters().add(list);
+        list = new ArrayList<>();
+
+        list.add("character");
+        list.add("UN");
+        list.add("plane");
+        list.add("30");
+        list.add("plane1");
+        list.add(Double.toString(Camera.getCamX()+300));
+        list.add(Double.toString(Camera.getCamY()+300));
+        list.add(null);
+        list.add(null);
+        Player.getCharacters().add(list);
+        list = new ArrayList<>();
+
+        for (int i = 0; i < Player.getBuildings().size(); i++){ //chas und builsings werden der Datenbank hinzugefügt (übernimmt eigentlich die Server-Client Kommunikation)
+            Data.getListofLists().add(Player.getBuildings().get(i));
+        }
+        for (int i = 0; i < Player.getCharacters().size(); i++){
+            Data.getListofLists().add(Player.getCharacters().get(i));
+        }
+
+        list.add("character");
+        list.add("Enemy");
+        list.add("tank");
+        list.add("30");
+        list.add("tank2");
+        list.add(Double.toString(Camera.getCamX()+400));
+        list.add(Double.toString(Camera.getCamY()+400));
+        list.add(null);
+        list.add(null);
+        Data.getListofLists().add(list);
+        list = new ArrayList<>();
     }
 
     public static void main(String[] args) {
