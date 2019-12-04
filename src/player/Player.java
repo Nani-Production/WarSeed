@@ -10,6 +10,32 @@ public class Player {
     private static String username;
     private static ArrayList <ArrayList<String>> buildings = new ArrayList<>();
     private static ArrayList <ArrayList<String>> characters = new ArrayList<>();
+    private static boolean ready = false, gameRunning = false, messageSent= false;
+
+    public static boolean isMessageSent() {
+        return messageSent;
+    }
+
+    public static void setMessageSent(boolean messageSent) {
+        Player.messageSent = messageSent;
+    }
+
+    public static boolean isGameRunning() {
+        return gameRunning;
+    }
+
+    public static void setGameRunning(boolean gameRunning) {
+        Player.gameRunning = gameRunning;
+    }
+
+    public static boolean isReady() {
+        return ready;
+    }
+
+    public static void setReady(boolean ready) {
+        Player.ready = ready;
+        messageSent = false;
+    }
 
     public static void addBuilding(ArrayList<String> b){
         buildings.add(b);

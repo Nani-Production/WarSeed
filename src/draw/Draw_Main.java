@@ -11,6 +11,8 @@ import javafx.scene.text.Font;
 import player.Player;
 
 public class Draw_Main {
+    public static double frame1, frame2, frame3;
+
     public void draw(GraphicsContext g, Game_Gui gui){
         try {
             //g.drawImage(ImageLoader.image, 0, 0, 1000, 1000);
@@ -20,7 +22,7 @@ public class Draw_Main {
                 g.setFill(Color.BLACK);
                 g.fillRect(0, 0, gui.getWidth(), gui.getHeight());
                 gui.getConnect().draw(g);
-                gui.getStart().draw(g);
+                gui.getReady().draw(g);
                 gui.getIptf().draw(g);
                 gui.getNametf().draw(g);
                 g.setStroke(Color.GREEN);
@@ -50,6 +52,13 @@ public class Draw_Main {
                 //Interface
                 gui.getMinimap().draw(g);
                 gui.getUnitinfo().draw(g);
+
+                //Die Maus movement Stufen
+                g.setStroke(Color.LAVENDER);
+                g.strokeRect(gui.getWidth()*frame1, gui.getHeight()*frame1, gui.getWidth()-(2*(gui.getWidth()*frame1)), gui.getHeight()-(2*(gui.getHeight()*frame1)));
+                g.strokeRect(gui.getWidth()*frame2, gui.getHeight()*frame2, gui.getWidth()-(2*(gui.getWidth()*frame2)), gui.getHeight()-(2*(gui.getHeight()*frame2)));
+                g.strokeRect(gui.getWidth()*frame3, gui.getHeight()*frame3, gui.getWidth()-(2*(gui.getWidth()*frame3)), gui.getHeight()-(2*(gui.getHeight()*frame3)));
+
                 //Pause
                 if (Gamestate.state == Gamestate_e.pause) {
 

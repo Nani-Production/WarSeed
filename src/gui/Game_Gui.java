@@ -8,9 +8,15 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import player.Player;
+import sample.Main;
+
+import java.util.Optional;
 
 public class Game_Gui {
 
@@ -26,7 +32,7 @@ public class Game_Gui {
 
     private Minimap minimap;
     private Unitinfo unitinfo;
-    private Button connect, start;
+    private Button connect, ready;
     private TextField iptf, nametf;
 
     public void init (Stage stage) {
@@ -48,10 +54,12 @@ public class Game_Gui {
     public void create (){
         minimap = new Minimap(width-300, height-300, 300, 300);
         unitinfo = new Unitinfo(0, height-350, 250, 350);
-        connect = new Button((width/2)-(50./2.), (height/2), 150, 70, "connect");
-        start = new Button((width/2)-(50./2.), (height/2)+ 100, 150, 70, "start");
+        connect = new Button((width/2)-(50./2.), (height/2), 150, 70, "connect", this);
+        ready = new Button((width/2)-(50./2.), (height/2)+ 100, 150, 70, "ready", this);
         iptf = new TextField(width*(1./12.), (height/2)-150, (width*(1./3.))-20, 70);
         nametf = new TextField((width*(2./3.)), (height/2)-150, (width*(1./3.))-20, 70, "text");
+        connect.setDisabled(false);
+        ready.setDisabled(true);
 
         canvas_main = new Canvas(width, height);
         root = new StackPane();
@@ -60,7 +68,6 @@ public class Game_Gui {
 
         root.getChildren().add(canvas_main);
         scene = new Scene(root, width, height);
-
         scene.setOnKeyPressed(new KeyPressed(this));
         scene.setOnKeyReleased(new KeyReleased());
         scene.setOnMouseMoved(new MouseMoved(this));
@@ -80,6 +87,90 @@ public class Game_Gui {
                 System.exit(0);
             }
         });
+    }
+
+    private void bConnectAction(){
+        String ip = null, username = null;
+
+        //ip
+        ip = iptf.getText();
+        while (ip.equals("") || ip == null){
+            ip = ipDialogue();
+        }
+        while (!checkIPSyntax(ip)){
+            ip = ipDialogue();
+        }
+
+        //username
+        username = nametf.getText();
+        while (username.equals("") || username == null){
+            username = nameDialogue();
+        }
+
+        Main.startConnection(ip, username);
+        Player.setUsername(username);
+    }
+
+
+    private String ipDialogue (){
+        TextInputDialog dialog1 = new TextInputDialog("127.0.0.1");
+        dialog1.setTitle("IP needed");
+        dialog1.setHeaderText("To connect you need a target ip");
+        dialog1.setContentText("Please enter the ip-address:");
+
+        Optional<String> result1 = dialog1.showAndWait();
+        if (result1.isPresent()){
+            return result1.get();
+        } else {
+            return null;
+        }
+    }
+
+    private String nameDialogue(){
+        TextInputDialog dialog2 = new TextInputDialog("lol");
+        dialog2.setTitle("username needed");
+        dialog2.setHeaderText("To connect, you need a Username");
+        dialog2.setContentText("Please enter your name:");
+
+        Optional<String> result2 = dialog2.showAndWait();
+        if (result2.isPresent()){
+            return result2.get();
+        } else {
+            return null;
+        }
+    }
+
+    public void connectedDialogue(){
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Information Dialog");
+                alert.setHeaderText(null);
+                alert.setContentText("You have a connection to the Server!");
+
+                alert.showAndWait();
+            }
+        });
+    }
+
+    private boolean checkIPSyntax(String ip){
+        //Check if the String is a valid IP address
+        return true;
+    }
+
+    public void buttonAction(Button b){
+        if (b.getText() != null && b.getText() != ""){
+            if (b.getText() == "connect"){
+                bConnectAction();
+            } else if (b.getText() == "ready"){
+                Player.setReady(true);
+                ready.setText("not ready");
+            } else if (b.getText() == "not ready"){
+                Player.setReady(false);
+                ready.setText("ready");
+            }
+        }
     }
 
     public Minimap getMinimap() {
@@ -138,12 +229,12 @@ public class Game_Gui {
         this.connect = connect;
     }
 
-    public Button getStart() {
-        return start;
+    public Button getReady() {
+        return ready;
     }
 
-    public void setStart(Button start) {
-        this.start = start;
+    public void setReady(Button ready) {
+        this.ready = ready;
     }
 
     public TextField getIptf() {

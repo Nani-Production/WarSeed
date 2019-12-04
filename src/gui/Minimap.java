@@ -34,6 +34,14 @@ public class Minimap extends Interface {
         return null;
     }
 
+    public double getWidth(){
+        return width;
+    }
+
+    public double getHeight(){
+        return height;
+    }
+
     public double getX() {
         return x;
     }
@@ -50,16 +58,8 @@ public class Minimap extends Interface {
         this.y = y;
     }
 
-    public double getWidth() {
-        return width;
-    }
-
     public void setWidth(double width) {
         this.width = width;
-    }
-
-    public double getHeight() {
-        return height;
     }
 
     public void setHeight(double height) {

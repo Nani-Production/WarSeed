@@ -1,32 +1,35 @@
 package gui;
 
-import javafx.event.ActionEvent;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
-public class Button extends Interface{
+public class Button extends Interface {
     private String text;
     private Font font;
-    private boolean isHover;
-    private ActionEvent hover;
+    private boolean isHover, isDisabled;
+    private Game_Gui gui;
 
-    public Button(double x, double y, double width, double height) {
+    public Button(double x, double y, double width, double height, Game_Gui gui) {
         super(x, y, width, height);
         this.text = "";
         this.font = Font.getDefault();
+        this.isDisabled = false;
     }
 
-    public Button(double x, double y, double width, double height, String text) {
+    public Button(double x, double y, double width, double height, String text, Game_Gui gui) {
         super(x, y, width, height);
         this.text = text;
         this.font = Font.getDefault();
+        this.isDisabled = false;
+        this.gui = gui;
     }
 
-    public Button(double x, double y, double width, double height, String text, Font font) {
+    public Button(double x, double y, double width, double height, String text, Font font, Game_Gui gui) {
         super(x, y, width, height);
         this.text = text;
         this.font = font;
+        this.gui = gui;
     }
 
     public void draw (GraphicsContext g){
@@ -42,11 +45,50 @@ public class Button extends Interface{
     }
 
     public void checkHover (double mx, double my){
-        if (mx > x && mx <= x+width && my > y && my <= y+height){
-            isHover = true;
-        } else {
+        if (!isDisabled){
+            if (mx > x && mx <= x+width && my > y && my <= y+height){
+                isHover = true;
+            } else {
+                isHover = false;
+            }
+        }
+    }
+
+    public void checkClick (double mx, double my){
+        if (!isDisabled){
+            if (mx > x && mx <= x+width && my > y && my <= y+height){
+                gui.buttonAction(this);
+            } else {
+                isHover = false;
+            }
+        }
+    }
+
+    public boolean isHover() {
+        return isHover;
+    }
+
+    public void setHover(boolean hover) {
+        isHover = hover;
+    }
+
+    public boolean isDisabled() {
+        return isDisabled;
+    }
+
+    public void setDisabled(boolean disabled) {
+        isDisabled = disabled;
+        if (disabled){
             isHover = false;
         }
+    }
+
+    public double getWidth() {
+        return width;
+    }
+
+    public double getHeight() {
+        return height;
     }
 
     public String getText() {
@@ -81,35 +123,11 @@ public class Button extends Interface{
         this.y = y;
     }
 
-    public double getWidth() {
-        return width;
-    }
-
     public void setWidth(double width) {
         this.width = width;
     }
 
-    public double getHeight() {
-        return height;
-    }
-
     public void setHeight(double height) {
         this.height = height;
-    }
-
-    public boolean isHover() {
-        return isHover;
-    }
-
-    public void setHover(boolean hover) {
-        isHover = hover;
-    }
-
-    public ActionEvent getHover() {
-        return hover;
-    }
-
-    public void setHover(ActionEvent hover) {
-        this.hover = hover;
     }
 }

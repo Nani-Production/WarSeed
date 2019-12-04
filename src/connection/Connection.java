@@ -1,11 +1,7 @@
 package connection;
 
-import controls.Camera;
-import gui.Launcher_Gui;
-import player.Player;
+import gui.Game_Gui;
 import sample.Main;
-import units.Building;
-import units.Character;
 
 import java.io.*;
 import java.net.ConnectException;
@@ -21,16 +17,17 @@ public class Connection implements Runnable { //Baut die Verbindung zwischen Cli
     private BufferedWriter writer;
     private InputStreamReader input;
     private BufferedReader reader;
-    private Launcher_Gui launcher;
+    private Game_Gui gui;
 
-    public Connection (String ip, String name, Launcher_Gui launcher){
+    public Connection (String ip, String name, Game_Gui gui){
         this.ip = ip;
         this.name = name;
-        this.launcher = launcher;
+        this.gui = gui;
     }
     @Override
     public void run() {
         try {
+            int timeout = 300;
             running = true;
             while (true){
                 while (running) {
@@ -54,9 +51,9 @@ public class Connection implements Runnable { //Baut die Verbindung zwischen Cli
                             writer.write(name);
                             writer.newLine();
                             writer.flush();
-                            launcher.connectedDialogue();
-                            Main.addsomeFigures();
-                            launcher.getbStart().setDisable(false);
+                            gui.connectedDialogue();
+                            gui.getConnect().setDisabled(true);
+                            gui.getReady().setDisabled(false);
                             try {
                                 Main.startDataTransfer();
                             } catch (Exception e){
@@ -64,6 +61,11 @@ public class Connection implements Runnable { //Baut die Verbindung zwischen Cli
                             }
                             running = false;
                         }
+                    }
+                    try {
+                        Main.getInfo().sleep(timeout);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
                 }
             }
@@ -101,8 +103,8 @@ public class Connection implements Runnable { //Baut die Verbindung zwischen Cli
     }
 
     public void disconnect(){
-        launcher.getbStart().setDisable(true);
-        launcher.getbConnect().setDisable(false);
+        //gui.getbStart().setDisable(true);
+        //gui.getbConnect().setDisable(false);
         Main.closeGame();
     }
 }

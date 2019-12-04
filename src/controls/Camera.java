@@ -27,23 +27,19 @@ public class Camera {
 
     //move
     public static void moveRight(double speed){
-        System.out.println("moveright");
         movementSpeedX = speed;
         right = true;
     }
     public static void moveLeft(double speed){
-        System.out.println("moveleft");
         movementSpeedX = -speed;
         left = true;
     }
 
     public static void moveUp(double speed){
-        System.out.println("moveup");
         movementSpeedY = -speed;
         up = true;
     }
     public static void moveDown(double speed){
-        System.out.println("movedown");
         movementSpeedY = speed;
         down = true;
     }

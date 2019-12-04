@@ -21,14 +21,8 @@ public class MousePressed implements EventHandler<MouseEvent> {
         if (Gamestate.state == Gamestate_e.menu){
             if (mouseEvent.isPrimaryButtonDown()){
                 double x = mouseEvent.getX(), y = mouseEvent.getY();
-                if (gui.getConnect().isHover()){
-                    //Connect Content
-                    System.out.println("looool");
-                }
-                if (gui.getStart().isHover()){
-                    //Start game Content
-                    System.out.println("Auch looool");
-                }
+                gui.getConnect().checkClick(x, y);
+                gui.getReady().checkClick(x, y);
                 gui.getIptf().checkClick(x, y);
                 gui.getNametf().checkClick(x, y);
             }
@@ -59,8 +53,8 @@ public class MousePressed implements EventHandler<MouseEvent> {
                     //Dann angrifffunktion ausführen? bzw wenn nicht in Range, dann dorthin bewegen
 
                     if (!enemy && Player.getSelectedUnit() != null && Player.getSelectedUnit().get(4).equals("character")){
-                        Player.getSelectedUnit().set(7, Double.toString(mouseEvent.getX()+Camera.getCamX()));
-                        Player.getSelectedUnit().set(8, Double.toString(mouseEvent.getY()+Camera.getCamY()));
+                        Player.getSelectedUnit().set(5, Double.toString(mouseEvent.getX()+Camera.getCamX()));
+                        Player.getSelectedUnit().set(6, Double.toString(mouseEvent.getY()+Camera.getCamY()));
                     }
                 }
             }

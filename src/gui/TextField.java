@@ -13,16 +13,16 @@ public class TextField extends Interface {
 
     public TextField(double x, double y, double width, double height) {
         super(x, y, width, height);
-        isSelected = false;
-        isHover = false;
-        text = "";
+        this.isSelected = false;
+        this.isHover = false;
+        this.text = "";
     }
 
     public TextField(double x, double y, double width, double height, String text) {
         super(x, y, width, height);
         this.text = text;
-        isSelected = false;
-        isHover = false;
+        this.isSelected = false;
+        this.isHover = false;
     }
 
     public void draw (GraphicsContext g){
@@ -118,19 +118,19 @@ public class TextField extends Interface {
         this.text = text;
     }
 
-    public boolean isSelected() {
-        return isSelected;
-    }
-
-    public void setSelected(boolean selected) {
-        isSelected = selected;
-    }
-
     public boolean isHover() {
         return isHover;
     }
 
     public void setHover(boolean hover) {
         isHover = hover;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 }
