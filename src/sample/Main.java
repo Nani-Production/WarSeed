@@ -24,7 +24,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Gamestate.state = Gamestate_e.ingame;
         gui.init(primaryStage);
         startWindow();
         if (Gamestate.state == Gamestate_e.ingame){
@@ -48,6 +47,7 @@ public class Main extends Application {
     }
 
     public static void startGame(){
+        System.out.println("start Game");
         Player.setGameRunning(true);
         Player.setReady(false);
         Gamestate.state = Gamestate_e.ingame;

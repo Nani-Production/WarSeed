@@ -10,7 +10,7 @@ public class Player {
     private static String username;
     private static ArrayList <ArrayList<String>> buildings = new ArrayList<>();
     private static ArrayList <ArrayList<String>> characters = new ArrayList<>();
-    private static boolean ready = false, gameRunning = false, messageSent= false;
+    private static boolean ready = false, gameRunning = false, messageSent= true;
 
     public static boolean isMessageSent() {
         return messageSent;

@@ -9,28 +9,30 @@ import java.util.ArrayList;
 
 public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den Server und empfängt Daten vom Server
     private Connection con;
-    private Data data;
-    private InputStreamReader input;
+    private Tube tube;
+    private Thread tubeThread;
     private OutputStreamWriter output;
-    private BufferedReader reader;
     private BufferedWriter writer;
     private boolean running = true, ping = false;
 
     public Data_Transfer(Connection connect) {
         this.con = connect;
+        tube = new Tube(con, this);
     }
 
     @Override
     public void run() {
         try {
+            System.out.println("Data_Transfer running");
             final int timeout = 200; //in ms
             while (!con.isConnected()){
                 System.out.println("no Connection found");
             }
-            input = new InputStreamReader(con.getSocket().getInputStream());
             output = new OutputStreamWriter(con.getSocket().getOutputStream());
-            reader = new BufferedReader(input);
             writer = new BufferedWriter(output);
+
+            tubeThread = new Thread(tube);
+            tubeThread.start();
 
             while (running){
                 //send and receive game data
@@ -49,12 +51,16 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
                             writer.write("//Ready//");
                             Player.setMessageSent(true);
                             System.out.println("sent ready");
+                            writer.newLine();
+                            writer.flush();
                         }
                     } else if (!Player.isReady() && !Player.isGameRunning()){
                         if (!Player.isMessageSent()){
                             writer.write("//notReady//");
                             Player.setMessageSent(true);
                             System.out.println("sent not ready");
+                            writer.newLine();
+                            writer.flush();
                         }
                 }
             }
@@ -69,6 +75,8 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
             try {
                 writer.write("pong");
                 ping = false;
+                writer.newLine();
+                writer.flush();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -105,27 +113,8 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
     }
 
     private void receiveData(){
-        try {
-            String line = con.getReader().readLine();
-            System.out.println("line: "+line);
-            if (line != null){
-                if (line.startsWith("//buildings")){ //Datensatz vom Client
-                    Data.addData(line);
-                } else if (line.startsWith("//command")) { //Command for Server
-
-                } else if (line.startsWith("//message")){ //Messsage for the chat
-
-                } else if (line.startsWith("//GameStarting//")) {
-                    Main.startGame();
-                } else if (line.startsWith("ping")) {
-                    ping = true;
-                } else {
-                    System.out.println("Error line of client has no use");
-                }
-            }
-            System.out.println("Datasize: "+Data.getListofLists().size());
-        } catch (IOException e) {
-            handleIOException(e);
+        for (int i = 0; i < tube.getBuffer().size(); i++){
+            Data.addData(tube.getBuffer().get(i));
         }
     }
 
@@ -146,8 +135,8 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
         }
     }
 
-    public BufferedReader getReader() {
-        return reader;
+    public void setPing(boolean ping) {
+        this.ping = ping;
     }
 
     public BufferedWriter getWriter() {
