@@ -1,15 +1,16 @@
 package gui;
 
+import draw.ImageLoader;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
-
-import java.util.Arrays;
+import javafx.scene.text.Font;
 
 public class TextField extends Interface {
     private String text;
     private boolean isSelected, isHover;
+    private Font font;
 
     public TextField(double x, double y, double width, double height) {
         super(x, y, width, height);
@@ -18,34 +19,32 @@ public class TextField extends Interface {
         this.text = "";
     }
 
-    public TextField(double x, double y, double width, double height, String text) {
+    public TextField(double x, double y, double width, double height, Font font, String text) {
         super(x, y, width, height);
         this.text = text;
         this.isSelected = false;
+        if (font == null){
+            this.font = new Font(64);
+        } else {
+            this.font = font;
+        }
         this.isHover = false;
     }
 
     public void draw (GraphicsContext g){
-        g.setStroke(Color.GREEN);
-        g.strokeText(text, x, y+64, width);
-        if (isHover){
-            g.setStroke(Color.AQUA);
-        }
+        g.setFont(font);
+        g.setFill(Color.GREEN);
+        g.setStroke(Color.DARKGREEN);
         if (isSelected){
-            g.setStroke(Color.YELLOW);
+            g.setFill(Color.YELLOW);
+            g.setStroke(Color.ORANGE);
+            g.setLineWidth(5);
+            g.strokeRect(x, y, width, height);
         }
-        g.strokeLine(x ,y, x+width, y);
-        g.strokeLine(x+width, y, x+width, y+height);
-        g.strokeLine(x+width, y+height, x, y+height);
-        g.strokeLine(x, y+height, x, y);
-    }
-
-    public void checkHover (double mx, double my){
-        if (mx > x && mx <= x+width && my > y && my <= y+height){
-            isHover = true;
-        } else {
-            isHover = false;
-        }
+        g.drawImage(ImageLoader.textfield, x, y, width, height);
+        g.setLineWidth(1);
+        g.fillText(text, x+(width*(1./10.)), y+font.getSize(), width-(width*(2*(1./10.))));
+        g.strokeText(text, x+(width*(1./10.)), y+font.getSize(), width-(width*(2*(1./10.))));
     }
 
     public void checkClick (double mx, double my){
@@ -84,12 +83,14 @@ public class TextField extends Interface {
                             System.exit(-1);
                         } else {
                             if (event.getCode() == KeyCode.valueOf(code)) {
-                                if (event.isShiftDown()){
-                                    text = text+code.toUpperCase();
-                                } else {
-                                    text = text+code.toLowerCase();
+                                if (text.length() < 21){
+                                    if (event.isShiftDown()){
+                                        text = text+code.toUpperCase();
+                                    } else {
+                                        text = text+code.toLowerCase();
+                                    }
+                                    keepLooping = false;
                                 }
-                                keepLooping = false;
                             }
                             if (keepLooping){
                                 byte[] b = code.getBytes();

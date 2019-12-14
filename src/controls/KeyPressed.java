@@ -10,7 +10,7 @@ import javafx.scene.input.KeyEvent;
 import java.util.EventListener;
 
 public class KeyPressed implements EventHandler<KeyEvent> {
-    private int camspeed = 2;
+    private int camspeed = 16;
     private Game_Gui gui;
 
     public KeyPressed(Game_Gui gui) {

@@ -3,6 +3,8 @@ package gui;
 import controls.*;
 import draw.Draw_Main;
 import draw.ImageLoader;
+import gamestate.Gamestate;
+import gamestate.Gamestate_e;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -11,6 +13,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import player.Player;
@@ -34,6 +37,7 @@ public class Game_Gui {
     private Unitinfo unitinfo;
     private Button connect, ready;
     private TextField iptf, nametf;
+    private Font font;
 
     public void init (Stage stage) {
         dm = new Draw_Main();
@@ -49,15 +53,25 @@ public class Game_Gui {
 
         Camera.setMapSize(mapWidth, mapHeight);
         Camera.setStartCoordinates(0, 0);
+
+        try {
+            //font = Font.loadFont(Game_Gui.class.getResource("/rsc/font.ttf").toString(), 64);
+            font = Font.loadFont(String.valueOf(ImageLoader.class.getResource("/rsc/font.ttf")), 64);
+        } catch (Exception e) {
+            e.printStackTrace();
+            font = new Font(64);
+        } finally {
+            System.out.println("font "+font);
+        }
     }
 
     public void create (){
-        minimap = new Minimap(width-300, height-300, 300, 300);
-        unitinfo = new Unitinfo(0, height-350, 250, 350);
-        connect = new Button((width/2)-(50./2.), (height/2), 150, 70, "connect", this);
-        ready = new Button((width/2)-(50./2.), (height/2)+ 100, 150, 70, "ready", this);
-        iptf = new TextField(width*(1./12.), (height/2)-150, (width*(1./3.))-20, 70);
-        nametf = new TextField((width*(2./3.)), (height/2)-150, (width*(1./3.))-20, 70, "text");
+        minimap =   new Minimap(width-300, height-300, 300, 300);
+        unitinfo =  new Unitinfo(0, height-350, 250, 350);
+        connect =   new Button((width/2)-(width*(3./50.)), (height/2), width*(15./128.), height*(8./72.), "connect", font, this);
+        ready =     new Button((width/2)-(width*(3./50.)), (height/2)+(height*(10./72.)), width*(15./128.), height*(8./72.), "ready", font, this);
+        iptf =      new TextField(width*(1./12.), (height/2)-(height*(15./72.)), (width*(1./3.)), height*(8./72.), font, "IP");
+        nametf =    new TextField(width*(7./12.), (height/2)-(height*(15./72.)), (width*(1./3.)), height*(8./72.), font, "Username");
         connect.setDisabled(false);
         ready.setDisabled(true);
 
@@ -89,26 +103,31 @@ public class Game_Gui {
         });
     }
 
-    private void bConnectAction(){
+    public void bConnectAction(){
         String ip = null, username = null;
 
-        //ip
-        ip = iptf.getText();
-        while (ip.equals("") || ip == null){
-            ip = ipDialogue();
-        }
-        while (!checkIPSyntax(ip)){
-            ip = ipDialogue();
-        }
+        try {
+            //ip
+            ip = iptf.getText();
+            while (ip == null || ip.equals("")){
+                ip = ipDialogue();
+            }
+            while (!checkIPSyntax(ip)){
+                ip = ipDialogue();
+            }
 
-        //username
-        username = nametf.getText();
-        while (username.equals("") || username == null){
-            username = nameDialogue();
-        }
+            //username
+            username = nametf.getText();
+            while (username == null || username.equals("")){
+                username = nameDialogue();
+            }
 
-        Main.startConnection(ip, username);
-        Player.setUsername(username);
+            Main.searchConnection(ip, username);
+            Player.setUsername(username);
+
+        } catch (NullPointerException e){
+            e.printStackTrace();
+        }
     }
 
 
@@ -253,7 +272,22 @@ public class Game_Gui {
         this.nametf = nametf;
     }
 
+    public Font getFont() {
+        return font;
+    }
+
+    public void setFont(Font font) {
+        this.font = font;
+    }
+
+    public void disconnect(){
+        Gamestate.state = Gamestate_e.reconnect;
+        //disconnect-fenster?
+        System.out.println("disconnected on gui");
+    }
+
     public void close(){
         Platform.exit();
+        System.exit(0);
     }
 }

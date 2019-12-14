@@ -9,7 +9,6 @@ import gamestate.Gamestate_e;
 import gui.Game_Gui;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import loop.GameLoop;
 import loop.RenderLoop;
 import player.Player;
 
@@ -18,9 +17,10 @@ import java.util.ArrayList;
 public class Main extends Application {
 
     private static Game_Gui gui = new Game_Gui();
-    private static Thread connect, info, loop = new Thread(new GameLoop()), render = new Thread(new RenderLoop(gui));
-    private static Connection c;
-    private static Data_Transfer dt;
+    private static Connection c = new Connection();
+    private static Data_Transfer dt = new Data_Transfer(c);
+    private static Thread connect = new Thread(c), info = new Thread(dt), render = new Thread(new RenderLoop(gui));
+
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -39,11 +39,6 @@ public class Main extends Application {
     public static void startWindow(){
         gui.create();
         render.start();
-        try {
-            render.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     public static void startGame(){
@@ -51,46 +46,35 @@ public class Main extends Application {
         Player.setGameRunning(true);
         Player.setReady(false);
         Gamestate.state = Gamestate_e.ingame;
-        loop.start();
     }
 
     public static void closeGame(){
         Player.setGameRunning(false);
-        try {
-            loop.sleep(1000);
-            render.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        loop = null;
         render = null;
         gui.close();
     }
 
-    public static void startConnection(String ip, String name) {
-        c = new Connection(ip, name, gui);
-        connect = new Thread(c);
+    public static void searchConnection(String ip, String name) {
+        //c = new Connection(ip, name, gui);
+        c.setRunning(true);
+        c.setConnected(false);
+        c.setIp(ip);
+        c.setName(name);
+        c.setGui(gui);
         connect.start();
     }
 
     public static void startDataTransfer(){
         addsomeFigures();
-        dt = new Data_Transfer(c);
-        info = new Thread(dt);
         info.start();
     }
 
-    public static void stopConnection() throws InterruptedException {
-        if (info != null){
-            dt.setRunning(false);
-            info.join();
-            info = null;
-        }
-        c.setRunning(false);
-        c.setSocket(null);
+    public static void stopDT(){
+        info = null;
+    }
+
+    public static void stopCon(){
         connect = null;
-        c = null;
-        System.out.println("successfully stopped connection");
     }
 
     private static void addsomeFigures() { //Einheiten werden hinzugefügt
@@ -118,25 +102,29 @@ public class Main extends Application {
 
         list.add("character");
         list.add("UN");
-        list.add("tank");
+        list.add("DD");
         list.add("30");
         list.add("tank1");
         list.add(Double.toString(Camera.getCamX()+100));
         list.add(Double.toString(Camera.getCamY()+200));
         list.add(null);
         list.add(null);
+        list.add("50");
+        list.add("true");
         Player.getCharacters().add(list);
         list = new ArrayList<>();
 
         list.add("character");
         list.add("UN");
-        list.add("plane");
+        list.add("SP");
         list.add("30");
-        list.add("plane1");
+        list.add("tank2");
         list.add(Double.toString(Camera.getCamX()+300));
         list.add(Double.toString(Camera.getCamY()+300));
         list.add(null);
         list.add(null);
+        list.add("170");
+        list.add("true");
         Player.getCharacters().add(list);
         list = new ArrayList<>();
 
@@ -156,6 +144,8 @@ public class Main extends Application {
         list.add(Double.toString(Camera.getCamY()+400));
         list.add(null);
         list.add(null);
+        list.add("255");
+        list.add("true");
         Data.getListofLists().add(list);
         list = new ArrayList<>();
     }

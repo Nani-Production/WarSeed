@@ -1,5 +1,8 @@
 package loop;
 
+import controls.Camera;
+import gamestate.Gamestate;
+import gamestate.Gamestate_e;
 import gui.Game_Gui;
 
 public class RenderLoop implements Runnable {
@@ -13,7 +16,7 @@ public class RenderLoop implements Runnable {
     @Override
     public void run() {
         long lastTime = System.nanoTime();
-        final double FPS = 20.0;
+        final double FPS = 60.0;
         double ns = 1000000000 / FPS;
         double deltaTime = 0;
 
@@ -25,9 +28,20 @@ public class RenderLoop implements Runnable {
 
             if (deltaTime >= 1) {
                 deltaTime = 0;
-                gui.getGc_main().clearRect(0, 0, gui.getWidth(), gui.getHeight());
-                gui.getDm().draw(gui.getGc_main(), gui);
+                try {
+                    gui.getGc_main().clearRect(0, 0, gui.getWidth(), gui.getHeight());
+                    gui.getDm().draw(gui.getGc_main(), gui);
+                    update();
+                } catch (NullPointerException e){
+                    e.printStackTrace();
+                }
             }
+        }
+    }
+
+    private void update(){
+        if (Gamestate.state == Gamestate_e.ingame) {
+            Camera.moveCam();
         }
     }
 }

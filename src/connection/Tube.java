@@ -1,6 +1,8 @@
 package connection;
 
 import data.Data;
+import gamestate.Gamestate;
+import gamestate.Gamestate_e;
 import player.Player;
 import sample.Main;
 
@@ -49,9 +51,15 @@ public class Tube implements Runnable{
     }
 
     private void handleIOException (IOException e){
-        if (e.toString().startsWith("java.net.SocketException: Connection reset by peer")){
-            con.setRunning(true);
-            //con.disconnect();
+        if (e.toString().startsWith("java.net.SocketException")) {
+            dt.setRunning(false);
+
+            if (Gamestate.state != Gamestate_e.reconnect){
+                Gamestate.lastState = Gamestate.state;
+            }
+            Gamestate.state = Gamestate_e.reconnect;
+
+            con.getGui().bConnectAction();
         } else {
             e.printStackTrace();
         }

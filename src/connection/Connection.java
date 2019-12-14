@@ -1,5 +1,7 @@
 package connection;
 
+import gamestate.Gamestate;
+import gamestate.Gamestate_e;
 import gui.Game_Gui;
 import sample.Main;
 
@@ -19,53 +21,53 @@ public class Connection implements Runnable { //Baut die Verbindung zwischen Cli
     private BufferedReader reader;
     private Game_Gui gui;
 
-    public Connection (String ip, String name, Game_Gui gui){
+    public Connection() {}
+
+    public Connection(String ip, String name, Game_Gui gui) {
         this.ip = ip;
         this.name = name;
         this.gui = gui;
     }
+
     @Override
     public void run() {
         try {
-            int timeout = 300;
             running = true;
-            while (true){
-                while (running) {
-                    while (socket == null || !socket.isConnected()) {
-                        connected = false;
-                        System.out.println("Searching for Connection...");
+            while (running) {
+                while (socket == null || !socket.isConnected()) {
+                    connected = false;
+                    System.out.println("Searching for Connection...");
+                    try {
+                        System.out.println("ip: "+ip+"  port: "+port);
+                        socket = new Socket(ip, port);
+                        //TODO braucht man socket.setKeepAlive(true); ???
+                    } catch (ConnectException e) {
+                        e.printStackTrace();
+                    }
+
+                    if (socket != null) {
+                        System.out.println("connected");
+                        connected = true;
+                        input = new InputStreamReader(socket.getInputStream());
+                        reader = new BufferedReader(input);
+                        output = new OutputStreamWriter(socket.getOutputStream());
+                        writer = new BufferedWriter(output);
+                        writer.write(name);
+                        writer.newLine();
+                        writer.flush();
+                        if (Gamestate.state == Gamestate_e.reconnect){
+                            Gamestate.state = Gamestate.lastState;
+                            Gamestate.lastState = Gamestate_e.reconnect;
+                        }
+                        gui.connectedDialogue();
+                        gui.getConnect().setDisabled(true);
+                        gui.getReady().setDisabled(false);
                         try {
-                            socket = new Socket(ip, port);
-                            //TODO braucht man socket.setKeepAlive(true); ???
-                        } catch (ConnectException e){
+                            Main.startDataTransfer();
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
-
-                        if (socket != null){
-                            System.out.println("connected");
-                            connected = true;
-                            input = new InputStreamReader(socket.getInputStream());
-                            reader = new BufferedReader(input);
-                            output = new OutputStreamWriter(socket.getOutputStream());
-                            writer = new BufferedWriter(output);
-                            writer.write(name);
-                            writer.newLine();
-                            writer.flush();
-                            gui.connectedDialogue();
-                            gui.getConnect().setDisabled(true);
-                            gui.getReady().setDisabled(false);
-                            try {
-                                Main.startDataTransfer();
-                            } catch (Exception e){
-                                e.printStackTrace();
-                            }
-                            running = false;
-                        }
-                    }
-                    try {
-                        Main.getInfo().sleep(timeout);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        running = false;
                     }
                 }
             }
@@ -102,9 +104,23 @@ public class Connection implements Runnable { //Baut die Verbindung zwischen Cli
         this.running = running;
     }
 
-    public void disconnect(){
-        //gui.getbStart().setDisable(true);
-        //gui.getbConnect().setDisable(false);
-        Main.closeGame();
+    public Game_Gui getGui() {
+        return gui;
+    }
+
+    public void setGui(Game_Gui gui) {
+        this.gui = gui;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

@@ -4,14 +4,28 @@ Tristan
 -
 
 Tobsy
--die Einheiten Objekte rausmachen -> Done
--launcher rausmachen -> Serverconnection im Menü
--
+-die Mapgenerierung machen
+-die generierte map zeichnen
+
+Robin
+-Siedlung pixeln
+-Textfeldbutton
+-Interface hintergrund
 
 Was noch gemacht werden muss:
--Die Interface elemente machen
--Die Kamerabewegung flüssiger machen
--!!!Design für Menü und Interface besprechen!!!
--Raussuchen, wie man Bilder auf einem GraphicsContext dreht
+-Einen Cooldown für Produktion und angriffe einsetzen
+-Serverfehler fixen (disconnect und der Gamestartbutton)
+-Client reconnect zum Server wiedererkennung (+ Timer für reconnect timeout)
+-Einheiten als Gruppe auswählen
+-Interfaceelemente (Unitinfo, minimap, pausemenu) erstellen
+-Performancefehler (kann man Threads irgendwo hineinverlagern?)
+-wincondition (wann ist das Ziel erreicht + Winbildschirm)
+-Einheiten um andere Einheiten herumnavigieren
+
+verschiebbare Punkte:
+-Ingamechat
 -Aussuchen von Einheiten (Vorauswahl)
--
+-Den Angle für die Bewegung berechnen lassen
+-balancing
+-passive effekte der Einheiten
+-Sound

@@ -1,5 +1,6 @@
 package gui;
 
+import draw.ImageLoader;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -28,20 +29,33 @@ public class Button extends Interface {
     public Button(double x, double y, double width, double height, String text, Font font, Game_Gui gui) {
         super(x, y, width, height);
         this.text = text;
-        this.font = font;
+        if (font == null){
+            this.font = new Font(64);
+        } else {
+            this.font = font;
+        }
         this.gui = gui;
     }
 
     public void draw (GraphicsContext g){
-        g.setStroke(Color.GREEN);
+        g.setFont(font);
         if (isHover){
-            g.setStroke(Color.AQUA);
+            g.setFill(Color.DARKBLUE);
+            g.setStroke(Color.BLUE);
+            g.setLineWidth(5);
+            g.strokeRect(x, y, width, height);
+        } else {
+            g.setFill(Color.GREEN);
+            g.setStroke(Color.DARKGREEN);
         }
-        g.strokeLine(x ,y, x+width, y);
-        g.strokeLine(x+width, y, x+width, y+height);
-        g.strokeLine(x+width, y+height, x, y+height);
-        g.strokeLine(x, y+height, x, y);
-        g.strokeText(text, x, y+64, width);
+        g.drawImage(ImageLoader.button, x, y, width, height);
+        g.setLineWidth(1);
+        g.fillText(text, x+(width*(1./10.)), y+64, width-(2*(width*(1./10.))));
+        g.strokeText(text, x+(width*(1./10.)), y+64, width-(2*(width*(1./10.))));
+        if (isDisabled){
+            g.setFill(new Color(0, 0, 0, 0.5));
+            g.fillRect(x, y, width, height);
+        }
     }
 
     public void checkHover (double mx, double my){

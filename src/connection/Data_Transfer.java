@@ -1,6 +1,8 @@
 package connection;
 
 import data.Data;
+import gamestate.Gamestate;
+import gamestate.Gamestate_e;
 import player.Player;
 import sample.Main;
 
@@ -36,6 +38,7 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
 
             while (running){
                 //send and receive game data
+                if (con.isConnected()){
                     sendData();
                     try {
                         Main.getInfo().sleep(timeout);
@@ -62,6 +65,7 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
                             writer.newLine();
                             writer.flush();
                         }
+                    }
                 }
             }
         } catch (IOException e) {
@@ -78,6 +82,7 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
                 writer.newLine();
                 writer.flush();
             } catch (IOException e) {
+                handleIOException(e);
                 e.printStackTrace();
             }
         }
@@ -101,7 +106,9 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
                             "+++"+Player.getCharacters().get(i).get(5)+
                             "+++"+Player.getCharacters().get(i).get(6)+
                             "+++"+Player.getCharacters().get(i).get(7)+
-                            "+++"+Player.getCharacters().get(i).get(8)+"*");
+                            "+++"+Player.getCharacters().get(i).get(8)+
+                            "+++"+Player.getCharacters().get(i).get(9)+
+                            "+++"+Player.getCharacters().get(i).get(10)+"*");
                 }
                 writer.write("//end");
                 writer.newLine();
@@ -126,10 +133,16 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
         this.running = running;
     }
 
-    private void handleIOException (IOException e){
-        if (e.toString().startsWith("java.net.SocketException: Connection reset by peer")){
-            con.setRunning(true);
-            //con.disconnect();
+    private void handleIOException (IOException e) {
+        if (e.toString().startsWith("java.net.SocketException")) {
+            running = false;
+
+            if (Gamestate.state != Gamestate_e.reconnect){
+                Gamestate.lastState = Gamestate.state;
+            }
+            Gamestate.state = Gamestate_e.reconnect;
+
+            con.getGui().bConnectAction();
         } else {
             e.printStackTrace();
         }

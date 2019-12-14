@@ -1,5 +1,6 @@
 package controls;
 
+import data.Data;
 import gamestate.Gamestate;
 import gamestate.Gamestate_e;
 import gui.Game_Gui;
@@ -52,9 +53,13 @@ public class MousePressed implements EventHandler<MouseEvent> {
                     //TODO Überprüfen, ob da eine gegnerische Einheit steht
                     //Dann angrifffunktion ausführen? bzw wenn nicht in Range, dann dorthin bewegen
 
-                    if (!enemy && Player.getSelectedUnit() != null && Player.getSelectedUnit().get(4).equals("character")){
-                        Player.getSelectedUnit().set(5, Double.toString(mouseEvent.getX()+Camera.getCamX()));
-                        Player.getSelectedUnit().set(6, Double.toString(mouseEvent.getY()+Camera.getCamY()));
+                    if (!enemy && Player.getSelectedUnit() != null && Player.getSelectedUnit().get(0).equals("character")){
+                        Player.getSelectedUnit().set(7, Double.toString(mouseEvent.getX()+Camera.getCamX()));
+                        Player.getSelectedUnit().set(8, Double.toString(mouseEvent.getY()+Camera.getCamY()));
+                        //test
+                        Data.getListofLists().get(Data.getListofLists().indexOf(Player.getSelectedUnit())).set(5, Double.toString(mouseEvent.getX()+Camera.getCamX()));
+                        Data.getListofLists().get(Data.getListofLists().indexOf(Player.getSelectedUnit())).set(6, Double.toString(mouseEvent.getY()+Camera.getCamY()));
+                        //test
                     }
                 }
             }

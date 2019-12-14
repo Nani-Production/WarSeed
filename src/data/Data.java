@@ -44,7 +44,7 @@ public class Data { //Enthält alle Daten vom Spielgeschehen
 
         for (int k = 0; k < substring.length; k++){
             int index1 = 0, index2 = 0;
-            String owner, type, hp, name, x, y;
+            String owner, type, hp, name, x, y, canAttack;
             owner = substring[k].substring(0, (index1 = substring[k].indexOf("+++")));
             index2 = substring[k].indexOf("+++", index1+1);
             index1 += 3;
@@ -114,7 +114,7 @@ public class Data { //Enthält alle Daten vom Spielgeschehen
 
         for (int k = 0; k < substring.length; k++){
             int index1 = 0, index2 = 0;
-            String owner, type, hp, x, y, name, moveX, moveY;
+            String owner, type, hp, x, y, name, moveX, moveY, angle, canAttack;
             owner = substring[k].substring(0, (index1 = substring[k].indexOf("+++")));
             index2 = substring[k].indexOf("+++", index1+1);
             index1 += 3;
@@ -134,7 +134,13 @@ public class Data { //Enthält alle Daten vom Spielgeschehen
             index1 = index2+3;
             index2 = substring[k].indexOf("+++", index1+1);
             moveX = substring[k].substring(index1, index2);
-            moveY = substring[k].substring(index2+3);
+            index1 = index2+3;
+            index2 = substring[k].indexOf("+++", index1+1);
+            moveY = substring[k].substring(index1, index2);
+            index1 = index2+3;
+            index2 = substring[k].indexOf("+++", index1+1);
+            angle = substring[k].substring(index1, index2);
+            canAttack = substring[k].substring(index2+3);
 
             ArrayList<String> list = new ArrayList<>();
             list.add("character");
@@ -146,6 +152,8 @@ public class Data { //Enthält alle Daten vom Spielgeschehen
             list.add(y);
             list.add(moveX);
             list.add(moveY);
+            list.add(angle);
+            list.add(canAttack);
 
             if (owner == Player.getUsername()){
                 for (int j = 0; j < Player.getCharacters().size(); j++){
