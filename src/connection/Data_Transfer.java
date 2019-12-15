@@ -109,7 +109,26 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
                             "+++"+Player.getCharacters().get(i).get(8)+
                             "+++"+Player.getCharacters().get(i).get(9)+
                             "+++"+Player.getCharacters().get(i).get(10)+"*");
+                    System.out.println("+++"+Player.getCharacters().get(i).get(7)+
+                                    "+++"+Player.getCharacters().get(i).get(8));
                 }
+                //projectiles
+                writer.write("//projectiles"+Data.getProjectiles().size()+"#");
+                for (int i = 0; i < Data.getProjectiles().size(); i++){
+                    writer.write("+++"+Data.getProjectiles().get(i).get(0)+
+                            "+++"+Data.getProjectiles().get(i).get(1)+
+                            "+++"+Data.getProjectiles().get(i).get(2)+
+                            "+++"+Data.getProjectiles().get(i).get(3)+
+                            "+++"+Data.getProjectiles().get(i).get(4)+
+                            "+++"+Data.getProjectiles().get(i).get(5)+"*");
+                }
+
+                //attacks
+                writer.write("//attacks");
+                for (int i = 0; i < Player.getAttacks().size(); i++){
+                    writer.write(Player.getAttacks().get(i)[0]+"+++"+Player.getAttacks().get(i)[1]+"+++#");
+                }
+                //Player.getAttacks().clear();
                 writer.write("//end");
                 writer.newLine();
                 writer.flush();

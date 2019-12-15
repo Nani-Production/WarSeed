@@ -32,15 +32,14 @@ public class MouseMoved implements EventHandler<MouseEvent> {
             //test
 
             if (x > gui.getWidth() * frame1 && x <= gui.getWidth() - (gui.getWidth() * frame1) && y > gui.getHeight() * frame1 && y <= gui.getHeight() - (gui.getHeight() * frame1)) {
-                System.out.println("stop level");
+                //stop level
                 speed = 0;
                 Camera.stopUp();
                 Camera.stopDown();
                 Camera.stopRight();
                 Camera.stopLeft();
             } else if (!(x > gui.getWidth() * frame1 && x <= gui.getWidth() - (gui.getWidth() * frame1) && y > gui.getHeight() * frame1 && y <= gui.getHeight() - (gui.getHeight() * frame1))) {
-                speed = 8; //langsam
-                System.out.println("first level");
+                speed = 8; //first level
                 if (collisionRequest(new Rectangle(0, 0, gui.getWidth(), (gui.getHeight()) * frame1), x, y)) {
                     if (collisionRequest(new Rectangle(0, 0, gui.getWidth() * frame1, gui.getHeight() * frame1), x, y)) {
                         Camera.stopDown();
@@ -89,8 +88,7 @@ public class MouseMoved implements EventHandler<MouseEvent> {
                     Camera.moveRight(speed);
                 }
                 if (!(x > gui.getWidth() * frame2 && x <= gui.getWidth() - (gui.getWidth() * frame2) && y > gui.getHeight() * frame2 && y <= gui.getHeight() - (gui.getHeight() * frame2))) {
-                    speed = 16; //schneller
-                    System.out.println("second level");
+                    speed = 16; //second level
                     if (collisionRequest(new Rectangle(0, 0, gui.getWidth(), (gui.getHeight()) * frame2), x, y)) {
                         if (collisionRequest(new Rectangle(0, 0, gui.getWidth() * frame2, gui.getHeight() * frame2), x, y)) {
                             //querup left
@@ -141,8 +139,7 @@ public class MouseMoved implements EventHandler<MouseEvent> {
                         Camera.moveRight(speed);
                     }
                     if (!(x > gui.getWidth() * frame3 && x >= gui.getWidth() - (gui.getWidth() * frame3) && y < gui.getHeight() * frame3 && y >= gui.getHeight() - (gui.getHeight() * frame3))) {
-                        speed = 32; //am schnellsten
-                        System.out.println("third level");
+                        speed = 32; //third level
                         if (collisionRequest(new Rectangle(0, 0, gui.getWidth(), (gui.getHeight()) * frame3), x, y)) {
                             if (collisionRequest(new Rectangle(0, 0, gui.getWidth() * frame3, gui.getHeight() * frame3), x, y)) {
                                 //querup left

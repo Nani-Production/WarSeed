@@ -31,13 +31,12 @@ public class Game_Gui {
     private Scene scene;
     private StackPane root;
     private Stage stage;
-    //public Font myFont = Font.loadFont(getClass().getResourceAsStream("/resources/Guardians.ttf"), 24);
-
     private Minimap minimap;
     private Unitinfo unitinfo;
     private Button connect, ready;
     private TextField iptf, nametf;
-    private Font font;
+    private Ressourceinfo resInfo;
+    private Font fontBig, fontSmall;
 
     public void init (Stage stage) {
         dm = new Draw_Main();
@@ -56,22 +55,24 @@ public class Game_Gui {
 
         try {
             //font = Font.loadFont(Game_Gui.class.getResource("/rsc/font.ttf").toString(), 64);
-            font = Font.loadFont(String.valueOf(ImageLoader.class.getResource("/rsc/font.ttf")), 64);
+            fontBig = Font.loadFont(String.valueOf(ImageLoader.class.getResource("/rsc/font.ttf")), 64);
+            fontSmall = Font.loadFont(String.valueOf(ImageLoader.class.getResource("/rsc/font.ttf")), 24);
         } catch (Exception e) {
             e.printStackTrace();
-            font = new Font(64);
+            fontBig = new Font(64);
         } finally {
-            System.out.println("font "+font);
+            System.out.println("font "+ fontBig);
         }
     }
 
     public void create (){
+        resInfo =   new Ressourceinfo(0, 0, width, 30, fontSmall);
         minimap =   new Minimap(width-300, height-300, 300, 300);
         unitinfo =  new Unitinfo(0, height-350, 250, 350);
-        connect =   new Button((width/2)-(width*(3./50.)), (height/2), width*(15./128.), height*(8./72.), "connect", font, this);
-        ready =     new Button((width/2)-(width*(3./50.)), (height/2)+(height*(10./72.)), width*(15./128.), height*(8./72.), "ready", font, this);
-        iptf =      new TextField(width*(1./12.), (height/2)-(height*(15./72.)), (width*(1./3.)), height*(8./72.), font, "IP");
-        nametf =    new TextField(width*(7./12.), (height/2)-(height*(15./72.)), (width*(1./3.)), height*(8./72.), font, "Username");
+        connect =   new Button((width/2)-(width*(3./50.)), (height/2), width*(15./128.), height*(8./72.), "connect", fontBig, this);
+        ready =     new Button((width/2)-(width*(3./50.)), (height/2)+(height*(10./72.)), width*(15./128.), height*(8./72.), "ready", fontBig, this);
+        iptf =      new TextField(width*(1./12.), (height/2)-(height*(15./72.)), (width*(1./3.)), height*(8./72.), fontBig, "192.168.178.48");
+        nametf =    new TextField(width*(7./12.), (height/2)-(height*(15./72.)), (width*(1./3.)), height*(8./72.), fontBig, "Username");
         connect.setDisabled(false);
         ready.setDisabled(true);
 
@@ -272,12 +273,20 @@ public class Game_Gui {
         this.nametf = nametf;
     }
 
-    public Font getFont() {
-        return font;
+    public Font getFontBig() {
+        return fontBig;
     }
 
-    public void setFont(Font font) {
-        this.font = font;
+    public void setFontBig(Font fontBig) {
+        this.fontBig = fontBig;
+    }
+
+    public Ressourceinfo getResInfo() {
+        return resInfo;
+    }
+
+    public void setResInfo(Ressourceinfo resInfo) {
+        this.resInfo = resInfo;
     }
 
     public void disconnect(){

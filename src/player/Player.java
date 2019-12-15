@@ -10,6 +10,7 @@ public class Player {
     private static String username;
     private static ArrayList <ArrayList<String>> buildings = new ArrayList<>();
     private static ArrayList <ArrayList<String>> characters = new ArrayList<>();
+    private static ArrayList <String[]> attacks = new ArrayList<>();
     private static boolean ready = false, gameRunning = false, messageSent= true;
 
     public static boolean isMessageSent() {
@@ -35,6 +36,14 @@ public class Player {
     public static void setReady(boolean ready) {
         Player.ready = ready;
         messageSent = false;
+    }
+
+    public static ArrayList<String[]> getAttacks() {
+        return attacks;
+    }
+
+    public static void setAttacks(ArrayList<String[]> attacks) {
+        Player.attacks = attacks;
     }
 
     public static void addBuilding(ArrayList<String> b){

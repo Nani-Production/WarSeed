@@ -13,10 +13,7 @@ public class Interface {
 
     public void draw(GraphicsContext g) {
         g.setStroke(Color.GREEN);
-        g.strokeLine(x, y, x + width, y);
-        g.strokeLine(x + width, y, x + width, y + height);
-        g.strokeLine(x + width, y + height, x, y + height);
-        g.strokeLine(x, y + height, x, y);
+        g.strokeRect(x, y, width, height);
     }
 
     public Interface(double x, double y, double width, double height) {

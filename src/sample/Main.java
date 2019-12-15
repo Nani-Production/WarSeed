@@ -4,6 +4,7 @@ import connection.Connection;
 import connection.Data_Transfer;
 import controls.Camera;
 import data.Data;
+import data.UnitDatabank;
 import gamestate.Gamestate;
 import gamestate.Gamestate_e;
 import gui.Game_Gui;
@@ -24,6 +25,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        Gamestate.state = Gamestate_e.ingame;
         gui.init(primaryStage);
         startWindow();
         if (Gamestate.state == Gamestate_e.ingame){
@@ -78,21 +80,21 @@ public class Main extends Application {
     }
 
     private static void addsomeFigures() { //Einheiten werden hinzugefügt
-        Player.setUsername("UN");
+        Player.setUsername("Username");
         ArrayList<String> list = new ArrayList<>();
         list.add("building");
-        list.add("UN");
-        list.add("nexus");
+        list.add("Username");
+        list.add(String.valueOf(UnitDatabank.NEXUS));
         list.add("50");
         list.add("nexus1");
-        list.add(Double.toString(Camera.getCamX()+200));
+        list.add(Double.toString(Camera.getCamX()+400));
         list.add(Double.toString(Camera.getCamY()+150));
         Player.getBuildings().add(list);
         list = new ArrayList<>();
 
         list.add("building");
-        list.add("UN");
-        list.add("nexus");
+        list.add("Username");
+        list.add(String.valueOf(UnitDatabank.VILLAGE));
         list.add("50");
         list.add("nexus2");
         list.add(Double.toString(Camera.getCamX()+200));
@@ -101,8 +103,8 @@ public class Main extends Application {
         list = new ArrayList<>();
 
         list.add("character");
-        list.add("UN");
-        list.add("DD");
+        list.add("Username");
+        list.add(String.valueOf(UnitDatabank.DAMAGEDEALER));
         list.add("30");
         list.add("tank1");
         list.add(Double.toString(Camera.getCamX()+100));
@@ -115,8 +117,8 @@ public class Main extends Application {
         list = new ArrayList<>();
 
         list.add("character");
-        list.add("UN");
-        list.add("SP");
+        list.add("Username");
+        list.add(String.valueOf(UnitDatabank.SPEEDER));
         list.add("30");
         list.add("tank2");
         list.add(Double.toString(Camera.getCamX()+300));
@@ -137,9 +139,9 @@ public class Main extends Application {
 
         list.add("character");
         list.add("Enemy");
-        list.add("tank");
+        list.add(String.valueOf(UnitDatabank.TANK));
         list.add("30");
-        list.add("tank2");
+        list.add("tank3");
         list.add(Double.toString(Camera.getCamX()+400));
         list.add(Double.toString(Camera.getCamY()+400));
         list.add(null);
@@ -148,6 +150,9 @@ public class Main extends Application {
         list.add("true");
         Data.getListofLists().add(list);
         list = new ArrayList<>();
+
+        String s [] = {"tank1", "tank3"};
+        Player.getAttacks().add(s);
     }
 
 
