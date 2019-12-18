@@ -1,18 +1,21 @@
 package player;
 
-import units.Building;
-import units.Character;
+import data.UnitDatabank;
+import draw.ImageLoader;
+import javafx.scene.image.Image;
 
 import java.util.ArrayList;
 
 public class Player {
     private static ArrayList<String> selectedUnit;
+    private static Image selecetUnitImg = null;
     private static String username;
-    private static ArrayList <ArrayList<String>> buildings = new ArrayList<>();
-    private static ArrayList <ArrayList<String>> characters = new ArrayList<>();
-    private static ArrayList <String[]> attacks = new ArrayList<>();
-    private static boolean ready = false, gameRunning = false, messageSent= true;
+    private static ArrayList<ArrayList<String>> buildings = new ArrayList<>();
+    private static ArrayList<ArrayList<String>> characters = new ArrayList<>();
+    private static ArrayList<String[]> attacks = new ArrayList<>();
+    private static boolean ready = false, gameRunning = false, messageSent = true;
     public static boolean lol = false; //test
+    private static boolean developerMode = false;
 
     public static boolean isMessageSent() {
         return messageSent;
@@ -47,36 +50,59 @@ public class Player {
         Player.attacks = attacks;
     }
 
-    public static void addBuilding(ArrayList<String> b){
+    public static void addBuilding(ArrayList<String> b) {
         buildings.add(b);
     }
 
-    public static void addCharacter(ArrayList<String> c){
+    public static void addCharacter(ArrayList<String> c) {
         characters.add(c);
     }
 
-    public static void removeBuilding(int i){
+    public static void removeBuilding(int i) {
         buildings.remove(i);
     }
 
-    public static void removeCharacter(int i){
+    public static void removeCharacter(int i) {
         characters.remove(i);
     }
 
-    public static void removeBuilding(ArrayList<String> b){
+    public static void removeBuilding(ArrayList<String> b) {
         buildings.remove(b);
     }
 
-    public static void removeCharacter(ArrayList<String> c){
+    public static void removeCharacter(ArrayList<String> c) {
         characters.remove(c);
     }
 
-    public static void selectUnit(ArrayList<String> unit){
+    public static void selectUnit(ArrayList<String> unit) {
+        System.out.println(unit.get(2));
+        switch (Integer.parseInt(unit.get(2))) {
+            case UnitDatabank.SPEEDER:
+                selecetUnitImg = ImageLoader.speeder;
+                break;
+            case UnitDatabank.DAMAGEDEALER:
+                selecetUnitImg = ImageLoader.damageDealer;
+                break;
+            case UnitDatabank.TANK:
+                selecetUnitImg = ImageLoader.tank;
+                break;
+            case UnitDatabank.SETTLER:
+                selecetUnitImg = ImageLoader.settler;
+                break;
+            case UnitDatabank.NEXUS:
+                selecetUnitImg = ImageLoader.base;
+                break;
+            case UnitDatabank.VILLAGE:
+                selecetUnitImg = ImageLoader.village;
+                break;
+            default:
+                selecetUnitImg = ImageLoader.image2;
+        }
         selectedUnit = unit;
     }
 
-    public static boolean unitIsSelected(){
-        if (selectedUnit != null && (selectedUnit.get(0).equals("building") || selectedUnit.get(0).equals("character"))){
+    public static boolean unitIsSelected() {
+        if (selectedUnit != null && (selectedUnit.get(0).equals("building") || selectedUnit.get(0).equals("character"))) {
             return true;
         } else {
             return false;
@@ -113,5 +139,21 @@ public class Player {
 
     public static void setCharacters(ArrayList<ArrayList<String>> characters) {
         Player.characters = characters;
+    }
+
+    public static Image getSelecetUnitImg() {
+        return selecetUnitImg;
+    }
+
+    public static void setSelecetUnitImg(Image selecetUnitImg) {
+        Player.selecetUnitImg = selecetUnitImg;
+    }
+
+    public static boolean isDeveloperMode() {
+        return developerMode;
+    }
+
+    public static void setDeveloperMode(boolean developerMode) {
+        Player.developerMode = developerMode;
     }
 }

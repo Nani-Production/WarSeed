@@ -30,10 +30,11 @@ public class Ressourceinfo extends Interface {
     public void draw(GraphicsContext g) {
         g.setLineWidth(3);
         g.setStroke(Color.AQUA);
-        g.strokeRect(width*(1./5.), 0, width*(3./5.), height);
-        g.drawImage(ImageLoader.image, width*(1./5.), 0, height, height);
-        g.drawImage(ImageLoader.image, width*(2./5.), 0, height, height);
-        g.drawImage(ImageLoader.image, width*(3./5.), 0, height, height);
+        //g.strokeRect(width*(1./5.), 0, width*(3./5.), height);
+        g.drawImage(ImageLoader.resinfobg, width*(1./5.), 0, width*(3./5.), height);
+        g.drawImage(ImageLoader.ressource1, width*(1./5.), 0, height, height);
+        g.drawImage(ImageLoader.ressource2, width*(2./5.), 0, height, height);
+        g.drawImage(ImageLoader.ressource3, width*(3./5.), 0, height, height);
         g.setFill(Color.GREEN);
         g.setStroke(Color.DARKGREEN);
         g.setFont(font);

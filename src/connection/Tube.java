@@ -40,7 +40,7 @@ public class Tube implements Runnable{
                         Main.startGame();
                     } else if (line.startsWith("ping")) {
                         dt.setPing(true);
-                        System.out.println("ping");
+                        //System.out.println("ping");
                     } else {
                         System.out.println("Error line of client has no use");
                     }

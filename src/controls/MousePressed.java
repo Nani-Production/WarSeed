@@ -44,16 +44,23 @@ public class MousePressed implements EventHandler<MouseEvent> {
                         }
                     }
                     for (int i = 0; i < Player.getBuildings().size(); i++) {
-                        if (collisionRequest(new Rectangle(Double.parseDouble(Player.getBuildings().get(i).get(5)) - Camera.getCamX(), Double.parseDouble(Player.getBuildings().get(i).get(6)) - Camera.getCamY(), 64, 64), x, y)) {
-                            Player.selectUnit(Player.getBuildings().get(i));
+                        if (Player.getBuildings().get(i).get(2).equals(String.valueOf(UnitDatabank.NEXUS))){
+                            if (collisionRequest(new Rectangle(Double.parseDouble(Player.getBuildings().get(i).get(5)) - Camera.getCamX(), Double.parseDouble(Player.getBuildings().get(i).get(6)) - Camera.getCamY(), 200, 200), x, y)) {
+                                Player.selectUnit(Player.getBuildings().get(i));
+                            }
+                        } else if (Player.getBuildings().get(i).get(2).equals(String.valueOf(UnitDatabank.VILLAGE))){
+                            if (collisionRequest(new Rectangle(Double.parseDouble(Player.getBuildings().get(i).get(5)) - Camera.getCamX(), Double.parseDouble(Player.getBuildings().get(i).get(6)) - Camera.getCamY(), 100, 100), x, y)) {
+                                Player.selectUnit(Player.getBuildings().get(i));
+                            }
                         }
+
                     }
                 }
             } else if (mouseEvent.isSecondaryButtonDown()) {
                 if (Player.unitIsSelected()) {
                     boolean enemy = false;
-                    /*
                     if (Player.getSelectedUnit() != null && Player.getSelectedUnit().get(0).equals("character")){
+                        /*
                         for (int i = 0; i < Data.getListofLists().size(); i++) {
                             if (Data.getListofLists().get(i).get(1) != Player.getUsername()) {
                                 Rectangle r = new Rectangle(Double.parseDouble(Data.getListofLists().get(i).get(5)), Double.parseDouble(Data.getListofLists().get(i).get(6)), 64, 64);
@@ -71,16 +78,11 @@ public class MousePressed implements EventHandler<MouseEvent> {
                                 }
                             }
                         }
+                        */
                         if (!enemy) {
                             Player.getSelectedUnit().set(7, Double.toString(mouseEvent.getX() + Camera.getCamX()));
                             Player.getSelectedUnit().set(8, Double.toString(mouseEvent.getY() + Camera.getCamY()));
                         }
-                    }
-                    */
-                    if (!enemy) {
-                        Player.getSelectedUnit().set(7, Double.toString(mouseEvent.getX() + Camera.getCamX()));
-                        Player.getSelectedUnit().set(8, Double.toString(mouseEvent.getY() + Camera.getCamY()));
-                        Player.lol = true;
                     }
                 }
             }

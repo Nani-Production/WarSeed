@@ -7,6 +7,7 @@ import gamestate.Gamestate;
 import gamestate.Gamestate_e;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -64,8 +65,8 @@ public class Game_Gui {
 
     public void create (){
         resInfo =   new Ressourceinfo(0, 0, width, 30, fontSmall);
-        minimap =   new Minimap(width-300, height-300, 300, 300);
-        unitinfo =  new Unitinfo(0, height-350, 250, 350);
+        minimap =   new Minimap(width-300, height-300, 300, 300, this);
+        unitinfo =  new Unitinfo(0, height-350, 250, 350, fontSmall);
         connect =   new Button((width/2)-(width*(3./50.)), (height/2), width*(15./128.), height*(8./72.), "connect", fontBig, this);
         ready =     new Button((width/2)-(width*(3./50.)), (height/2)+(height*(10./72.)), width*(15./128.), height*(8./72.), "ready", fontBig, this);
         iptf =      new TextField(width*(1./12.), (height/2)-(height*(15./72.)), (width*(1./3.)), height*(8./72.), fontBig, "192.168.178.48");

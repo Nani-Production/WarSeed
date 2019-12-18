@@ -105,14 +105,15 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
                             "+++"+Player.getCharacters().get(i).get(4)+
                             "+++"+Player.getCharacters().get(i).get(5)+
                             "+++"+Player.getCharacters().get(i).get(6)+
+                            /*
                             "+++"+Player.getCharacters().get(i).get(7)+
                             "+++"+Player.getCharacters().get(i).get(8)+
-                             /*
-                            "+++"+800+
-                            "+++"+800+
                              */
+                            "+++"+800+
+                            "+++"+800+
                             "+++"+Player.getCharacters().get(i).get(9)+
                             "+++"+Player.getCharacters().get(i).get(10)+"*");
+                    /*
                     try {
                         System.out.println("+++"+Player.getCharacters().get(i).get(7)+
                                 "+++"+Player.getCharacters().get(i).get(8));
@@ -125,6 +126,8 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
                     } catch (NullPointerException e){
                         e.printStackTrace();
                     }
+
+                     */
 
                 }
 

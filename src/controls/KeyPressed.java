@@ -6,6 +6,7 @@ import gui.Game_Gui;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import player.Player;
 
 import java.util.EventListener;
 
@@ -39,6 +40,9 @@ public class KeyPressed implements EventHandler<KeyEvent> {
             if (keyEvent.getCode() == KeyCode.ESCAPE){
                 Gamestate.state = Gamestate_e.ingame;
             }
+        }
+        if (keyEvent.getCode() == KeyCode.F2){
+            Player.setDeveloperMode(!Player.isDeveloperMode());
         }
     }
 }

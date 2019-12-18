@@ -171,8 +171,38 @@ public class Draw_Main {
 
 
         //drawUnits
+        System.out.println("size in draw: "+Data.getListofLists().size());
         for (int i = 0; i < Data.getListofLists().size(); i++) {
-            if (Double.parseDouble(Data.getListofLists().get(i).get(5)) > Camera.getCamX() && Double.parseDouble(Data.getListofLists().get(i).get(5)) + 64 <= Camera.getCamX() + gui.getWidth() && Double.parseDouble(Data.getListofLists().get(i).get(6)) > Camera.getCamY() && Double.parseDouble(Data.getListofLists().get(i).get(6)) + 64 <= Camera.getCamY() + gui.getHeight()) {
+            double size = 64;
+            Image unit = ImageLoader.image2;
+            if (Data.getListofLists().get(i).get(0) == "character") {
+                //g.setTransform(new Affine(new Rotate(Double.parseDouble(Player.getSelectedUnit().get(9)), Double.parseDouble(Player.getSelectedUnit().get(5)) + 32, Double.parseDouble(Player.getSelectedUnit().get(6)) + 32)));
+                if (Integer.parseInt(Data.getListofLists().get(i).get(2)) == UnitDatabank.DAMAGEDEALER) {
+                    unit = ImageLoader.damageDealer;
+                } else if (Integer.parseInt(Data.getListofLists().get(i).get(2)) == UnitDatabank.SPEEDER) {
+                    //System.out.println("lolig "+Data.getListofLists().get(i).get(4)+"   "+Data.getListofLists().get(i).get(5)+"   "+Data.getListofLists().get(i).get(6));
+                    unit = ImageLoader.speeder;
+                } else if (Integer.parseInt(Data.getListofLists().get(i).get(2)) == UnitDatabank.TANK) {
+                    unit = ImageLoader.tank;
+                } else if (Integer.parseInt(Data.getListofLists().get(i).get(2)) == UnitDatabank.SETTLER) {
+                    unit = ImageLoader.settler;
+                } else {
+                    unit = ImageLoader.image;
+                    size = 64;
+                }
+            } else if (Data.getListofLists().get(i).get(0) == "building"){
+                if (Data.getListofLists().get(i).get(2).equals(String.valueOf(UnitDatabank.NEXUS))){
+                    size = 200;
+                    unit = ImageLoader.base;
+                } else if (Data.getListofLists().get(i).get(2).equals(String.valueOf(UnitDatabank.VILLAGE))){
+                    size = 100;
+                    unit = ImageLoader.village;
+                } else {
+                    size = 100;
+                    unit = ImageLoader.image2;
+                }
+            }
+            if (Double.parseDouble(Data.getListofLists().get(i).get(5)) + size > Camera.getCamX() && Double.parseDouble(Data.getListofLists().get(i).get(5))  <= Camera.getCamX() + gui.getWidth() && Double.parseDouble(Data.getListofLists().get(i).get(6)) + size > Camera.getCamY() && Double.parseDouble(Data.getListofLists().get(i).get(6)) <= Camera.getCamY() + gui.getHeight()) {
                     /*
                     double newCam[] = {0, 0};
                     if (Data.getListofLists().get(i).get(0) == "character"){
@@ -184,41 +214,41 @@ public class Draw_Main {
                 //if (Double.parseDouble(Data.getListofLists().get(i).get(5)) > newCam[0] && Double.parseDouble(Data.getListofLists().get(i).get(5))+64 <= newCam[0]+gui.getWidth() && Double.parseDouble(Data.getListofLists().get(i).get(6)) > newCam[1] && Double.parseDouble(Data.getListofLists().get(i).get(6))+64 <= newCam[1]+gui.getHeight()){
 
                 if (Data.getListofLists().get(i).get(0) == "building") {
-                    if (Integer.parseInt(Data.getListofLists().get(i).get(2)) == UnitDatabank.NEXUS) {
-                        g.drawImage(ImageLoader.base, Double.parseDouble(Data.getListofLists().get(i).get(5)) - Camera.getCamX(), Double.parseDouble(Data.getListofLists().get(i).get(6)) - Camera.getCamY(), 200, 200);
-                    } else if (Integer.parseInt(Data.getListofLists().get(i).get(2)) == UnitDatabank.VILLAGE) {
-                        g.drawImage(ImageLoader.village, Double.parseDouble(Data.getListofLists().get(i).get(5)) - Camera.getCamX(), Double.parseDouble(Data.getListofLists().get(i).get(6)) - Camera.getCamY(), 100, 100);
-                    } else {
-                        g.drawImage(ImageLoader.image2, Double.parseDouble(Data.getListofLists().get(i).get(5)) - Camera.getCamX(), Double.parseDouble(Data.getListofLists().get(i).get(6)) - Camera.getCamY(), 100, 100);
-                    }
+                    g.drawImage(unit, Double.parseDouble(Data.getListofLists().get(i).get(5)) - Camera.getCamX(), Double.parseDouble(Data.getListofLists().get(i).get(6)) - Camera.getCamY(), size, size);
                 } else if (Data.getListofLists().get(i).get(0) == "character") {
-                    if (Integer.parseInt(Data.getListofLists().get(i).get(2)) == UnitDatabank.DAMAGEDEALER) {
-                        drawCharacter(g, ImageLoader.tank2, i);
-                    } else if (Integer.parseInt(Data.getListofLists().get(i).get(2)) == UnitDatabank.SPEEDER) {
-                        //System.out.println("lolig "+Data.getListofLists().get(i).get(4)+"   "+Data.getListofLists().get(i).get(5)+"   "+Data.getListofLists().get(i).get(6));
-                        drawCharacter(g, ImageLoader.tank1, i);
-                    } else if (Integer.parseInt(Data.getListofLists().get(i).get(2)) == UnitDatabank.TANK) {
-                        drawCharacter(g, ImageLoader.tank3, i);
-                    } else if (Integer.parseInt(Data.getListofLists().get(i).get(2)) == UnitDatabank.SETTLER) {
-                        drawCharacter(g, ImageLoader.tank4, i);
-                    } else {
-                        drawCharacter(g, ImageLoader.image, i);
-                    }
+                    g.drawImage(unit,  Double.parseDouble(Data.getListofLists().get(i).get(5)) - Camera.getCamX(),  Double.parseDouble(Data.getListofLists().get(i).get(6)) - Camera.getCamY(), size, size);
                 }
+                double health = Double.parseDouble(Data.getListofLists().get(i).get(3)), maxHealth = Double.parseDouble(UnitDatabank.getUnitInfo(Integer.parseInt(Data.getListofLists().get(i).get(2)), "maxHealth"));
+                if (health < maxHealth){
+                    g.setFill(Color.DARKRED);
+                    g.fillRect(Double.parseDouble(Data.getListofLists().get(i).get(5))- Camera.getCamX(), Double.parseDouble(Data.getListofLists().get(i).get(6))-20- Camera.getCamY(), size, 5);
+                    g.setFill(Color.RED);
+                    double ratio = health/maxHealth;
+                    g.fillRect(Double.parseDouble(Data.getListofLists().get(i).get(5))- Camera.getCamX(), Double.parseDouble(Data.getListofLists().get(i).get(6))-20- Camera.getCamY(), size*ratio, 5);
+                }
+
                 g.setStroke(new Color(1, 0, 0, 0.5));
                 if (!Data.getListofLists().get(i).get(1).equals(Player.getUsername())) {
                     //g.setTransform(new Affine(new Rotate(Double.parseDouble(Data.getListofLists().get(i).get(9)), Double.parseDouble(Data.getListofLists().get(i).get(5)) + 32, Double.parseDouble(Data.getListofLists().get(i).get(6)) + 32)));
-                    g.strokeRect(Double.parseDouble(Data.getListofLists().get(i).get(5)) - Camera.getCamX(), Double.parseDouble(Data.getListofLists().get(i).get(6)) - Camera.getCamY(), 64, 64);
+                    g.strokeRect(Double.parseDouble(Data.getListofLists().get(i).get(5)) - Camera.getCamX(), Double.parseDouble(Data.getListofLists().get(i).get(6)) - Camera.getCamY(), size, size);
                     g.setTransform(normalAngle);
                 }
             }
         }
         if (Player.unitIsSelected()) {
             g.setStroke(Color.YELLOW);
+            double size = 64;
             if (Player.getSelectedUnit().get(0) == "character") {
-                g.setTransform(new Affine(new Rotate(Double.parseDouble(Player.getSelectedUnit().get(9)), Double.parseDouble(Player.getSelectedUnit().get(5)) + 32, Double.parseDouble(Player.getSelectedUnit().get(6)) + 32)));
+                //g.setTransform(new Affine(new Rotate(Double.parseDouble(Player.getSelectedUnit().get(9)), Double.parseDouble(Player.getSelectedUnit().get(5)) + 32, Double.parseDouble(Player.getSelectedUnit().get(6)) + 32)));
+                size = 64;
+            } else if (Player.getSelectedUnit().get(0) == "building"){
+                if (Player.getSelectedUnit().get(2).equals(String.valueOf(UnitDatabank.NEXUS))){
+                    size = 200;
+                } else if (Player.getSelectedUnit().get(2).equals(String.valueOf(UnitDatabank.VILLAGE))){
+                    size = 100;
+                }
             }
-            g.strokeRect(Double.parseDouble(Player.getSelectedUnit().get(5)) - Camera.getCamX(), Double.parseDouble(Player.getSelectedUnit().get(6)) - Camera.getCamY(), 64, 64);
+            g.strokeRect(Double.parseDouble(Player.getSelectedUnit().get(5)) - Camera.getCamX(), Double.parseDouble(Player.getSelectedUnit().get(6)) - Camera.getCamY(), size, size);
             g.setTransform(normalAngle);
         }
 
@@ -233,11 +263,13 @@ public class Draw_Main {
         gui.getUnitinfo().draw(g);
         gui.getResInfo().draw(g);
 
-        //Die Maus movement Stufen
-        g.setStroke(Color.LAVENDER);
-        g.strokeRect(gui.getWidth() * frame1, gui.getHeight() * frame1, gui.getWidth() - (2 * (gui.getWidth() * frame1)), gui.getHeight() - (2 * (gui.getHeight() * frame1)));
-        g.strokeRect(gui.getWidth() * frame2, gui.getHeight() * frame2, gui.getWidth() - (2 * (gui.getWidth() * frame2)), gui.getHeight() - (2 * (gui.getHeight() * frame2)));
-        g.strokeRect(gui.getWidth() * frame3, gui.getHeight() * frame3, gui.getWidth() - (2 * (gui.getWidth() * frame3)), gui.getHeight() - (2 * (gui.getHeight() * frame3)));
+        if (Player.isDeveloperMode()){
+            //Die Maus movement Stufen
+            g.setStroke(Color.LAVENDER);
+            g.strokeRect(gui.getWidth() * frame1, gui.getHeight() * frame1, gui.getWidth() - (2 * (gui.getWidth() * frame1)), gui.getHeight() - (2 * (gui.getHeight() * frame1)));
+            g.strokeRect(gui.getWidth() * frame2, gui.getHeight() * frame2, gui.getWidth() - (2 * (gui.getWidth() * frame2)), gui.getHeight() - (2 * (gui.getHeight() * frame2)));
+            g.strokeRect(gui.getWidth() * frame3, gui.getHeight() * frame3, gui.getWidth() - (2 * (gui.getWidth() * frame3)), gui.getHeight() - (2 * (gui.getHeight() * frame3)));
+        }
     }
 
     private void drawPauseMenu(GraphicsContext g, Game_Gui gui) {

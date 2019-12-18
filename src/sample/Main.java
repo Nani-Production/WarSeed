@@ -25,8 +25,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        //Gamestate.state = Gamestate_e.ingame;
+        Gamestate.state = Gamestate_e.ingame;
         gui.init(primaryStage);
+        Camera.setGui(gui);
         startWindow();
         if (Gamestate.state == Gamestate_e.ingame){
             addsomeFigures();
@@ -88,9 +89,12 @@ public class Main extends Application {
         list.add("Username");
         list.add(String.valueOf(UnitDatabank.NEXUS));
         list.add("50");
-        list.add("nexus1");
+        list.add("base");
         list.add(Double.toString(Camera.getCamX()+400));
         list.add(Double.toString(Camera.getCamY()+150));
+        list.add("2");
+        list.add("4");
+        list.add("6");
         Player.getBuildings().add(list);
         list = new ArrayList<>();
 
@@ -98,9 +102,12 @@ public class Main extends Application {
         list.add("Username");
         list.add(String.valueOf(UnitDatabank.VILLAGE));
         list.add("50");
-        list.add("nexus2");
+        list.add("settlement");
         list.add(Double.toString(Camera.getCamX()+200));
         list.add(Double.toString(Camera.getCamY()+250));
+        list.add("1");
+        list.add("2");
+        list.add("3");
         Player.getBuildings().add(list);
         list = new ArrayList<>();
 
@@ -116,9 +123,10 @@ public class Main extends Application {
         list.add("50");
         list.add("true");
         Player.getCharacters().add(list);
+        //test
+        Player.selectUnit(list);
+        //test
         list = new ArrayList<>();
-
-        Player.selectUnit(list);//test
 
         list.add("character");
         list.add("Username");

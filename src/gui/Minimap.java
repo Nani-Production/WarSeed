@@ -1,34 +1,74 @@
 package gui;
 
+import controls.Camera;
+import data.Data;
+import data.UnitDatabank;
+import draw.ImageLoader;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import player.Player;
+
+import java.util.concurrent.atomic.DoubleAccumulator;
 
 public class Minimap extends Interface {
-    private double cameraX, cameraY;
     private Image map;
+    private Game_Gui gui;
 
-    public Minimap(double x, double y, double width, double height) {
+    public Minimap(double x, double y, double width, double height, Game_Gui gui) {
         super(x, y, width, height);
         this.map = screenshotMap();
-    }
-
-    public Minimap(double x, double y, double width, double height, double cameraX, double cameraY) {
-        super(x, y, width, height);
-        this.cameraX = cameraX;
-        this.cameraY = cameraY;
-        this.map = screenshotMap();
+        this.gui = gui;
     }
 
     public void draw (GraphicsContext g){
-        g.setLineWidth(3);
-        g.setStroke(Color.AQUA);
-        g.drawImage(map, x, y, width, height);
-        g.strokeLine(x ,y, x+width, y);
-        g.strokeLine(x+width, y, x+width, y+height);
-        g.strokeLine(x+width, y+height, x, y+height);
-        g.strokeLine(x, y+height, x, y);
-        g.setLineWidth(1);
+        g.drawImage(ImageLoader.minimapbg, x, y, width, height);
+        g.drawImage(ImageLoader.map, x+10, y+10, width-20, height-20);
+        g.setStroke(Color.WHITE);
+        g.setFill(Color.WHITE);
+        if (Player.isDeveloperMode()){
+            g.setStroke(Color.GRAY);
+            g.fillRect(x+10, y+10, width-20, height-20);
+        }
+        double wRatio = 0, hRation = 0, xRatio = 0, yRatio = 0;
+        wRatio = (width-20)/gui.getWidth();
+        hRation = ((height/2)-20)/gui.getHeight();
+        xRatio = Camera.getCamX()/ImageLoader.map.getWidth();
+        yRatio = Camera.getCamY()/ImageLoader.map.getHeight();
+
+        g.strokeRect(x+10+xRatio*(width-20), y+10+yRatio*(height-20), wRatio*(width-20), hRation*(height-20));
+        for (int i = 0; i < Data.getListofLists().size(); i++){
+            if (Data.getListofLists().get(i).get(0).equals("character")){
+                wRatio = (width-20)/64;
+                hRation = ((height/2)-20)/64;
+                xRatio = Double.parseDouble(Data.getListofLists().get(i).get(5))/ImageLoader.map.getWidth();
+                yRatio = Double.parseDouble(Data.getListofLists().get(i).get(6))/ImageLoader.map.getHeight();
+                if (!Data.getListofLists().get(i).get(1).equals(Player.getUsername())){
+                    g.setFill(Color.RED);
+                } else {
+                    g.setFill(Color.BLUE);
+                }
+            } else if (Data.getListofLists().get(i).get(0).equals("building")){
+                //TODO sizegrößen in die Datenbank schreiben
+                double size = 0;
+                if (Data.getListofLists().get(i).get(2).equals(Integer.toString(UnitDatabank.NEXUS))){
+                    size = 200;
+                } else if (Data.getListofLists().get(i).get(2).equals(Integer.toString(UnitDatabank.VILLAGE))){
+                    size = 100;
+                }
+                wRatio = size/(width-20);
+                xRatio = Double.parseDouble(Data.getListofLists().get(i).get(5))/ImageLoader.map.getWidth();
+                yRatio = Double.parseDouble(Data.getListofLists().get(i).get(6))/ImageLoader.map.getHeight();
+                if (!Data.getListofLists().get(i).get(1).equals(Player.getUsername())){
+                    g.setFill(Color.RED);
+                } else {
+                    g.setFill(Color.GREEN);
+                }
+            }
+            g.fillRect(x+10+xRatio*(width-20), y+10+yRatio*(height-20), wRatio, wRatio);
+
+        }
+
     }
 
     private Image screenshotMap(){  //not finished
@@ -65,22 +105,6 @@ public class Minimap extends Interface {
 
     public void setHeight(double height) {
         this.height = height;
-    }
-
-    public double getCameraX() {
-        return cameraX;
-    }
-
-    public void setCameraX(double cameraX) {
-        this.cameraX = cameraX;
-    }
-
-    public double getCameraY() {
-        return cameraY;
-    }
-
-    public void setCameraY(double cameraY) {
-        this.cameraY = cameraY;
     }
 
     public Image getMap() {

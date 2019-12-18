@@ -14,11 +14,12 @@ public class RenderLoop implements Runnable {
     public RenderLoop(Game_Gui gui) {
         this.gui = gui;
     }
+    private int counter = 0;
+    private final double FPS = 30.0;
 
     @Override
     public void run() {
         long lastTime = System.nanoTime();
-        final double FPS = 30.0;
         double ns = 1000000000 / FPS;
         double deltaTime = 0;
 
@@ -44,6 +45,21 @@ public class RenderLoop implements Runnable {
     private void update(){
         if (Gamestate.state == Gamestate_e.ingame) {
             Camera.moveCam();
+
+            if (counter < FPS){
+                counter++;
+            } else if (counter >= FPS){
+                counter = 0;
+                //update ressources
+                for (int i = 0; i < Data.getListofLists().size(); i++){
+                    if (Data.getListofLists().get(i).get(0).equals("building")){
+                        gui.getResInfo().setRessource1(gui.getResInfo().getRessource1()+Long.parseLong(Data.getListofLists().get(i).get(7)));
+                        gui.getResInfo().setRessource2(gui.getResInfo().getRessource2()+Long.parseLong(Data.getListofLists().get(i).get(8)));
+                        gui.getResInfo().setRessource3(gui.getResInfo().getRessource3()+Long.parseLong(Data.getListofLists().get(i).get(9)));
+                    }
+                }
+            }
+
         }
     }
 }
