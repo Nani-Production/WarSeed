@@ -12,6 +12,7 @@ public class Player {
     private static ArrayList <ArrayList<String>> characters = new ArrayList<>();
     private static ArrayList <String[]> attacks = new ArrayList<>();
     private static boolean ready = false, gameRunning = false, messageSent= true;
+    public static boolean lol = false; //test
 
     public static boolean isMessageSent() {
         return messageSent;

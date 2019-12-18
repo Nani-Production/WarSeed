@@ -25,7 +25,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Gamestate.state = Gamestate_e.ingame;
+        //Gamestate.state = Gamestate_e.ingame;
         gui.init(primaryStage);
         startWindow();
         if (Gamestate.state == Gamestate_e.ingame){
@@ -63,11 +63,13 @@ public class Main extends Application {
         c.setIp(ip);
         c.setName(name);
         c.setGui(gui);
+        connect = new Thread(c);
         connect.start();
     }
 
     public static void startDataTransfer(){
         addsomeFigures();
+        info = new Thread(dt);
         info.start();
     }
 
@@ -109,12 +111,14 @@ public class Main extends Application {
         list.add("tank1");
         list.add(Double.toString(Camera.getCamX()+100));
         list.add(Double.toString(Camera.getCamY()+200));
-        list.add(null);
-        list.add(null);
+        list.add("null");
+        list.add("null");
         list.add("50");
         list.add("true");
         Player.getCharacters().add(list);
         list = new ArrayList<>();
+
+        Player.selectUnit(list);//test
 
         list.add("character");
         list.add("Username");
@@ -123,8 +127,8 @@ public class Main extends Application {
         list.add("tank2");
         list.add(Double.toString(Camera.getCamX()+300));
         list.add(Double.toString(Camera.getCamY()+300));
-        list.add(null);
-        list.add(null);
+        list.add("null");
+        list.add("null");
         list.add("170");
         list.add("true");
         Player.getCharacters().add(list);
@@ -144,8 +148,8 @@ public class Main extends Application {
         list.add("tank3");
         list.add(Double.toString(Camera.getCamX()+400));
         list.add(Double.toString(Camera.getCamY()+400));
-        list.add(null);
-        list.add(null);
+        list.add("null");
+        list.add("null");
         list.add("255");
         list.add("true");
         Data.getListofLists().add(list);

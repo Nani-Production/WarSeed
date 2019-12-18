@@ -54,14 +54,11 @@ public class Game_Gui {
         Camera.setStartCoordinates(0, 0);
 
         try {
-            //font = Font.loadFont(Game_Gui.class.getResource("/rsc/font.ttf").toString(), 64);
             fontBig = Font.loadFont(String.valueOf(ImageLoader.class.getResource("/rsc/font.ttf")), 64);
             fontSmall = Font.loadFont(String.valueOf(ImageLoader.class.getResource("/rsc/font.ttf")), 24);
         } catch (Exception e) {
             e.printStackTrace();
             fontBig = new Font(64);
-        } finally {
-            System.out.println("font "+ fontBig);
         }
     }
 

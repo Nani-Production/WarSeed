@@ -107,13 +107,30 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
                             "+++"+Player.getCharacters().get(i).get(6)+
                             "+++"+Player.getCharacters().get(i).get(7)+
                             "+++"+Player.getCharacters().get(i).get(8)+
+                             /*
+                            "+++"+800+
+                            "+++"+800+
+                             */
                             "+++"+Player.getCharacters().get(i).get(9)+
                             "+++"+Player.getCharacters().get(i).get(10)+"*");
-                    System.out.println("+++"+Player.getCharacters().get(i).get(7)+
-                                    "+++"+Player.getCharacters().get(i).get(8));
+                    try {
+                        System.out.println("+++"+Player.getCharacters().get(i).get(7)+
+                                "+++"+Player.getCharacters().get(i).get(8));
+                        //Ausgabe
+                        //+++null+++null
+                        if (Player.lol){
+                            System.out.println("LOOOOL");
+                            Player.lol = false;
+                        }
+                    } catch (NullPointerException e){
+                        e.printStackTrace();
+                    }
+
                 }
+
                 //projectiles
                 writer.write("//projectiles"+Data.getProjectiles().size()+"#");
+                /*
                 for (int i = 0; i < Data.getProjectiles().size(); i++){
                     writer.write("+++"+Data.getProjectiles().get(i).get(0)+
                             "+++"+Data.getProjectiles().get(i).get(1)+
@@ -128,6 +145,8 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
                 for (int i = 0; i < Player.getAttacks().size(); i++){
                     writer.write(Player.getAttacks().get(i)[0]+"+++"+Player.getAttacks().get(i)[1]+"+++#");
                 }
+
+                 */
                 //Player.getAttacks().clear();
                 writer.write("//end");
                 writer.newLine();

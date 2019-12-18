@@ -1,9 +1,11 @@
 package loop;
 
 import controls.Camera;
+import data.Data;
 import gamestate.Gamestate;
 import gamestate.Gamestate_e;
 import gui.Game_Gui;
+import player.Player;
 
 public class RenderLoop implements Runnable {
 
@@ -16,7 +18,7 @@ public class RenderLoop implements Runnable {
     @Override
     public void run() {
         long lastTime = System.nanoTime();
-        final double FPS = 60.0;
+        final double FPS = 30.0;
         double ns = 1000000000 / FPS;
         double deltaTime = 0;
 

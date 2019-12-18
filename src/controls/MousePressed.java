@@ -78,19 +78,9 @@ public class MousePressed implements EventHandler<MouseEvent> {
                     }
                     */
                     if (!enemy) {
-                        int index = -1;
-                        for (int i = 0; i < Player.getCharacters().size(); i++){
-                            if (Player.getCharacters().get(i).equals(Player.getSelectedUnit())){
-                                index = i;
-                            }
-                        }
-                        System.out.println("character is moving");
-                        System.out.println("old1  "+Player.getCharacters().get(index).get(7)+"   "+Player.getCharacters().get(index).get(8));
-                        System.out.println("old2  "+Player.getSelectedUnit().get(7)+"   "+Player.getSelectedUnit().get(8));
                         Player.getSelectedUnit().set(7, Double.toString(mouseEvent.getX() + Camera.getCamX()));
                         Player.getSelectedUnit().set(8, Double.toString(mouseEvent.getY() + Camera.getCamY()));
-                        System.out.println("new1  "+Player.getCharacters().get(index).get(7)+"   "+Player.getCharacters().get(index).get(8));
-                        System.out.println("new2  "+Player.getSelectedUnit().get(7)+"   "+Player.getSelectedUnit().get(8));
+                        Player.lol = true;
                     }
                 }
             }

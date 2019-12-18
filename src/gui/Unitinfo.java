@@ -19,6 +19,7 @@ public class Unitinfo extends Interface {
         g.strokeLine(x+width, y, x+width, y+height);
         g.strokeLine(x+width, y+height, x, y+height);
         g.strokeLine(x, y+height, x, y);
+        g.setLineWidth(1);
     }
 
     public double getX() {

@@ -35,7 +35,8 @@ public class Tube implements Runnable{
 
                     } else if (line.startsWith("//message")){ //Messsage for the chat
 
-                    } else if (line.startsWith("//GameStarting//")) {
+                    } else if (line.startsWith("//GameStarting")) {
+                        Data.addMap(line);
                         Main.startGame();
                     } else if (line.startsWith("ping")) {
                         dt.setPing(true);
