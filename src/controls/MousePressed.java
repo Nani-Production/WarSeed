@@ -33,11 +33,7 @@ public class MousePressed implements EventHandler<MouseEvent> {
         if (Gamestate.state == Gamestate_e.ingame) {
             if (mouseEvent.isPrimaryButtonDown()) {
                 double x = mouseEvent.getX(), y = mouseEvent.getY();
-                if (collisionRequest(new Rectangle(gui.getUnitinfo().getX(), gui.getUnitinfo().getY(), gui.getUnitinfo().getWidth(), gui.getUnitinfo().getHeight()), x, y)) {
-                    //TODO Die Funktionalität der Unitinfo machen
-                } else if (collisionRequest(new Rectangle(gui.getMinimap().getX(), gui.getMinimap().getY(), gui.getMinimap().getWidth(), gui.getMinimap().getHeight()), x, y)) {
-                    //TODO Die Funktionalität der Minimap machen
-                } else {
+                if (!gui.getMinimap().clicked(x, y) && !gui.getUnitinfo().clicked(x, y)){
                     for (int i = 0; i < Player.getCharacters().size(); i++) {
                         if (collisionRequest(new Rectangle(Double.parseDouble(Player.getCharacters().get(i).get(5)) - Camera.getCamX(), Double.parseDouble(Player.getCharacters().get(i).get(6)) - Camera.getCamY(), 64, 64), x, y)) {
                             Player.selectUnit(Player.getCharacters().get(i));
@@ -82,6 +78,7 @@ public class MousePressed implements EventHandler<MouseEvent> {
                         if (!enemy) {
                             Player.getSelectedUnit().set(7, Double.toString(mouseEvent.getX() + Camera.getCamX()));
                             Player.getSelectedUnit().set(8, Double.toString(mouseEvent.getY() + Camera.getCamY()));
+                            System.out.println("click "+Player.getSelectedUnit().get(7)+"   "+Player.getSelectedUnit().get(8));
                         }
                     }
                 }

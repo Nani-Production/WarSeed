@@ -13,20 +13,26 @@ import javafx.scene.transform.Affine;
 import javafx.scene.transform.Rotate;
 import player.Player;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+
 public class Draw_Main {
     public static double frame1, frame2, frame3;
     private double mapwidth, mapheight;
     private final static Affine normalAngle = new Affine(new Rotate(0));
     private double conOpacity = 0.7;
     private boolean opacDarker = false;
+    private ArrayList <ArrayList<String>> drawingList;
 
     public void draw(GraphicsContext g, Game_Gui gui) {
         try {
+            drawingList = Data.getListofLists();
             mapwidth = gui.getWidth();
             mapheight = gui.getMapHeight();
 
             g.setTransform(normalAngle);
-
             //Menu
             if (Gamestate.state == Gamestate_e.menu) {
                 drawMenu(g, gui);
@@ -64,7 +70,7 @@ public class Draw_Main {
     }
 
     private void drawCharacter(GraphicsContext g, Image img, int i) {
-        double x = Double.parseDouble(Data.getListofLists().get(i).get(5)), y = Double.parseDouble(Data.getListofLists().get(i).get(6)), angle = Double.parseDouble(Data.getListofLists().get(i).get(9));
+        double x = Double.parseDouble(drawingList.get(i).get(5)), y = Double.parseDouble(drawingList.get(i).get(6)), angle = Double.parseDouble(drawingList.get(i).get(9));
         double moveX = -1, moveY = -1;
         /*
         try {
@@ -171,30 +177,43 @@ public class Draw_Main {
 
 
         //drawUnits
-        System.out.println("size in draw: "+Data.getListofLists().size());
-        for (int i = 0; i < Data.getListofLists().size(); i++) {
+        for (int i = 0; i < drawingList.size(); i++) {
+            //test
+            if (drawingList.size() != 5){
+                System.out.println(drawingList.size());
+            }
+            /*
+            if (Integer.parseInt(drawingList.get(i).get(2)) == UnitDatabank.SPEEDER) {
+                StringBuilder line = new StringBuilder();
+                for (int j = 4; j < drawingList.get(i).size(); j++){
+                    line.append(drawingList.get(i).get(j)+" +++ ");
+                }
+                writeFile(line.toString());
+            }
+             */
+            //test
             double size = 64;
             Image unit = ImageLoader.image2;
-            if (Data.getListofLists().get(i).get(0) == "character") {
+            if (drawingList.get(i).get(0) == "character") {
                 //g.setTransform(new Affine(new Rotate(Double.parseDouble(Player.getSelectedUnit().get(9)), Double.parseDouble(Player.getSelectedUnit().get(5)) + 32, Double.parseDouble(Player.getSelectedUnit().get(6)) + 32)));
-                if (Integer.parseInt(Data.getListofLists().get(i).get(2)) == UnitDatabank.DAMAGEDEALER) {
+                if (Integer.parseInt(drawingList.get(i).get(2)) == UnitDatabank.DAMAGEDEALER) {
                     unit = ImageLoader.damageDealer;
-                } else if (Integer.parseInt(Data.getListofLists().get(i).get(2)) == UnitDatabank.SPEEDER) {
+                } else if (Integer.parseInt(drawingList.get(i).get(2)) == UnitDatabank.SPEEDER) {
                     //System.out.println("lolig "+Data.getListofLists().get(i).get(4)+"   "+Data.getListofLists().get(i).get(5)+"   "+Data.getListofLists().get(i).get(6));
                     unit = ImageLoader.speeder;
-                } else if (Integer.parseInt(Data.getListofLists().get(i).get(2)) == UnitDatabank.TANK) {
+                } else if (Integer.parseInt(drawingList.get(i).get(2)) == UnitDatabank.TANK) {
                     unit = ImageLoader.tank;
-                } else if (Integer.parseInt(Data.getListofLists().get(i).get(2)) == UnitDatabank.SETTLER) {
+                } else if (Integer.parseInt(drawingList.get(i).get(2)) == UnitDatabank.SETTLER) {
                     unit = ImageLoader.settler;
                 } else {
                     unit = ImageLoader.image;
                     size = 64;
                 }
-            } else if (Data.getListofLists().get(i).get(0) == "building"){
-                if (Data.getListofLists().get(i).get(2).equals(String.valueOf(UnitDatabank.NEXUS))){
+            } else if (drawingList.get(i).get(0) == "building"){
+                if (drawingList.get(i).get(2).equals(String.valueOf(UnitDatabank.NEXUS))){
                     size = 200;
                     unit = ImageLoader.base;
-                } else if (Data.getListofLists().get(i).get(2).equals(String.valueOf(UnitDatabank.VILLAGE))){
+                } else if (drawingList.get(i).get(2).equals(String.valueOf(UnitDatabank.VILLAGE))){
                     size = 100;
                     unit = ImageLoader.village;
                 } else {
@@ -202,7 +221,7 @@ public class Draw_Main {
                     unit = ImageLoader.image2;
                 }
             }
-            if (Double.parseDouble(Data.getListofLists().get(i).get(5)) + size > Camera.getCamX() && Double.parseDouble(Data.getListofLists().get(i).get(5))  <= Camera.getCamX() + gui.getWidth() && Double.parseDouble(Data.getListofLists().get(i).get(6)) + size > Camera.getCamY() && Double.parseDouble(Data.getListofLists().get(i).get(6)) <= Camera.getCamY() + gui.getHeight()) {
+            if (Double.parseDouble(drawingList.get(i).get(5)) + size > Camera.getCamX() && Double.parseDouble(drawingList.get(i).get(5))  <= Camera.getCamX() + gui.getWidth() && Double.parseDouble(drawingList.get(i).get(6)) + size > Camera.getCamY() && Double.parseDouble(drawingList.get(i).get(6)) <= Camera.getCamY() + gui.getHeight()) {
                     /*
                     double newCam[] = {0, 0};
                     if (Data.getListofLists().get(i).get(0) == "character"){
@@ -212,25 +231,24 @@ public class Draw_Main {
                     }
                      */
                 //if (Double.parseDouble(Data.getListofLists().get(i).get(5)) > newCam[0] && Double.parseDouble(Data.getListofLists().get(i).get(5))+64 <= newCam[0]+gui.getWidth() && Double.parseDouble(Data.getListofLists().get(i).get(6)) > newCam[1] && Double.parseDouble(Data.getListofLists().get(i).get(6))+64 <= newCam[1]+gui.getHeight()){
-
-                if (Data.getListofLists().get(i).get(0) == "building") {
-                    g.drawImage(unit, Double.parseDouble(Data.getListofLists().get(i).get(5)) - Camera.getCamX(), Double.parseDouble(Data.getListofLists().get(i).get(6)) - Camera.getCamY(), size, size);
-                } else if (Data.getListofLists().get(i).get(0) == "character") {
-                    g.drawImage(unit,  Double.parseDouble(Data.getListofLists().get(i).get(5)) - Camera.getCamX(),  Double.parseDouble(Data.getListofLists().get(i).get(6)) - Camera.getCamY(), size, size);
+                if (drawingList.get(i).get(0) == "building") {
+                    g.drawImage(unit, Double.parseDouble(drawingList.get(i).get(5)) - Camera.getCamX(), Double.parseDouble(drawingList.get(i).get(6)) - Camera.getCamY(), size, size);
+                } else if (drawingList.get(i).get(0) == "character") {
+                    g.drawImage(unit,  Double.parseDouble(drawingList.get(i).get(5)) - Camera.getCamX(),  Double.parseDouble(drawingList.get(i).get(6)) - Camera.getCamY(), size, size);
                 }
-                double health = Double.parseDouble(Data.getListofLists().get(i).get(3)), maxHealth = Double.parseDouble(UnitDatabank.getUnitInfo(Integer.parseInt(Data.getListofLists().get(i).get(2)), "maxHealth"));
+                double health = Double.parseDouble(drawingList.get(i).get(3)), maxHealth = Double.parseDouble(UnitDatabank.getUnitInfo(Integer.parseInt(drawingList.get(i).get(2)), "maxHealth"));
                 if (health < maxHealth){
                     g.setFill(Color.DARKRED);
-                    g.fillRect(Double.parseDouble(Data.getListofLists().get(i).get(5))- Camera.getCamX(), Double.parseDouble(Data.getListofLists().get(i).get(6))-20- Camera.getCamY(), size, 5);
+                    g.fillRect(Double.parseDouble(drawingList.get(i).get(5))- Camera.getCamX(), Double.parseDouble(drawingList.get(i).get(6))-20- Camera.getCamY(), size, 5);
                     g.setFill(Color.RED);
                     double ratio = health/maxHealth;
-                    g.fillRect(Double.parseDouble(Data.getListofLists().get(i).get(5))- Camera.getCamX(), Double.parseDouble(Data.getListofLists().get(i).get(6))-20- Camera.getCamY(), size*ratio, 5);
+                    g.fillRect(Double.parseDouble(drawingList.get(i).get(5))- Camera.getCamX(), Double.parseDouble(drawingList.get(i).get(6))-20- Camera.getCamY(), size*ratio, 5);
                 }
 
                 g.setStroke(new Color(1, 0, 0, 0.5));
-                if (!Data.getListofLists().get(i).get(1).equals(Player.getUsername())) {
+                if (!drawingList.get(i).get(1).equals(Player.getUsername())) {
                     //g.setTransform(new Affine(new Rotate(Double.parseDouble(Data.getListofLists().get(i).get(9)), Double.parseDouble(Data.getListofLists().get(i).get(5)) + 32, Double.parseDouble(Data.getListofLists().get(i).get(6)) + 32)));
-                    g.strokeRect(Double.parseDouble(Data.getListofLists().get(i).get(5)) - Camera.getCamX(), Double.parseDouble(Data.getListofLists().get(i).get(6)) - Camera.getCamY(), size, size);
+                    g.strokeRect(Double.parseDouble(drawingList.get(i).get(5)) - Camera.getCamX(), Double.parseDouble(drawingList.get(i).get(6)) - Camera.getCamY(), size, size);
                     g.setTransform(normalAngle);
                 }
             }
@@ -254,7 +272,7 @@ public class Draw_Main {
 
         //Projectiles
         for (int i = 0; i < Data.getProjectiles().size(); i++) {
-            g.drawImage(ImageLoader.image, Double.parseDouble(Data.getListofLists().get(i).get(1)), Double.parseDouble(Data.getListofLists().get(i).get(2)), 10, 10);
+            g.drawImage(ImageLoader.image, Double.parseDouble(drawingList.get(i).get(1)), Double.parseDouble(drawingList.get(i).get(2)), 10, 10);
         }
 
         //Interface
@@ -302,6 +320,30 @@ public class Draw_Main {
         g.setFont(gui.getFontBig());
         g.fillText("Connection lost\ntry to reconnect", gui.getWidth() * (1. / 3.), gui.getHeight() * (2. / 5.), gui.getWidth() * (2. / 3.));
         g.strokeText("Connection lost\ntry to reconnect", gui.getWidth() * (1. / 3.), gui.getHeight() * (2. / 5.), gui.getWidth() * (2. / 3.));
+
+    }
+
+    private void writeFile(String output) {
+        FileWriter fileWriter = null;
+        BufferedWriter bufferedWriter = null;
+        String outputWithNewLine = output + System.getProperty("line.separator");
+
+        try {
+            fileWriter = new FileWriter("log.txt", true);
+            bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.write(outputWithNewLine);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                assert bufferedWriter != null;
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                fileWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
     }
 }

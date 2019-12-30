@@ -3,6 +3,9 @@ package data;
 import javafx.print.PageLayout;
 import player.Player;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Data { //Enthält alle Daten vom Spielgeschehen
@@ -22,27 +25,18 @@ public class Data { //Enthält alle Daten vom Spielgeschehen
     }
 
     public static void addData(String line) {
-  /*
-        for (int i = 0; i < Player.getCharacters().size(); i++) {
-            try {
-                if (!Player.getCharacters().get(i).get(7).equals("null")) {
-                    System.out.println(i + " 7 " + Player.getCharacters().get(i).get(7));
-                }
-                if (!Player.getCharacters().get(i).get(8).equals("null")) {
-                    System.out.println(i + " 8 " + Player.getCharacters().get(i).get(8));
-                }
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-            }
-        }
-*/
-
+        //Buildings
+        int index = 0;
+        index = line.indexOf("//buildings");
+        index = line.indexOf("#", index+1);
+        index += 3;
+        /*Ü
         //Buildings
         int index = 0;
         index = line.indexOf("#");
         index += 3;
-
-        int startIndex = 0;
+         */
+        int startIndex = index;
         int i = 0;
         while (startIndex < line.indexOf("//characters")) {
             if ((startIndex = line.indexOf("*", startIndex + 1)) != -1) {
@@ -176,31 +170,40 @@ public class Data { //Enthält alle Daten vom Spielgeschehen
             list.add(angle);
             list.add(canAttack);
 
+            /*
             if (owner == Player.getUsername()) {
                 for (int j = 0; j < Player.getCharacters().size(); j++) {
                     if (Player.getCharacters().get(j).get(4).equals(name) && !Player.getCharacters().get(j).get(4).equals("null")) {
                         Player.getCharacters().set(j, list);
                     } else if (Player.getCharacters().get(j).get(4).equals("null")) {
                         //TODO Lösung finden
-                        /*
-                        if (Player.getCharacters().get(j).get(2).equals(type) && Player.getCharacters().get(j).get(5) == x && Player.getCharacters().get(j).get(6) == y){
-                            Player.getCharacters().set(j, list);
-                        }
-                         */
+                        //if (Player.getCharacters().get(j).get(2).equals(type) && Player.getCharacters().get(j).get(5) == x && Player.getCharacters().get(j).get(6) == y){
+                        //    Player.getCharacters().set(j, list);
+                        //}
                     }
                 }
-            }
+            }*/
+
             if (doubling(list)){
-                System.out.println(k+" it doubles");
+                //System.out.println(k+" it doubles");
             } else {
                 if (actualising(list)){
-                    System.out.println(k+" it is actualised");
+                    //System.out.println(k+" it is actualised");
                 } else {
                     listofLists.add(list);
                     System.out.println(k+" size: "+listofLists.size());
                 }
             }
 
+            if (type.equals("0")){
+                StringBuilder builder = new StringBuilder();
+                for (int j = 4; j < list.size(); j++){
+                    builder.append(list.get(j)+" +++ ");
+                }
+                writeFile(builder.toString());
+            }
+
+/*
             System.out.print("nowList   ");
             for (int g = 0; g < list.size(); g++){
                 System.out.print(list.get(g));
@@ -215,7 +218,7 @@ public class Data { //Enthält alle Daten vom Spielgeschehen
                 System.out.print("\n");
             }
             System.out.println("//end");
-
+ */
             /*
             if (!doubling(list)) {
                 System.out.println("no double");
@@ -290,9 +293,12 @@ public class Data { //Enthält alle Daten vom Spielgeschehen
                     actualising = true;
                 }
             }
+            /*
             if (!doubling && !actualising) {
                 projectiles.add(list);
             }
+             */
+            System.out.println("size in Data: "+listofLists.size());
         }
 
         for (int j = 0; j < Player.getCharacters().size(); j++) {
@@ -329,6 +335,57 @@ public class Data { //Enthält alle Daten vom Spielgeschehen
         for (int i = 0; i < listofLists.size(); i++) {
             if (listofLists.get(i).get(0).equals(list.get(0)) && listofLists.get(i).get(1).equals(list.get(1)) && listofLists.get(i).get(2).equals(list.get(2)) && listofLists.get(i).size() == list.size()) {
                 if (listofLists.get(i).get(4).equals(list.get(4))) {
+                    if (listofLists.get(i).size() == list.size()){
+                        for (int j = 0; j < listofLists.get(i).size(); j++){
+                            listofLists.get(i).set(j, list.get(j));
+                            //list.set(j, listofLists.get(i).get(j));
+
+                        }
+                    }
+                    /*
+                    //test
+                    System.out.println("loooooool 1");
+                    System.out.print("1 ");
+                    for (int j = 0; j < listofLists.get(i).size(); j++){
+                        System.out.print(listofLists.get(i).get(j)+"   ");
+                    }
+                    System.out.print("\n2 ");
+                    for (int j = 0; j < list.size(); j++){
+                        System.out.print(list.get(j)+"   ");
+                    }
+                    System.out.println();
+                    //lol
+                    if (listofLists.get(i).size() == list.size())
+                        for (int j = 0; j < listofLists.get(i).size(); j++){
+                            //listofLists.get(i).set(j, list.get(j));
+                            list.set(j, listofLists.get(i).get(j));
+                        }
+                    //lol
+                    System.out.println("loooooool 2");
+                    System.out.print("1 ");
+                    for (int j = 0; j < listofLists.get(i).size(); j++){
+                        System.out.print(listofLists.get(i).get(j)+"   ");
+                    }
+                    System.out.print("\n2 ");
+                    for (int j = 0; j < list.size(); j++){
+                        System.out.print(list.get(j)+"   ");
+                    }
+                    System.out.println();
+                    //test
+                     */
+                    actualising = true;
+                }
+            }
+        }
+        return actualising;
+    }
+
+    /*
+    private static boolean actualising(ArrayList<String> list) {
+        boolean actualising = false;
+        for (int i = 0; i < listofLists.size(); i++) {
+            if (listofLists.get(i).get(0).equals(list.get(0)) && listofLists.get(i).get(1).equals(list.get(1)) && listofLists.get(i).get(2).equals(list.get(2)) && listofLists.get(i).size() == list.size()) {
+                if (listofLists.get(i).get(4).equals(list.get(4))) {
                     System.out.println("actualising 1. "+listofLists.get(i).get(5)+" "+listofLists.get(i).get(6)+"    2. "+list.get(5)+" "+list.get(6));
                     listofLists.set(i, list);
                     actualising = true;
@@ -337,6 +394,7 @@ public class Data { //Enthält alle Daten vom Spielgeschehen
         }
         return actualising;
     }
+    */
 
     public static ArrayList<ArrayList<String>> getProjectiles() {
         return projectiles;
@@ -344,5 +402,28 @@ public class Data { //Enthält alle Daten vom Spielgeschehen
 
     public static void setProjectiles(ArrayList<ArrayList<String>> projectiles) {
         Data.projectiles = projectiles;
+    }
+
+    private static void writeFile(String output) {
+        FileWriter fileWriter = null;
+        BufferedWriter bufferedWriter = null;
+        String outputWithNewLine = output + System.getProperty("line.separator");
+
+        try {
+            fileWriter = new FileWriter("log.txt", true);
+            bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.write(outputWithNewLine);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                assert bufferedWriter != null;
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                fileWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

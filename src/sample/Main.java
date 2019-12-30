@@ -25,7 +25,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Gamestate.state = Gamestate_e.ingame;
+        //Gamestate.state = Gamestate_e.ingame;
         gui.init(primaryStage);
         Camera.setGui(gui);
         startWindow();
@@ -142,11 +142,13 @@ public class Main extends Application {
         Player.getCharacters().add(list);
         list = new ArrayList<>();
 
-        for (int i = 0; i < Player.getBuildings().size(); i++){ //chas und builsings werden der Datenbank hinzugefügt (übernimmt eigentlich die Server-Client Kommunikation)
-            Data.getListofLists().add(Player.getBuildings().get(i));
-        }
-        for (int i = 0; i < Player.getCharacters().size(); i++){
-            Data.getListofLists().add(Player.getCharacters().get(i));
+        if (Gamestate.state == Gamestate_e.ingame){
+            for (int i = 0; i < Player.getBuildings().size(); i++){ //chas und builsings werden der Datenbank hinzugefügt (übernimmt eigentlich die Server-Client Kommunikation)
+                Data.getListofLists().add(Player.getBuildings().get(i));
+            }
+            for (int i = 0; i < Player.getCharacters().size(); i++){
+                Data.getListofLists().add(Player.getCharacters().get(i));
+            }
         }
 
         list.add("character");

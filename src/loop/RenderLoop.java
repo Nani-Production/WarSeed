@@ -45,21 +45,29 @@ public class RenderLoop implements Runnable {
     private void update(){
         if (Gamestate.state == Gamestate_e.ingame) {
             Camera.moveCam();
+            int counter2 = 0;
 
             if (counter < FPS){
                 counter++;
             } else if (counter >= FPS){
                 counter = 0;
                 //update ressources
-                for (int i = 0; i < Data.getListofLists().size(); i++){
-                    if (Data.getListofLists().get(i).get(0).equals("building")){
-                        gui.getResInfo().setRessource1(gui.getResInfo().getRessource1()+Long.parseLong(Data.getListofLists().get(i).get(7)));
-                        gui.getResInfo().setRessource2(gui.getResInfo().getRessource2()+Long.parseLong(Data.getListofLists().get(i).get(8)));
-                        gui.getResInfo().setRessource3(gui.getResInfo().getRessource3()+Long.parseLong(Data.getListofLists().get(i).get(9)));
+                for (int i = 0; i < Player.getBuildings().size(); i++){
+                    if (Player.getBuildings().get(i).get(0).equals("building")){
+                        counter2++;
+                        try {
+                            gui.getResInfo().setRessource1(gui.getResInfo().getRessource1()+Long.parseLong(Player.getBuildings().get(i).get(7)));
+                            gui.getResInfo().setRessource2(gui.getResInfo().getRessource2()+Long.parseLong(Player.getBuildings().get(i).get(8)));
+                            gui.getResInfo().setRessource3(gui.getResInfo().getRessource3()+Long.parseLong(Player.getBuildings().get(i).get(9)));
+                        } catch (IndexOutOfBoundsException e){
+                            e.printStackTrace();
+                            System.out.println("type "+Player.getBuildings().get(i).get(0)+" size "+Player.getBuildings().get(i).size());
+                            //System.exit(0);
+                        }
                     }
                 }
+                System.out.println("counter "+counter2);
             }
-
         }
     }
 }

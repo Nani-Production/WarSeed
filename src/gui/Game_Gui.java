@@ -14,6 +14,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.StackPane;
+import javafx.scene.robot.Robot;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -39,6 +40,8 @@ public class Game_Gui {
     private Ressourceinfo resInfo;
     private Font fontBig, fontSmall;
 
+    private Robot robot;
+
     public void init (Stage stage) {
         dm = new Draw_Main();
         this.stage = stage;
@@ -61,6 +64,8 @@ public class Game_Gui {
             e.printStackTrace();
             fontBig = new Font(64);
         }
+
+        robot = new Robot();
     }
 
     public void create (){
@@ -83,7 +88,7 @@ public class Game_Gui {
         scene = new Scene(root, width, height);
         scene.setOnKeyPressed(new KeyPressed(this));
         scene.setOnKeyReleased(new KeyReleased());
-        scene.setOnMouseMoved(new MouseMoved(this));
+        scene.setOnMouseMoved(new MouseMoved(this, robot));
         scene.setOnMousePressed(new MousePressed(this));
         scene.setOnMouseReleased(new MouseReleased());
 
@@ -100,6 +105,18 @@ public class Game_Gui {
                 System.exit(0);
             }
         });
+    }
+
+    public double[] getStageInfo (){
+        double coord [] = null;
+        if (stage != null){
+            coord = new double[4];
+            coord [0] = stage.getX();
+            coord [1] = stage.getY();
+            coord [2] = stage.getWidth();
+            coord [3] = stage.getHeight();
+        }
+        return coord;
     }
 
     public void bConnectAction(){

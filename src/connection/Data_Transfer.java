@@ -7,7 +7,10 @@ import player.Player;
 import sample.Main;
 
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.concurrent.atomic.DoubleAccumulator;
 
 public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den Server und empfängt Daten vom Server
     private Connection con;
@@ -16,6 +19,7 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
     private OutputStreamWriter output;
     private BufferedWriter writer;
     private boolean running = true, ping = false;
+    private SimpleDateFormat format = new SimpleDateFormat();
 
     public Data_Transfer(Connection connect) {
         this.con = connect;
@@ -24,10 +28,18 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
 
     @Override
     public void run() {
+        //test
+        try {
+            FileWriter fileWriter = new FileWriter("log.txt");
+            fileWriter.write("");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //test
         try {
             System.out.println("Data_Transfer running");
-            final int timeout = 200; //in ms
-            while (!con.isConnected()){
+            final int timeout = 5; //in ms
+            while (!con.isConnected()) {
                 System.out.println("no Connection found");
             }
             output = new OutputStreamWriter(con.getSocket().getOutputStream());
@@ -36,9 +48,9 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
             tubeThread = new Thread(tube);
             tubeThread.start();
 
-            while (running){
+            while (running) {
                 //send and receive game data
-                if (con.isConnected()){
+                if (con.isConnected()) {
                     sendData();
                     try {
                         Main.getInfo().sleep(timeout);
@@ -46,10 +58,10 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
                         e.printStackTrace();
                     }
                     receiveData();
-                    if (con.getSocket() == null || !con.isConnected()){
+                    if (con.getSocket() == null || !con.isConnected()) {
                         running = false;
                     }
-                    if (Player.isReady() && !Player.isGameRunning()){
+                    if (Player.isReady() && !Player.isGameRunning()) {
                         if (!Player.isMessageSent()) {
                             writer.write("//Ready//");
                             Player.setMessageSent(true);
@@ -57,8 +69,8 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
                             writer.newLine();
                             writer.flush();
                         }
-                    } else if (!Player.isReady() && !Player.isGameRunning()){
-                        if (!Player.isMessageSent()){
+                    } else if (!Player.isReady() && !Player.isGameRunning()) {
+                        if (!Player.isMessageSent()) {
                             writer.write("//notReady//");
                             Player.setMessageSent(true);
                             System.out.println("sent not ready");
@@ -73,9 +85,9 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
         }
     }
 
-    private void sendData(){
+    private void sendData() {
         //send Data of own Position
-        if (ping){
+        if (ping) {
             try {
                 writer.write("pong");
                 ping = false;
@@ -86,54 +98,43 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
                 e.printStackTrace();
             }
         }
-        if (Player.isGameRunning()){
-            try{ //Die eigene Einheiten wird geschickt
-                writer.write("//buildings"+Player.getBuildings().size()+"#");
-                for (int i = 0; i < Player.getBuildings().size(); i++){
-                    writer.write("//"+Player.getBuildings().get(i).get(1)+
-                            "+++"+Player.getBuildings().get(i).get(2)+
-                            "+++"+Player.getBuildings().get(i).get(3)+
-                            "+++"+Player.getBuildings().get(i).get(4)+
-                            "+++"+Player.getBuildings().get(i).get(5)+
-                            "+++"+Player.getBuildings().get(i).get(6)+"*");
+        if (Player.isGameRunning()) {
+            actualisePosition();
+            //test
+            //System.out.println("transfer "+Player.getSelectedUnit().get(7)+"   "+Player.getSelectedUnit().get(8));
+            //test
+
+            try { //Die eigene Einheiten wird geschickt
+                writer.write("//data");
+                writer.write(Long.toString(System.currentTimeMillis()));
+                writer.write("//buildings" + Player.getBuildings().size() + "#");
+                for (int i = 0; i < Player.getBuildings().size(); i++) {
+                    writer.write("//" + Player.getBuildings().get(i).get(1) +
+                            "+++" + Player.getBuildings().get(i).get(2) +
+                            "+++" + Player.getBuildings().get(i).get(3) +
+                            "+++" + Player.getBuildings().get(i).get(4) +
+                            "+++" + Player.getBuildings().get(i).get(5) +
+                            "+++" + Player.getBuildings().get(i).get(6) + "*");
                 }
-                writer.write("//characters"+Player.getCharacters().size()+"#");
-                for (int i = 0; i < Player.getCharacters().size(); i++){
-                    writer.write("+++"+Player.getCharacters().get(i).get(1)+
-                            "+++"+Player.getCharacters().get(i).get(2)+
-                            "+++"+Player.getCharacters().get(i).get(3)+
-                            "+++"+Player.getCharacters().get(i).get(4)+
-                            "+++"+Player.getCharacters().get(i).get(5)+
-                            "+++"+Player.getCharacters().get(i).get(6)+
-                            /*
-                            "+++"+Player.getCharacters().get(i).get(7)+
-                            "+++"+Player.getCharacters().get(i).get(8)+
-                             */
-                            "+++"+800+
-                            "+++"+800+
-                            "+++"+Player.getCharacters().get(i).get(9)+
-                            "+++"+Player.getCharacters().get(i).get(10)+"*");
-                    /*
-                    try {
-                        System.out.println("+++"+Player.getCharacters().get(i).get(7)+
-                                "+++"+Player.getCharacters().get(i).get(8));
-                        //Ausgabe
-                        //+++null+++null
-                        if (Player.lol){
-                            System.out.println("LOOOOL");
-                            Player.lol = false;
-                        }
-                    } catch (NullPointerException e){
-                        e.printStackTrace();
-                    }
-
-                     */
-
+                writer.write("//characters" + Player.getCharacters().size() + "#");
+                for (int i = 0; i < Player.getCharacters().size(); i++) {
+                    writer.write("+++" + Player.getCharacters().get(i).get(1) +
+                            "+++" + Player.getCharacters().get(i).get(2) +
+                            "+++" + Player.getCharacters().get(i).get(3) +
+                            "+++" + Player.getCharacters().get(i).get(4) +
+                            "+++" + Player.getCharacters().get(i).get(5) +
+                            "+++" + Player.getCharacters().get(i).get(6) +
+                            "+++" + Player.getCharacters().get(i).get(7) +
+                            "+++" + Player.getCharacters().get(i).get(8) +
+                            //"+++" + 800 +
+                            //"+++" + 800 +
+                            "+++" + Player.getCharacters().get(i).get(9) +
+                            "+++" + Player.getCharacters().get(i).get(10) + "*");
                 }
 
                 //projectiles
-                writer.write("//projectiles"+Data.getProjectiles().size()+"#");
-                /*
+                writer.write("//projectiles" + Data.getProjectiles().size() + "#");
+                /* projectiles testcode
                 for (int i = 0; i < Data.getProjectiles().size(); i++){
                     writer.write("+++"+Data.getProjectiles().get(i).get(0)+
                             "+++"+Data.getProjectiles().get(i).get(1)+
@@ -150,38 +151,97 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
                 }
 
                  */
+
                 //Player.getAttacks().clear();
                 writer.write("//end");
                 writer.newLine();
                 writer.flush();
-            } catch (IOException e){
+            } catch (IOException e) {
                 handleIOException(e);
             }
+
+            /*
+            //!!!Testcode!!!
+            StringBuilder line = new StringBuilder();
+            line.append("//buildings" + Player.getBuildings().size() + "#");
+            for (int i = 0; i < Player.getBuildings().size(); i++) {
+                line.append("//" + Player.getBuildings().get(i).get(1) +
+                        "+++" + Player.getBuildings().get(i).get(2) +
+                        "+++" + Player.getBuildings().get(i).get(3) +
+                        "+++" + Player.getBuildings().get(i).get(4) +
+                        "+++" + Player.getBuildings().get(i).get(5) +
+                        "+++" + Player.getBuildings().get(i).get(6) + "*");
+            }
+            line.append("//characters" + Player.getCharacters().size() + "#");
+            for (int i = 0; i < Player.getCharacters().size(); i++) {
+                line.append("+++" + Player.getCharacters().get(i).get(1) +
+                        "+++" + Player.getCharacters().get(i).get(2) +
+                        "+++" + Player.getCharacters().get(i).get(3) +
+                        "+++" + Player.getCharacters().get(i).get(4) +
+                        "+++" + Player.getCharacters().get(i).get(5) +
+                        "+++" + Player.getCharacters().get(i).get(6) +
+                        "+++" + Player.getCharacters().get(i).get(7) +
+                        "+++" + Player.getCharacters().get(i).get(8) +
+                        //"+++" + 800 +
+                        //"+++" + 800 +
+                        "+++" + Player.getCharacters().get(i).get(9) +
+                        "+++" + Player.getCharacters().get(i).get(10) + "*");
+            }
+            //projectiles
+            line.append("//projectiles" + Data.getProjectiles().size() + "#");
+
+            //Player.getAttacks().clear();
+            line.append("//end\n");
+            writeFile(line.toString());
+            //!!!Testcode!!!
+             */
         }
     }
 
-    private void receiveData(){
+    private void receiveData() {
+        int index = -1;
+        long newestTime = 0;
         for (int i = 0; i < tube.getBuffer().size(); i++){
+            String s = null;
+            try {
+                s = tube.getBuffer().get(i).substring("//data".length(), tube.getBuffer().get(i).indexOf("//buildings"));
+            } catch (NullPointerException e){
+                e.printStackTrace();
+            }
+            if (!s.equals(null)){
+                if (Long.parseLong(s) > newestTime){
+                    newestTime = Long.parseLong(s);
+                    index = i;
+                }
+            }
+        }
+        if (index > -1){
+            Data.addData(tube.getBuffer().get(index));
+        }
+        /*
+        for (int i = 0; i < tube.getBuffer().size(); i++) {
             Data.addData(tube.getBuffer().get(i));
         }
-    }
-
-    public boolean isRunning() {
-        return running;
+         */
+        tube.getBuffer().clear();
     }
 
     public void setRunning(boolean running) {
         this.running = running;
     }
 
-    private void handleIOException (IOException e) {
+    private void handleIOException(IOException e) {
         if (e.toString().startsWith("java.net.SocketException")) {
             running = false;
 
-            if (Gamestate.state != Gamestate_e.reconnect){
+            if (Gamestate.state != Gamestate_e.reconnect) {
                 Gamestate.lastState = Gamestate.state;
             }
             Gamestate.state = Gamestate_e.reconnect;
+
+            //test
+            System.exit(0);
+            //test
 
             con.getGui().bConnectAction();
         } else {
@@ -193,7 +253,40 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
         this.ping = ping;
     }
 
-    public BufferedWriter getWriter() {
-        return writer;
+    private void writeFile(String output) {
+        FileWriter fileWriter = null;
+        BufferedWriter bufferedWriter = null;
+        String outputWithNewLine = output + System.getProperty("line.separator");
+
+        try {
+            fileWriter = new FileWriter("log.txt", true);
+            bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.write(outputWithNewLine);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                assert bufferedWriter != null;
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                fileWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    private void actualisePosition() {
+        for (int i = 0; i < Data.getListofLists().size(); i++){
+            if (Data.getListofLists().get(i).get(0).equals("character")){
+                for (int j = 0; j < Player.getCharacters().size(); j++){
+                    if (Player.getCharacters().get(j).get(1).equals(Data.getListofLists().get(i).get(1)) && Player.getCharacters().get(j).get(2).equals(Data.getListofLists().get(i).get(2)) && Player.getCharacters().get(j).get(4).equals(Data.getListofLists().get(i).get(4))){
+                        Player.getCharacters().get(j).set(5, Data.getListofLists().get(i).get(5));
+                        Player.getCharacters().get(j).set(6, Data.getListofLists().get(i).get(6));
+                    }
+                }
+            }
+        }
     }
 }

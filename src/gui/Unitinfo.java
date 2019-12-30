@@ -48,6 +48,13 @@ public class Unitinfo extends Interface {
         g.setLineWidth(1);
     }
 
+    public boolean clicked(double mx, double my){
+        if (mx > x && mx <= x+width && my > y && my <= y+height){
+            return true;
+        }
+        return false;
+    }
+
     public double getX() {
         return x;
     }

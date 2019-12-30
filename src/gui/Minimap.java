@@ -71,6 +71,13 @@ public class Minimap extends Interface {
 
     }
 
+    public boolean clicked(double mx, double my){
+        if (mx > x && mx <= x+width && my > y && my <= y+height){
+            return true;
+        }
+        return false;
+    }
+
     private Image screenshotMap(){  //not finished
         return null;
     }

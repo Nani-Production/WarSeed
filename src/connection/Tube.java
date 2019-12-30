@@ -27,7 +27,7 @@ public class Tube implements Runnable{
             try {
                 String line = con.getReader().readLine();
                 if (line != null){
-                    if (line.startsWith("//buildings")){ //Datensatz vom Client
+                    if (line.startsWith("//data")){ //Datensatz vom Client
                         if (Player.isGameRunning()){
                             buffer.add(line);
                         }
@@ -59,6 +59,10 @@ public class Tube implements Runnable{
                 Gamestate.lastState = Gamestate.state;
             }
             Gamestate.state = Gamestate_e.reconnect;
+
+            //test
+            System.exit(0);
+            //test
 
             con.getGui().bConnectAction();
         } else {

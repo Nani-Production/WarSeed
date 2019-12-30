@@ -5,21 +5,27 @@ import gamestate.Gamestate;
 import gamestate.Gamestate_e;
 import gui.Game_Gui;
 import javafx.event.EventHandler;
+import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.robot.Robot;
 import javafx.scene.shape.Rectangle;
 
 public class MouseMoved implements EventHandler<MouseEvent> {
     private double frame1 = 0.1, frame2 = 0.05, frame3 = 0.02; //der prozentuale Rahmen, in dem man sich mit der Maus über die Map bewegen kann
     private double speed = 0;
     private Game_Gui gui;
+    private Robot robot;
 
-    public MouseMoved(Game_Gui gui) {
+    public MouseMoved(Game_Gui gui, Robot robot){
         this.gui = gui;
+        this.robot = robot;
     }
 
     @Override
     public void handle(MouseEvent mouseEvent) {
         double x = mouseEvent.getX(), y = mouseEvent.getY();
+
+        //lockMouseOnScreen(x, y);
 
         if (Gamestate.state == Gamestate_e.menu) {
             gui.getConnect().checkHover(x, y);
@@ -203,6 +209,30 @@ public class MouseMoved implements EventHandler<MouseEvent> {
                 }
                  */
         }
+    }
+
+    private void lockMouseOnScreen(double x, double y) {
+        double[] cordinations = gui.getStageInfo();
+        double newX = x+cordinations[0], newY = y+cordinations[1];
+
+        if (x <= 1) {
+            newX = cordinations[0]+2;
+            System.out.println("links "+newX);
+        } else if (x >= gui.getWidth()-1){
+            newX = cordinations[0]+cordinations[2]-2;
+            System.out.println("rechts "+newX);
+        }
+
+        System.out.println(cordinations[1]+"   "+cordinations[3]);
+        if (y <= 1){
+            newY = cordinations[1]+2;
+            System.out.println("oben "+newY);
+        } else if (y >= gui.getHeight()-1){
+            newY = cordinations[1]+cordinations[3]-2;
+            System.out.println("unten "+newY);
+        }
+        System.out.println("mouse moved");
+        robot.mouseMove(newX, newY);
     }
 
     private boolean collisionRequest(Rectangle rec, double x, double y) {
