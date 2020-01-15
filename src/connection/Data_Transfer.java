@@ -105,20 +105,21 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
             //test
 
             try { //Die eigene Einheiten wird geschickt
-                writer.write("//data");
-                writer.write(Long.toString(System.currentTimeMillis()));
-                writer.write("//buildings" + Player.getBuildings().size() + "#");
+                StringBuilder line = new StringBuilder();
+                line.append("//data");
+                line.append(Long.toString(System.currentTimeMillis()));
+                line.append("//buildings" + Player.getBuildings().size() + "#");
                 for (int i = 0; i < Player.getBuildings().size(); i++) {
-                    writer.write("//" + Player.getBuildings().get(i).get(1) +
+                    line.append("//" + Player.getBuildings().get(i).get(1) +
                             "+++" + Player.getBuildings().get(i).get(2) +
                             "+++" + Player.getBuildings().get(i).get(3) +
                             "+++" + Player.getBuildings().get(i).get(4) +
                             "+++" + Player.getBuildings().get(i).get(5) +
                             "+++" + Player.getBuildings().get(i).get(6) + "*");
                 }
-                writer.write("//characters" + Player.getCharacters().size() + "#");
+                line.append("//characters" + Player.getCharacters().size() + "#");
                 for (int i = 0; i < Player.getCharacters().size(); i++) {
-                    writer.write("+++" + Player.getCharacters().get(i).get(1) +
+                    line.append("+++" + Player.getCharacters().get(i).get(1) +
                             "+++" + Player.getCharacters().get(i).get(2) +
                             "+++" + Player.getCharacters().get(i).get(3) +
                             "+++" + Player.getCharacters().get(i).get(4) +
@@ -126,34 +127,37 @@ public class Data_Transfer implements Runnable { //Übergibt Spieldaten an den S
                             "+++" + Player.getCharacters().get(i).get(6) +
                             "+++" + Player.getCharacters().get(i).get(7) +
                             "+++" + Player.getCharacters().get(i).get(8) +
-                            //"+++" + 800 +
-                            //"+++" + 800 +
                             "+++" + Player.getCharacters().get(i).get(9) +
                             "+++" + Player.getCharacters().get(i).get(10) + "*");
                 }
 
                 //projectiles
-                writer.write("//projectiles" + Data.getProjectiles().size() + "#");
-                /* projectiles testcode
+                System.out.println("size in data Transfer "+Data.getProjectiles().size());
+                line.append("//projectiles" + Data.getProjectiles().size() + "#");
                 for (int i = 0; i < Data.getProjectiles().size(); i++){
-                    writer.write("+++"+Data.getProjectiles().get(i).get(0)+
+                    line.append("+++"+Data.getProjectiles().get(i).get(0)+
                             "+++"+Data.getProjectiles().get(i).get(1)+
                             "+++"+Data.getProjectiles().get(i).get(2)+
                             "+++"+Data.getProjectiles().get(i).get(3)+
                             "+++"+Data.getProjectiles().get(i).get(4)+
-                            "+++"+Data.getProjectiles().get(i).get(5)+"*");
+                            "+++"+Data.getProjectiles().get(i).get(5)+
+                            "+++"+Data.getProjectiles().get(i).get(6)+"*");
+                    if (Data.getProjectiles().get(i).get(6).equals("true")){
+                        Data.getProjectiles().remove(i);
+                        i--;
+                    }
                 }
 
                 //attacks
-                writer.write("//attacks");
+                line.append("//attacks");
                 for (int i = 0; i < Player.getAttacks().size(); i++){
-                    writer.write(Player.getAttacks().get(i)[0]+"+++"+Player.getAttacks().get(i)[1]+"+++#");
+                    line.append(Player.getAttacks().get(i)[0]+"+++"+Player.getAttacks().get(i)[1]+"+++#");
                 }
+                Player.getAttacks().clear();
 
-                 */
-
-                //Player.getAttacks().clear();
-                writer.write("//end");
+                line.append("//end");
+                writeFile(line.toString());
+                writer.write(line.toString());
                 writer.newLine();
                 writer.flush();
             } catch (IOException e) {

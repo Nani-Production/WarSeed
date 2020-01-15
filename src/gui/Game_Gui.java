@@ -29,9 +29,6 @@ public class Game_Gui {
     private double mapWidth = width*3, mapHeight = height*3;
     private static Draw_Main dm;
     private static GraphicsContext gc_main;
-    private Canvas canvas_main;
-    private Scene scene;
-    private StackPane root;
     private Stage stage;
     private Minimap minimap;
     private Unitinfo unitinfo;
@@ -79,13 +76,13 @@ public class Game_Gui {
         connect.setDisabled(false);
         ready.setDisabled(true);
 
-        canvas_main = new Canvas(width, height);
-        root = new StackPane();
+        Canvas canvas_main = new Canvas(width, height);
+        StackPane root = new StackPane();
         gc_main = canvas_main.getGraphicsContext2D();
         dm.draw(gc_main, this);
 
         root.getChildren().add(canvas_main);
-        scene = new Scene(root, width, height);
+        Scene scene = new Scene(root, width, height);
         scene.setOnKeyPressed(new KeyPressed(this));
         scene.setOnKeyReleased(new KeyReleased());
         scene.setOnMouseMoved(new MouseMoved(this, robot));
@@ -96,6 +93,7 @@ public class Game_Gui {
         stage.setScene(scene);
         stage.setResizable(false);
         stage.centerOnScreen();
+        //stage.getIcons().add(ImageLoader.icon);
         stage.show();
 
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {

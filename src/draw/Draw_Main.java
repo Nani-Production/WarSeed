@@ -105,7 +105,7 @@ public class Draw_Main {
     }
 
     private double[] rotatePoint(double x, double y, double angle) {
-        double ergebnis[] = new double[2];
+        double[] ergebnis = new double[2];
         ergebnis[0] = (Math.cos(angle) * x + (-Math.sin(angle)) * y);
         ergebnis[1] = (Math.sin(angle) * x + Math.cos(angle) * y);
         return ergebnis;
@@ -113,7 +113,7 @@ public class Draw_Main {
 
     private double[] rotatePoint(double x1, double y1, double x2, double y2, double angle) {
         //xy1 ist der Punkt der gedreht wird und xy2 der Drehmittelpunkt
-        double ergebnis[] = new double[2];
+        double[] ergebnis = new double[2];
         ergebnis[0] = (Math.cos(angle) * x1 + (-Math.sin(angle)) * y1);
         ergebnis[1] = (Math.sin(angle) * x1 + Math.cos(angle) * y1);
         ergebnis[0] += x2;
@@ -179,9 +179,6 @@ public class Draw_Main {
         //drawUnits
         for (int i = 0; i < drawingList.size(); i++) {
             //test
-            if (drawingList.size() != 5){
-                System.out.println(drawingList.size());
-            }
             /*
             if (Integer.parseInt(drawingList.get(i).get(2)) == UnitDatabank.SPEEDER) {
                 StringBuilder line = new StringBuilder();
@@ -194,7 +191,7 @@ public class Draw_Main {
             //test
             double size = 64;
             Image unit = ImageLoader.image2;
-            if (drawingList.get(i).get(0) == "character") {
+            if (drawingList.get(i).get(0).equals("character")) {
                 //g.setTransform(new Affine(new Rotate(Double.parseDouble(Player.getSelectedUnit().get(9)), Double.parseDouble(Player.getSelectedUnit().get(5)) + 32, Double.parseDouble(Player.getSelectedUnit().get(6)) + 32)));
                 if (Integer.parseInt(drawingList.get(i).get(2)) == UnitDatabank.DAMAGEDEALER) {
                     unit = ImageLoader.damageDealer;
@@ -209,7 +206,7 @@ public class Draw_Main {
                     unit = ImageLoader.image;
                     size = 64;
                 }
-            } else if (drawingList.get(i).get(0) == "building"){
+            } else if (drawingList.get(i).get(0).equals("building")){
                 if (drawingList.get(i).get(2).equals(String.valueOf(UnitDatabank.NEXUS))){
                     size = 200;
                     unit = ImageLoader.base;
@@ -231,9 +228,9 @@ public class Draw_Main {
                     }
                      */
                 //if (Double.parseDouble(Data.getListofLists().get(i).get(5)) > newCam[0] && Double.parseDouble(Data.getListofLists().get(i).get(5))+64 <= newCam[0]+gui.getWidth() && Double.parseDouble(Data.getListofLists().get(i).get(6)) > newCam[1] && Double.parseDouble(Data.getListofLists().get(i).get(6))+64 <= newCam[1]+gui.getHeight()){
-                if (drawingList.get(i).get(0) == "building") {
+                if (drawingList.get(i).get(0).equals("building")) {
                     g.drawImage(unit, Double.parseDouble(drawingList.get(i).get(5)) - Camera.getCamX(), Double.parseDouble(drawingList.get(i).get(6)) - Camera.getCamY(), size, size);
-                } else if (drawingList.get(i).get(0) == "character") {
+                } else if (drawingList.get(i).get(0).equals("character")) {
                     g.drawImage(unit,  Double.parseDouble(drawingList.get(i).get(5)) - Camera.getCamX(),  Double.parseDouble(drawingList.get(i).get(6)) - Camera.getCamY(), size, size);
                 }
                 double health = Double.parseDouble(drawingList.get(i).get(3)), maxHealth = Double.parseDouble(UnitDatabank.getUnitInfo(Integer.parseInt(drawingList.get(i).get(2)), "maxHealth"));
@@ -256,10 +253,10 @@ public class Draw_Main {
         if (Player.unitIsSelected()) {
             g.setStroke(Color.YELLOW);
             double size = 64;
-            if (Player.getSelectedUnit().get(0) == "character") {
+            if (Player.getSelectedUnit().get(0).equals("character")) {
                 //g.setTransform(new Affine(new Rotate(Double.parseDouble(Player.getSelectedUnit().get(9)), Double.parseDouble(Player.getSelectedUnit().get(5)) + 32, Double.parseDouble(Player.getSelectedUnit().get(6)) + 32)));
                 size = 64;
-            } else if (Player.getSelectedUnit().get(0) == "building"){
+            } else if (Player.getSelectedUnit().get(0).equals("building")){
                 if (Player.getSelectedUnit().get(2).equals(String.valueOf(UnitDatabank.NEXUS))){
                     size = 200;
                 } else if (Player.getSelectedUnit().get(2).equals(String.valueOf(UnitDatabank.VILLAGE))){
@@ -271,8 +268,12 @@ public class Draw_Main {
         }
 
         //Projectiles
+        double size = 10;
+        //System.out.println("ProjectileSize in draw "+Data.getProjectiles().size());
         for (int i = 0; i < Data.getProjectiles().size(); i++) {
-            g.drawImage(ImageLoader.image, Double.parseDouble(drawingList.get(i).get(1)), Double.parseDouble(drawingList.get(i).get(2)), 10, 10);
+            if (Double.parseDouble(Data.getProjectiles().get(i).get(2)) + size > Camera.getCamX() && Double.parseDouble(Data.getProjectiles().get(i).get(2))  <= Camera.getCamX() + gui.getWidth() && Double.parseDouble(Data.getProjectiles().get(i).get(3)) + size > Camera.getCamY() && Double.parseDouble(Data.getProjectiles().get(i).get(3)) <= Camera.getCamY() + gui.getHeight()) {
+                g.drawImage(ImageLoader.image, Double.parseDouble(Data.getProjectiles().get(i).get(2)) - Camera.getCamX(), Double.parseDouble(Data.getProjectiles().get(i).get(3)) - Camera.getCamY(), size, size);
+            }
         }
 
         //Interface

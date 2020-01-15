@@ -1,22 +1,13 @@
-Tristan
--Die Einheiten bewegen
--Einheiten angreifen machen (erstmal ohne cooldown)
--
-
-Tobsy
--die Mapgenerierung machen
--die generierte map zeichnen
-
-Robin
--Interface hintergrund
-
 Was noch gemacht werden muss:
+
+-Wie soll die Namensgenerierung funktionieren?
 -Einen Cooldown für Produktion und angriffe einsetzen
 -Serverfehler fixen (disconnect und der Gamestartbutton)
 -Client reconnect zum Server wiedererkennung (+ Timer für reconnect timeout)
 -Einheiten als Gruppe auswählen
--Interfaceelemente (Unitinfo, minimap, pausemenu) erstellen
--Performancefehler (kann man Threads irgendwo hineinverlagern?)
+-die Mapgenerierung machen
+-die generierte map zeichnen
+-Interfaceelemente (Unitinfo buttons, minimap click, pausemenu) erstellen
 -wincondition (wann ist das Ziel erreicht + Winbildschirm)
 -Einheiten um andere Einheiten herumnavigieren
 

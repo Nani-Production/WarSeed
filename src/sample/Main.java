@@ -151,6 +151,7 @@ public class Main extends Application {
             }
         }
 
+        /*
         list.add("character");
         list.add("Enemy");
         list.add(String.valueOf(UnitDatabank.TANK));
@@ -164,9 +165,11 @@ public class Main extends Application {
         list.add("true");
         Data.getListofLists().add(list);
         list = new ArrayList<>();
-
+         */
+        /*
         String s [] = {"tank1", "tank3"};
         Player.getAttacks().add(s);
+         */
     }
 
 

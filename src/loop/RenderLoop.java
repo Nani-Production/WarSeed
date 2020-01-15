@@ -45,7 +45,6 @@ public class RenderLoop implements Runnable {
     private void update(){
         if (Gamestate.state == Gamestate_e.ingame) {
             Camera.moveCam();
-            int counter2 = 0;
 
             if (counter < FPS){
                 counter++;
@@ -54,7 +53,6 @@ public class RenderLoop implements Runnable {
                 //update ressources
                 for (int i = 0; i < Player.getBuildings().size(); i++){
                     if (Player.getBuildings().get(i).get(0).equals("building")){
-                        counter2++;
                         try {
                             gui.getResInfo().setRessource1(gui.getResInfo().getRessource1()+Long.parseLong(Player.getBuildings().get(i).get(7)));
                             gui.getResInfo().setRessource2(gui.getResInfo().getRessource2()+Long.parseLong(Player.getBuildings().get(i).get(8)));
@@ -62,11 +60,9 @@ public class RenderLoop implements Runnable {
                         } catch (IndexOutOfBoundsException e){
                             e.printStackTrace();
                             System.out.println("type "+Player.getBuildings().get(i).get(0)+" size "+Player.getBuildings().get(i).size());
-                            //System.exit(0);
                         }
                     }
                 }
-                System.out.println("counter "+counter2);
             }
         }
     }

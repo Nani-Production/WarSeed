@@ -4,7 +4,7 @@ import javafx.scene.image.Image;
 
 public class ImageLoader {
     public static Image image = loadImage("/rsc/image.jpg"), map = loadImage("/rsc/map2.jpg"), image2 = loadImage("/rsc/map.png"),
-            menubg = loadImage("/rsc/war-art.jpg"), button = loadImage("/rsc/button.png"), textfield = loadImage("/rsc/textfield.png"),
+            icon = loadImage("/rsc/client_icon.png"), menubg = loadImage("/rsc/war-art.jpg"), button = loadImage("/rsc/button.png"), textfield = loadImage("/rsc/textfield.png"),
             resinfobg = loadImage("/rsc/resinfo.png"), minimapbg = loadImage("/rsc/minimap.png"), unitInfobg = loadImage("/rsc/unit info.png"),
             ressource1 = loadImage("/rsc/gold.png"), ressource2 = loadImage("/rsc/iron.png"), ressource3 = loadImage("/rsc/bumm.png"),
             speeder = loadImage("/rsc/tank1.png"), damageDealer = loadImage("/rsc/tank2.png"), tank = loadImage("/rsc/tank3.png"), settler = loadImage("/rsc/siedler.png"),

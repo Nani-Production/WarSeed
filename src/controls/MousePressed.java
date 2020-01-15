@@ -56,9 +56,8 @@ public class MousePressed implements EventHandler<MouseEvent> {
                 if (Player.unitIsSelected()) {
                     boolean enemy = false;
                     if (Player.getSelectedUnit() != null && Player.getSelectedUnit().get(0).equals("character")){
-                        /*
                         for (int i = 0; i < Data.getListofLists().size(); i++) {
-                            if (Data.getListofLists().get(i).get(1) != Player.getUsername()) {
+                            if (!Data.getListofLists().get(i).get(1).equals(Player.getUsername())) {
                                 Rectangle r = new Rectangle(Double.parseDouble(Data.getListofLists().get(i).get(5)), Double.parseDouble(Data.getListofLists().get(i).get(6)), 64, 64);
                                 if (collisionRequest(r, mouseEvent.getX() + Camera.getCamX(), mouseEvent.getY() + Camera.getCamY())) {
                                     enemy = true;
@@ -68,17 +67,17 @@ public class MousePressed implements EventHandler<MouseEvent> {
                                         attack[0] = Player.getSelectedUnit().get(4);
                                         attack[1] = Data.getListofLists().get(i).get(4);
                                         Player.getAttacks().add(attack);
+                                        //Player.getSelectedUnit().set(7, "null");
+                                        //Player.getSelectedUnit().set(8, "null");
                                     } else { //nicht in range, also muss die Einheit sich erstmal dorthin bewegen
                                         enemy = false;
                                     }
                                 }
                             }
                         }
-                        */
                         if (!enemy) {
-                            Player.getSelectedUnit().set(7, Double.toString(mouseEvent.getX() + Camera.getCamX()));
-                            Player.getSelectedUnit().set(8, Double.toString(mouseEvent.getY() + Camera.getCamY()));
-                            System.out.println("click "+Player.getSelectedUnit().get(7)+"   "+Player.getSelectedUnit().get(8));
+                            Player.getSelectedUnit().set(7, Double.toString(Math.round(mouseEvent.getX()) + Camera.getCamX()));
+                            Player.getSelectedUnit().set(8, Double.toString(Math.round(mouseEvent.getY()) + Camera.getCamY()));
                         }
                     }
                 }
